@@ -129,6 +129,8 @@
     <None Include="Images\undo.png" />
     <None Include="Images\link.png" />
     <None Include="Images\sharpness.png" />
+    <None Include="Images\unlink.png" />
+    <None Include="Images\refresh.png" />
     <Content Include="monitor.ico" />
     <Content Include="profiles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

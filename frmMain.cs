@@ -409,11 +409,11 @@ namespace MonitorProfiler
             if (cboMonitors.Enabled == true)
             {
                 if(cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
-                btnLinkMonitors.BackgroundImage = MonitorProfiler.Properties.Resources._lock;
+                btnLinkMonitors.BackgroundImage = MonitorProfiler.Properties.Resources.link;
                 cboMonitors.Enabled = false;
             } else
             {
-                btnLinkMonitors.BackgroundImage = MonitorProfiler.Properties.Resources.lock_open;
+                btnLinkMonitors.BackgroundImage = MonitorProfiler.Properties.Resources.unlink;
                 cboMonitors.Enabled = true;
             }
         }
@@ -426,6 +426,21 @@ namespace MonitorProfiler
         private void btnFactoryReset_Click(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+        }
+
+        private void btnFactoryReset_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show("Are you sure you want to " + ((KeyValuePair<string, string>)cboFactoryReset.SelectedItem).Key.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (cboFactoryReset.SelectedIndex == 2 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.OK)
+            {
+                string value = ((KeyValuePair<string, string>)cboFactoryReset.SelectedItem).Value;
+                NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, Convert.ToByte(value), 1);
+            }
         }
     }
 }

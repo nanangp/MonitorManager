@@ -55,6 +55,7 @@ namespace MonitorProfiler
             this.cboFactoryReset = new System.Windows.Forms.ComboBox();
             this.lblSharpness = new System.Windows.Forms.Label();
             this.barSharpness = new System.Windows.Forms.TrackBar();
+            this.btnRestart = new System.Windows.Forms.Button();
             this.picSharpness = new System.Windows.Forms.PictureBox();
             this.btnFactoryReset = new System.Windows.Forms.Button();
             this.btnInput = new System.Windows.Forms.Button();
@@ -184,7 +185,7 @@ namespace MonitorProfiler
             this.cboMonitors.ItemHeight = 22;
             this.cboMonitors.Location = new System.Drawing.Point(138, 8);
             this.cboMonitors.Name = "cboMonitors";
-            this.cboMonitors.Size = new System.Drawing.Size(200, 28);
+            this.cboMonitors.Size = new System.Drawing.Size(169, 28);
             this.cboMonitors.TabIndex = 9;
             this.cboMonitors.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.OnDrawCbItem);
             this.cboMonitors.SelectedIndexChanged += new System.EventHandler(this.cboMonitors_SelectedIndexChanged);
@@ -344,6 +345,19 @@ namespace MonitorProfiler
             this.barSharpness.TickFrequency = 5;
             this.barSharpness.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
             // 
+            // btnRestart
+            // 
+            this.btnRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRestart.BackgroundImage = global::MonitorProfiler.Properties.Resources.refresh;
+            this.btnRestart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnRestart.Location = new System.Drawing.Point(371, 7);
+            this.btnRestart.Name = "btnRestart";
+            this.btnRestart.Size = new System.Drawing.Size(30, 30);
+            this.btnRestart.TabIndex = 40;
+            this.toolTips.SetToolTip(this.btnRestart, "Identify");
+            this.btnRestart.UseVisualStyleBackColor = true;
+            this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
+            // 
             // picSharpness
             // 
             this.picSharpness.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -365,7 +379,7 @@ namespace MonitorProfiler
             this.btnFactoryReset.Size = new System.Drawing.Size(30, 30);
             this.btnFactoryReset.TabIndex = 35;
             this.btnFactoryReset.UseVisualStyleBackColor = true;
-            this.btnFactoryReset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.btnFactoryReset_Click);
+            this.btnFactoryReset.Click += new System.EventHandler(this.btnFactoryReset_Click);
             // 
             // btnInput
             // 
@@ -497,9 +511,9 @@ namespace MonitorProfiler
             // btnLinkMonitors
             // 
             this.btnLinkMonitors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLinkMonitors.BackgroundImage = global::MonitorProfiler.Properties.Resources.link;
+            this.btnLinkMonitors.BackgroundImage = global::MonitorProfiler.Properties.Resources.unlink;
             this.btnLinkMonitors.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnLinkMonitors.Location = new System.Drawing.Point(340, 7);
+            this.btnLinkMonitors.Location = new System.Drawing.Point(309, 7);
             this.btnLinkMonitors.Name = "btnLinkMonitors";
             this.btnLinkMonitors.Size = new System.Drawing.Size(30, 30);
             this.btnLinkMonitors.TabIndex = 22;
@@ -512,7 +526,7 @@ namespace MonitorProfiler
             this.btnIdentifyMonitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnIdentifyMonitor.BackgroundImage = global::MonitorProfiler.Properties.Resources.light;
             this.btnIdentifyMonitor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnIdentifyMonitor.Location = new System.Drawing.Point(371, 7);
+            this.btnIdentifyMonitor.Location = new System.Drawing.Point(340, 7);
             this.btnIdentifyMonitor.Name = "btnIdentifyMonitor";
             this.btnIdentifyMonitor.Size = new System.Drawing.Size(30, 30);
             this.btnIdentifyMonitor.TabIndex = 17;
@@ -525,6 +539,7 @@ namespace MonitorProfiler
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(408, 402);
+            this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.picSharpness);
             this.Controls.Add(this.lblSharpness);
             this.Controls.Add(this.barSharpness);
@@ -623,6 +638,7 @@ namespace MonitorProfiler
         private PictureBox picSharpness;
         private Label lblSharpness;
         private TrackBar barSharpness;
+        private Button btnRestart;
     }
 }
 

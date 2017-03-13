@@ -58,7 +58,7 @@ namespace MonitorProfiler.Models.Display
             CheckPower();
             //CheckALot();
             CheckSharpness();
-            //GetVCPStuff();
+            GetVCPStuff();
             //}
         }
 
