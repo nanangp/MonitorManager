@@ -95,7 +95,7 @@ namespace MonitorProfiler
             this.cboInput.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboInput.FormattingEnabled = true;
             this.cboInput.ItemHeight = 22;
-            this.cboInput.Location = new System.Drawing.Point(9, 182);
+            this.cboInput.Location = new System.Drawing.Point(8, 187);
             this.cboInput.Name = "cboInput";
             this.cboInput.Size = new System.Drawing.Size(90, 28);
             this.cboInput.TabIndex = 20;
@@ -110,7 +110,7 @@ namespace MonitorProfiler
             this.cboPower.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboPower.FormattingEnabled = true;
             this.cboPower.ItemHeight = 22;
-            this.cboPower.Location = new System.Drawing.Point(9, 151);
+            this.cboPower.Location = new System.Drawing.Point(8, 156);
             this.cboPower.Name = "cboPower";
             this.cboPower.Size = new System.Drawing.Size(90, 28);
             this.cboPower.TabIndex = 19;
@@ -122,7 +122,7 @@ namespace MonitorProfiler
             this.lblBlue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBlue.AutoSize = true;
             this.lblBlue.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBlue.Location = new System.Drawing.Point(359, 164);
+            this.lblBlue.Location = new System.Drawing.Point(340, 164);
             this.lblBlue.Name = "lblBlue";
             this.lblBlue.Size = new System.Drawing.Size(23, 15);
             this.lblBlue.TabIndex = 16;
@@ -134,7 +134,7 @@ namespace MonitorProfiler
             this.lblGreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblGreen.AutoSize = true;
             this.lblGreen.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGreen.Location = new System.Drawing.Point(359, 134);
+            this.lblGreen.Location = new System.Drawing.Point(340, 134);
             this.lblGreen.Name = "lblGreen";
             this.lblGreen.Size = new System.Drawing.Size(23, 15);
             this.lblGreen.TabIndex = 15;
@@ -146,7 +146,7 @@ namespace MonitorProfiler
             this.lblRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblRed.AutoSize = true;
             this.lblRed.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRed.Location = new System.Drawing.Point(359, 104);
+            this.lblRed.Location = new System.Drawing.Point(340, 104);
             this.lblRed.Name = "lblRed";
             this.lblRed.Size = new System.Drawing.Size(23, 15);
             this.lblRed.TabIndex = 14;
@@ -156,10 +156,10 @@ namespace MonitorProfiler
             // barGreen
             // 
             this.barGreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.barGreen.Location = new System.Drawing.Point(175, 132);
+            this.barGreen.Location = new System.Drawing.Point(171, 132);
             this.barGreen.Maximum = 100;
             this.barGreen.Name = "barGreen";
-            this.barGreen.Size = new System.Drawing.Size(185, 45);
+            this.barGreen.Size = new System.Drawing.Size(167, 45);
             this.barGreen.TabIndex = 12;
             this.barGreen.TickFrequency = 5;
             this.barGreen.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
@@ -167,10 +167,10 @@ namespace MonitorProfiler
             // barRed
             // 
             this.barRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.barRed.Location = new System.Drawing.Point(175, 102);
+            this.barRed.Location = new System.Drawing.Point(171, 102);
             this.barRed.Maximum = 100;
             this.barRed.Name = "barRed";
-            this.barRed.Size = new System.Drawing.Size(185, 45);
+            this.barRed.Size = new System.Drawing.Size(167, 45);
             this.barRed.TabIndex = 11;
             this.barRed.TickFrequency = 5;
             this.barRed.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
@@ -183,19 +183,19 @@ namespace MonitorProfiler
             this.cboMonitors.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboMonitors.FormattingEnabled = true;
             this.cboMonitors.ItemHeight = 22;
-            this.cboMonitors.Location = new System.Drawing.Point(138, 8);
+            this.cboMonitors.Location = new System.Drawing.Point(139, 8);
             this.cboMonitors.Name = "cboMonitors";
-            this.cboMonitors.Size = new System.Drawing.Size(169, 28);
+            this.cboMonitors.Size = new System.Drawing.Size(144, 28);
             this.cboMonitors.TabIndex = 9;
             this.cboMonitors.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.OnDrawCbItem);
             this.cboMonitors.SelectedIndexChanged += new System.EventHandler(this.cboMonitors_SelectedIndexChanged);
             // 
             // btnRevert
             // 
-            this.btnRevert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnRevert.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnRevert.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRevert.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRevert.Location = new System.Drawing.Point(0, 300);
+            this.btnRevert.Location = new System.Drawing.Point(-1, 254);
             this.btnRevert.Name = "btnRevert";
             this.btnRevert.Size = new System.Drawing.Size(75, 30);
             this.btnRevert.TabIndex = 7;
@@ -208,7 +208,7 @@ namespace MonitorProfiler
             this.lblContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblContrast.AutoSize = true;
             this.lblContrast.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblContrast.Location = new System.Drawing.Point(359, 74);
+            this.lblContrast.Location = new System.Drawing.Point(340, 74);
             this.lblContrast.Name = "lblContrast";
             this.lblContrast.Size = new System.Drawing.Size(23, 15);
             this.lblContrast.TabIndex = 4;
@@ -217,10 +217,10 @@ namespace MonitorProfiler
             // barContrast
             // 
             this.barContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.barContrast.Location = new System.Drawing.Point(175, 72);
+            this.barContrast.Location = new System.Drawing.Point(171, 72);
             this.barContrast.Maximum = 100;
             this.barContrast.Name = "barContrast";
-            this.barContrast.Size = new System.Drawing.Size(185, 45);
+            this.barContrast.Size = new System.Drawing.Size(167, 45);
             this.barContrast.TabIndex = 3;
             this.barContrast.TickFrequency = 5;
             this.barContrast.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
@@ -230,7 +230,7 @@ namespace MonitorProfiler
             this.lblBrightness.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblBrightness.AutoSize = true;
             this.lblBrightness.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblBrightness.Location = new System.Drawing.Point(359, 44);
+            this.lblBrightness.Location = new System.Drawing.Point(340, 44);
             this.lblBrightness.Name = "lblBrightness";
             this.lblBrightness.Size = new System.Drawing.Size(23, 15);
             this.lblBrightness.TabIndex = 2;
@@ -239,10 +239,10 @@ namespace MonitorProfiler
             // barBrightness
             // 
             this.barBrightness.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.barBrightness.Location = new System.Drawing.Point(175, 42);
+            this.barBrightness.Location = new System.Drawing.Point(171, 42);
             this.barBrightness.Maximum = 100;
             this.barBrightness.Name = "barBrightness";
-            this.barBrightness.Size = new System.Drawing.Size(185, 45);
+            this.barBrightness.Size = new System.Drawing.Size(167, 45);
             this.barBrightness.TabIndex = 1;
             this.barBrightness.TickFrequency = 5;
             this.barBrightness.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
@@ -251,11 +251,11 @@ namespace MonitorProfiler
             // 
             this.txtLog.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLog.Location = new System.Drawing.Point(-1, 300);
+            this.txtLog.Location = new System.Drawing.Point(-1, 254);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(410, 103);
+            this.txtLog.Size = new System.Drawing.Size(386, 103);
             this.txtLog.TabIndex = 6;
             // 
             // lstProfiles
@@ -272,10 +272,10 @@ namespace MonitorProfiler
             // barBlue
             // 
             this.barBlue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.barBlue.Location = new System.Drawing.Point(175, 162);
+            this.barBlue.Location = new System.Drawing.Point(171, 162);
             this.barBlue.Maximum = 100;
             this.barBlue.Name = "barBlue";
-            this.barBlue.Size = new System.Drawing.Size(185, 45);
+            this.barBlue.Size = new System.Drawing.Size(167, 45);
             this.barBlue.TabIndex = 13;
             this.barBlue.TickFrequency = 5;
             this.barBlue.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
@@ -284,10 +284,10 @@ namespace MonitorProfiler
             // 
             this.barVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.barVolume.Enabled = false;
-            this.barVolume.Location = new System.Drawing.Point(175, 192);
+            this.barVolume.Location = new System.Drawing.Point(171, 192);
             this.barVolume.Maximum = 100;
             this.barVolume.Name = "barVolume";
-            this.barVolume.Size = new System.Drawing.Size(185, 45);
+            this.barVolume.Size = new System.Drawing.Size(167, 45);
             this.barVolume.TabIndex = 32;
             this.barVolume.TickFrequency = 5;
             this.barVolume.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
@@ -298,7 +298,7 @@ namespace MonitorProfiler
             this.lblVolume.AutoSize = true;
             this.lblVolume.Enabled = false;
             this.lblVolume.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVolume.Location = new System.Drawing.Point(359, 194);
+            this.lblVolume.Location = new System.Drawing.Point(340, 194);
             this.lblVolume.Name = "lblVolume";
             this.lblVolume.Size = new System.Drawing.Size(23, 15);
             this.lblVolume.TabIndex = 33;
@@ -313,7 +313,7 @@ namespace MonitorProfiler
             this.cboFactoryReset.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cboFactoryReset.FormattingEnabled = true;
             this.cboFactoryReset.ItemHeight = 22;
-            this.cboFactoryReset.Location = new System.Drawing.Point(9, 213);
+            this.cboFactoryReset.Location = new System.Drawing.Point(8, 218);
             this.cboFactoryReset.Name = "cboFactoryReset";
             this.cboFactoryReset.Size = new System.Drawing.Size(90, 28);
             this.cboFactoryReset.TabIndex = 36;
@@ -326,7 +326,7 @@ namespace MonitorProfiler
             this.lblSharpness.AutoSize = true;
             this.lblSharpness.Enabled = false;
             this.lblSharpness.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSharpness.Location = new System.Drawing.Point(359, 224);
+            this.lblSharpness.Location = new System.Drawing.Point(340, 224);
             this.lblSharpness.Name = "lblSharpness";
             this.lblSharpness.Size = new System.Drawing.Size(23, 15);
             this.lblSharpness.TabIndex = 38;
@@ -337,10 +337,10 @@ namespace MonitorProfiler
             // 
             this.barSharpness.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.barSharpness.Enabled = false;
-            this.barSharpness.Location = new System.Drawing.Point(175, 222);
+            this.barSharpness.Location = new System.Drawing.Point(171, 222);
             this.barSharpness.Maximum = 100;
             this.barSharpness.Name = "barSharpness";
-            this.barSharpness.Size = new System.Drawing.Size(185, 45);
+            this.barSharpness.Size = new System.Drawing.Size(167, 45);
             this.barSharpness.TabIndex = 37;
             this.barSharpness.TickFrequency = 5;
             this.barSharpness.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
@@ -350,7 +350,7 @@ namespace MonitorProfiler
             this.btnRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnRestart.BackgroundImage = global::MonitorProfiler.Properties.Resources.refresh;
             this.btnRestart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnRestart.Location = new System.Drawing.Point(371, 7);
+            this.btnRestart.Location = new System.Drawing.Point(347, 7);
             this.btnRestart.Name = "btnRestart";
             this.btnRestart.Size = new System.Drawing.Size(30, 30);
             this.btnRestart.TabIndex = 40;
@@ -363,7 +363,7 @@ namespace MonitorProfiler
             this.picSharpness.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picSharpness.BackgroundImage = global::MonitorProfiler.Properties.Resources.sharpness;
             this.picSharpness.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picSharpness.Location = new System.Drawing.Point(139, 216);
+            this.picSharpness.Location = new System.Drawing.Point(135, 216);
             this.picSharpness.Name = "picSharpness";
             this.picSharpness.Size = new System.Drawing.Size(32, 32);
             this.picSharpness.TabIndex = 39;
@@ -374,7 +374,7 @@ namespace MonitorProfiler
             // 
             this.btnFactoryReset.BackgroundImage = global::MonitorProfiler.Properties.Resources.undo;
             this.btnFactoryReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnFactoryReset.Location = new System.Drawing.Point(101, 212);
+            this.btnFactoryReset.Location = new System.Drawing.Point(100, 217);
             this.btnFactoryReset.Name = "btnFactoryReset";
             this.btnFactoryReset.Size = new System.Drawing.Size(30, 30);
             this.btnFactoryReset.TabIndex = 35;
@@ -385,7 +385,7 @@ namespace MonitorProfiler
             // 
             this.btnInput.BackgroundImage = global::MonitorProfiler.Properties.Resources.split;
             this.btnInput.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnInput.Location = new System.Drawing.Point(101, 181);
+            this.btnInput.Location = new System.Drawing.Point(100, 186);
             this.btnInput.Name = "btnInput";
             this.btnInput.Size = new System.Drawing.Size(30, 30);
             this.btnInput.TabIndex = 21;
@@ -396,7 +396,7 @@ namespace MonitorProfiler
             // 
             this.btnPower.BackgroundImage = global::MonitorProfiler.Properties.Resources.power;
             this.btnPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnPower.Location = new System.Drawing.Point(101, 150);
+            this.btnPower.Location = new System.Drawing.Point(100, 155);
             this.btnPower.Name = "btnPower";
             this.btnPower.Size = new System.Drawing.Size(30, 30);
             this.btnPower.TabIndex = 18;
@@ -408,7 +408,7 @@ namespace MonitorProfiler
             this.picVolume.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picVolume.BackgroundImage = global::MonitorProfiler.Properties.Resources.speaker_high;
             this.picVolume.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picVolume.Location = new System.Drawing.Point(139, 186);
+            this.picVolume.Location = new System.Drawing.Point(135, 186);
             this.picVolume.Name = "picVolume";
             this.picVolume.Size = new System.Drawing.Size(32, 32);
             this.picVolume.TabIndex = 34;
@@ -420,7 +420,7 @@ namespace MonitorProfiler
             // 
             this.btnDeleteProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.delete;
             this.btnDeleteProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnDeleteProfile.Location = new System.Drawing.Point(70, 119);
+            this.btnDeleteProfile.Location = new System.Drawing.Point(69, 119);
             this.btnDeleteProfile.Name = "btnDeleteProfile";
             this.btnDeleteProfile.Size = new System.Drawing.Size(30, 30);
             this.btnDeleteProfile.TabIndex = 2;
@@ -431,7 +431,7 @@ namespace MonitorProfiler
             // 
             this.btnSaveProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.save;
             this.btnSaveProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnSaveProfile.Location = new System.Drawing.Point(8, 119);
+            this.btnSaveProfile.Location = new System.Drawing.Point(7, 119);
             this.btnSaveProfile.Name = "btnSaveProfile";
             this.btnSaveProfile.Size = new System.Drawing.Size(30, 30);
             this.btnSaveProfile.TabIndex = 1;
@@ -442,7 +442,7 @@ namespace MonitorProfiler
             // 
             this.btnNewProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.add;
             this.btnNewProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnNewProfile.Location = new System.Drawing.Point(39, 119);
+            this.btnNewProfile.Location = new System.Drawing.Point(38, 119);
             this.btnNewProfile.Name = "btnNewProfile";
             this.btnNewProfile.Size = new System.Drawing.Size(30, 30);
             this.btnNewProfile.TabIndex = 3;
@@ -453,7 +453,7 @@ namespace MonitorProfiler
             this.picBlue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picBlue.BackgroundImage = global::MonitorProfiler.Properties.Resources.rgbblue;
             this.picBlue.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picBlue.Location = new System.Drawing.Point(139, 156);
+            this.picBlue.Location = new System.Drawing.Point(135, 156);
             this.picBlue.Name = "picBlue";
             this.picBlue.Size = new System.Drawing.Size(32, 32);
             this.picBlue.TabIndex = 31;
@@ -465,7 +465,7 @@ namespace MonitorProfiler
             this.picGreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picGreen.BackgroundImage = global::MonitorProfiler.Properties.Resources.rgbgreen;
             this.picGreen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picGreen.Location = new System.Drawing.Point(139, 126);
+            this.picGreen.Location = new System.Drawing.Point(135, 126);
             this.picGreen.Name = "picGreen";
             this.picGreen.Size = new System.Drawing.Size(32, 32);
             this.picGreen.TabIndex = 30;
@@ -477,7 +477,7 @@ namespace MonitorProfiler
             this.picRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picRed.BackgroundImage = global::MonitorProfiler.Properties.Resources.rgbred;
             this.picRed.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picRed.Location = new System.Drawing.Point(139, 96);
+            this.picRed.Location = new System.Drawing.Point(135, 96);
             this.picRed.Name = "picRed";
             this.picRed.Size = new System.Drawing.Size(32, 32);
             this.picRed.TabIndex = 29;
@@ -489,7 +489,7 @@ namespace MonitorProfiler
             this.picContrast.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picContrast.BackgroundImage = global::MonitorProfiler.Properties.Resources.contrast;
             this.picContrast.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picContrast.Location = new System.Drawing.Point(139, 66);
+            this.picContrast.Location = new System.Drawing.Point(135, 66);
             this.picContrast.Name = "picContrast";
             this.picContrast.Size = new System.Drawing.Size(32, 32);
             this.picContrast.TabIndex = 28;
@@ -501,7 +501,7 @@ namespace MonitorProfiler
             this.picBrightness.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.picBrightness.BackgroundImage = global::MonitorProfiler.Properties.Resources.brightness;
             this.picBrightness.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.picBrightness.Location = new System.Drawing.Point(139, 36);
+            this.picBrightness.Location = new System.Drawing.Point(135, 36);
             this.picBrightness.Name = "picBrightness";
             this.picBrightness.Size = new System.Drawing.Size(32, 32);
             this.picBrightness.TabIndex = 27;
@@ -513,7 +513,7 @@ namespace MonitorProfiler
             this.btnLinkMonitors.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLinkMonitors.BackgroundImage = global::MonitorProfiler.Properties.Resources.unlink;
             this.btnLinkMonitors.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnLinkMonitors.Location = new System.Drawing.Point(309, 7);
+            this.btnLinkMonitors.Location = new System.Drawing.Point(285, 7);
             this.btnLinkMonitors.Name = "btnLinkMonitors";
             this.btnLinkMonitors.Size = new System.Drawing.Size(30, 30);
             this.btnLinkMonitors.TabIndex = 22;
@@ -526,7 +526,7 @@ namespace MonitorProfiler
             this.btnIdentifyMonitor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnIdentifyMonitor.BackgroundImage = global::MonitorProfiler.Properties.Resources.light;
             this.btnIdentifyMonitor.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnIdentifyMonitor.Location = new System.Drawing.Point(340, 7);
+            this.btnIdentifyMonitor.Location = new System.Drawing.Point(316, 7);
             this.btnIdentifyMonitor.Name = "btnIdentifyMonitor";
             this.btnIdentifyMonitor.Size = new System.Drawing.Size(30, 30);
             this.btnIdentifyMonitor.TabIndex = 17;
@@ -538,7 +538,9 @@ namespace MonitorProfiler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(408, 402);
+            this.ClientSize = new System.Drawing.Size(384, 356);
+            this.Controls.Add(this.btnRevert);
+            this.Controls.Add(this.txtLog);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.picSharpness);
             this.Controls.Add(this.lblSharpness);
@@ -554,7 +556,6 @@ namespace MonitorProfiler
             this.Controls.Add(this.btnDeleteProfile);
             this.Controls.Add(this.btnSaveProfile);
             this.Controls.Add(this.btnNewProfile);
-            this.Controls.Add(this.btnRevert);
             this.Controls.Add(this.barVolume);
             this.Controls.Add(this.picBlue);
             this.Controls.Add(this.picGreen);
@@ -567,7 +568,6 @@ namespace MonitorProfiler
             this.Controls.Add(this.barContrast);
             this.Controls.Add(this.lstProfiles);
             this.Controls.Add(this.btnLinkMonitors);
-            this.Controls.Add(this.txtLog);
             this.Controls.Add(this.btnIdentifyMonitor);
             this.Controls.Add(this.lblBlue);
             this.Controls.Add(this.barBrightness);
