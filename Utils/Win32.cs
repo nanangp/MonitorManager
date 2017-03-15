@@ -15,6 +15,12 @@ namespace MonitorProfiler.Win32
         public static extern uint GetLastError();
 
         [DllImport("user32.dll")]
+        public static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
+        [DllImport("user32.dll")]
+        public static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        [DllImport("user32.dll")]
         public static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumDelegate lpfnEnum, IntPtr dwData);
 
         [DllImport("user32.dll")]
@@ -250,6 +256,15 @@ namespace MonitorProfiler.Win32
             public int dwFlags;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
             public string szDeviceName; 
+        }
+
+        public enum KeyModifier
+        {
+            None = 0,
+            Alt = 1,
+            Control = 2,
+            Shift = 4,
+            WinKey = 8
         }
 
         public enum MC_DISPLAY_TECHNOLOGY_TYPE

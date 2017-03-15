@@ -71,6 +71,8 @@ namespace MonitorProfiler
             this.picBrightness = new System.Windows.Forms.PictureBox();
             this.btnLinkMonitors = new System.Windows.Forms.Button();
             this.btnIdentifyMonitor = new System.Windows.Forms.Button();
+            this.contextMenuPower = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.barGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barContrast)).BeginInit();
@@ -85,6 +87,7 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).BeginInit();
+            this.contextMenuPower.SuspendLayout();
             this.SuspendLayout();
             // 
             // cboInput
@@ -534,6 +537,19 @@ namespace MonitorProfiler
             this.btnIdentifyMonitor.UseVisualStyleBackColor = true;
             this.btnIdentifyMonitor.Click += new System.EventHandler(this.btnIdentifyMonitor_Click);
             // 
+            // contextMenuPower
+            // 
+            this.contextMenuPower.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.testToolStripMenuItem});
+            this.contextMenuPower.Name = "contextMenuPower";
+            this.contextMenuPower.Size = new System.Drawing.Size(94, 26);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
+            this.testToolStripMenuItem.Text = "test";
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -581,6 +597,7 @@ namespace MonitorProfiler
             this.MaximizeBox = false;
             this.Name = "frmMain";
             this.Text = "MonitorProfiler";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.barGreen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barContrast)).EndInit();
@@ -595,6 +612,7 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picRed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).EndInit();
+            this.contextMenuPower.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -639,6 +657,8 @@ namespace MonitorProfiler
         private Label lblSharpness;
         private TrackBar barSharpness;
         private Button btnRestart;
+        private ContextMenuStrip contextMenuPower;
+        private ToolStripMenuItem testToolStripMenuItem;
     }
 }
 
