@@ -79,6 +79,31 @@ namespace MonitorProfiler
 
             if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
 
+            contextMenuInput.Click += new System.EventHandler(this.contextMenuInput_Click);
+            contextMenuInput.Items.Add("VGA-1");
+            contextMenuInput.Items.Add("DVI-1");
+            contextMenuInput.Items.Add("DVI-2");
+            contextMenuInput.Items.Add("DisplayPort-1");
+            contextMenuInput.Items.Add("DisplayPort-2");
+            contextMenuInput.Items.Add("HDMI-1");
+            contextMenuInput.Items.Add("HDMI-2");
+            ((ToolStripMenuItem)contextMenuInput.Items[1]).Checked = true;
+
+            contextMenuPower.Click += new System.EventHandler(this.contextMenuPower_Click);
+            contextMenuPower.Items.Add("Power on");
+            contextMenuPower.Items.Add("Standby");
+            contextMenuPower.Items.Add("Suspend");
+            contextMenuPower.Items.Add("Reduced power off");
+            contextMenuPower.Items.Add("Power off");
+            contextMenuPower.Items.Add("Sleep");
+            ((ToolStripMenuItem)contextMenuPower.Items[1]).Checked = true;
+
+            contextMenuFactory.Click += new System.EventHandler(this.contextMenuFactory_Click);
+            contextMenuFactory.Items.Add("Reset luminance");
+            contextMenuFactory.Items.Add("Reset colors");
+            contextMenuFactory.Items.Add("Reset factory defaults");
+            ((ToolStripMenuItem)contextMenuFactory.Items[1]).Checked = true;
+
             Dictionary<string, string> input = new Dictionary<string, string>();
             input.Add("VGA-1", "1");
             input.Add("DVI-1", "2");
@@ -89,7 +114,7 @@ namespace MonitorProfiler
             input.Add("HDMI-2", "18");
             cboInput.DataSource = new BindingSource(input, null);
 
-            Dictionary<string, string> power = new Dictionary<string, string>();
+            Dictionary <string, string> power = new Dictionary<string, string>();
             power.Add("Power on", "1");
             power.Add("Standby", "2");
             power.Add("Suspend", "3");
@@ -110,6 +135,21 @@ namespace MonitorProfiler
             Log("");
             Log("Ready...");
             return;
+        }
+
+        private void contextMenuInput_Click(object sender, EventArgs e)
+        {
+            ((ToolStripMenuItem)sender).Checked = true;
+        }
+
+        private void contextMenuPower_Click(object sender, EventArgs e)
+        {
+            ((ToolStripMenuItem)sender).Checked = true;
+        }
+
+        private void contextMenuFactory_Click(object sender, EventArgs e)
+        {
+            ((ToolStripMenuItem)sender).Checked = true;
         }
 
         private void OnDrawCbItem(object sender, DrawItemEventArgs e)
@@ -405,9 +445,8 @@ namespace MonitorProfiler
 
         private void btnPower_Click(object sender, EventArgs e)
         {
-            //contextMenuPower.Location = PointToScreen(this.Location);
             Button button = ((Button)sender);
-            contextMenuPower.Show(PointToScreen(new Point(button.Location.X, button.Location.Y + button.Height)));
+            contextMenuPower.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
 
             string value = ((KeyValuePair<string, string>)cboPower.SelectedItem).Value;
             // No VCP just force windows monitor sleeping
@@ -425,6 +464,9 @@ namespace MonitorProfiler
 
         private void btnInput_Click(object sender, EventArgs e)
         {
+            Button button = ((Button)sender);
+            contextMenuInput.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+
             string value = ((KeyValuePair<string, string>)cboInput.SelectedItem).Value;
             NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(value));
         }
@@ -470,6 +512,9 @@ namespace MonitorProfiler
 
         private void btnFactoryReset_Click(object sender, EventArgs e)
         {
+            Button button = ((Button)sender);
+            contextMenuFactory.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+
             DialogResult result = MessageBox.Show("Are you sure you want to " + ((KeyValuePair<string, string>)cboFactoryReset.SelectedItem).Key.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (cboFactoryReset.SelectedIndex == 2 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
             if (result == DialogResult.OK)
             {

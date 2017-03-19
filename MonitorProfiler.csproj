@@ -131,6 +131,7 @@
     <None Include="Images\sharpness.png" />
     <None Include="Images\unlink.png" />
     <None Include="Images\refresh.png" />
+    <None Include="Images\electricity-512.png" />
     <Content Include="monitor.ico" />
     <Content Include="profiles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
