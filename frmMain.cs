@@ -319,7 +319,7 @@ namespace MonitorProfiler
                 else if (barVolume.Value >= 7) picVolume.BackgroundImage = MonitorProfiler.Properties.Resources.speaker_medium;
                 else picVolume.BackgroundImage = MonitorProfiler.Properties.Resources.speaker_low;
                 
-                if (cboMonitors.Enabled == true)
+                if ((string)btnLinkMonitors.Tag == "unlink")
                 {
                     Debug.WriteLine("TrackBar_ValueChanged (no link)");
                     _bars[sender as TrackBar].UpdateScreenWithBarValue(sender as TrackBar, _currentMonitor);
@@ -441,15 +441,15 @@ namespace MonitorProfiler
 
         private void btnLinkMonitors_Click(object sender, EventArgs e)
         {
-            if (cboMonitors.Enabled == true)
+            if ((string)btnLinkMonitors.Tag == "unlink")
             {
-                if(cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
-                btnLinkMonitors.BackgroundImage = MonitorProfiler.Properties.Resources.link;
-                cboMonitors.Enabled = false;
-            } else
+                btnLinkMonitors.BackgroundImage = Properties.Resources.link;
+                btnLinkMonitors.Tag = "link";
+            }
+            else
             {
                 btnLinkMonitors.BackgroundImage = MonitorProfiler.Properties.Resources.unlink;
-                cboMonitors.Enabled = true;
+                btnLinkMonitors.Tag = "unlink";
             }
         }
 
