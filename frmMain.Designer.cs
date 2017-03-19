@@ -65,14 +65,24 @@ namespace MonitorProfiler
             this.cboFactoryReset = new System.Windows.Forms.ComboBox();
             this.lblSharpness = new System.Windows.Forms.Label();
             this.barSharpness = new System.Windows.Forms.TrackBar();
+<<<<<<< HEAD
             this.btnFactoryReset = new System.Windows.Forms.Button();
             this.btnInput = new System.Windows.Forms.Button();
             this.btnPower = new System.Windows.Forms.Button();
             this.btnDeleteProfile = new System.Windows.Forms.Button();
             this.btnSaveProfile = new System.Windows.Forms.Button();
             this.btnNewProfile = new System.Windows.Forms.Button();
+=======
+>>>>>>> origin/master
             this.contextMenuPower = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnFactoryReset = new System.Windows.Forms.Button();
+            this.btnInput = new System.Windows.Forms.Button();
+            this.btnPower = new System.Windows.Forms.Button();
+            this.btnDeleteProfile = new System.Windows.Forms.Button();
+            this.btnSaveProfile = new System.Windows.Forms.Button();
+            this.btnNewProfile = new System.Windows.Forms.Button();
+            this.contextMenuInput = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuFactory = new System.Windows.Forms.ContextMenuStrip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.barGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barContrast)).BeginInit();
@@ -87,7 +97,10 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barSharpness)).BeginInit();
+<<<<<<< HEAD
             this.contextMenuPower.SuspendLayout();
+=======
+>>>>>>> origin/master
             this.SuspendLayout();
             // 
             // cboInput
@@ -473,6 +486,7 @@ namespace MonitorProfiler
             this.barSharpness.TickFrequency = 5;
             this.barSharpness.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
             // 
+<<<<<<< HEAD
             // btnFactoryReset
             // 
             this.btnFactoryReset.BackgroundImage = global::MonitorProfiler.Properties.Resources.undo;
@@ -538,18 +552,87 @@ namespace MonitorProfiler
             this.btnNewProfile.TabIndex = 3;
             this.btnNewProfile.UseVisualStyleBackColor = true;
             // 
+=======
+>>>>>>> origin/master
             // contextMenuPower
             // 
-            this.contextMenuPower.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.testToolStripMenuItem});
             this.contextMenuPower.Name = "contextMenuPower";
-            this.contextMenuPower.Size = new System.Drawing.Size(94, 26);
+            this.contextMenuPower.Size = new System.Drawing.Size(61, 4);
             // 
-            // testToolStripMenuItem
+            // btnFactoryReset
             // 
-            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
-            this.testToolStripMenuItem.Size = new System.Drawing.Size(93, 22);
-            this.testToolStripMenuItem.Text = "test";
+            this.btnFactoryReset.BackgroundImage = global::MonitorProfiler.Properties.Resources.undo;
+            this.btnFactoryReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnFactoryReset.Location = new System.Drawing.Point(100, 217);
+            this.btnFactoryReset.Name = "btnFactoryReset";
+            this.btnFactoryReset.Size = new System.Drawing.Size(30, 30);
+            this.btnFactoryReset.TabIndex = 35;
+            this.btnFactoryReset.UseVisualStyleBackColor = true;
+            this.btnFactoryReset.Click += new System.EventHandler(this.btnFactoryReset_Click);
+            // 
+            // btnInput
+            // 
+            this.btnInput.BackgroundImage = global::MonitorProfiler.Properties.Resources.split;
+            this.btnInput.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnInput.Location = new System.Drawing.Point(100, 186);
+            this.btnInput.Name = "btnInput";
+            this.btnInput.Size = new System.Drawing.Size(30, 30);
+            this.btnInput.TabIndex = 21;
+            this.btnInput.UseVisualStyleBackColor = true;
+            this.btnInput.Click += new System.EventHandler(this.btnInput_Click);
+            // 
+            // btnPower
+            // 
+            this.btnPower.BackgroundImage = global::MonitorProfiler.Properties.Resources.power;
+            this.btnPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnPower.Location = new System.Drawing.Point(100, 155);
+            this.btnPower.Name = "btnPower";
+            this.btnPower.Size = new System.Drawing.Size(30, 30);
+            this.btnPower.TabIndex = 18;
+            this.btnPower.UseVisualStyleBackColor = true;
+            this.btnPower.Click += new System.EventHandler(this.btnPower_Click);
+            // 
+            // btnDeleteProfile
+            // 
+            this.btnDeleteProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.delete;
+            this.btnDeleteProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnDeleteProfile.Location = new System.Drawing.Point(69, 119);
+            this.btnDeleteProfile.Name = "btnDeleteProfile";
+            this.btnDeleteProfile.Size = new System.Drawing.Size(30, 30);
+            this.btnDeleteProfile.TabIndex = 2;
+            this.btnDeleteProfile.UseVisualStyleBackColor = true;
+            this.btnDeleteProfile.Click += new System.EventHandler(this.btnDeleteProfile_Click);
+            // 
+            // btnSaveProfile
+            // 
+            this.btnSaveProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.save;
+            this.btnSaveProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnSaveProfile.Location = new System.Drawing.Point(7, 119);
+            this.btnSaveProfile.Name = "btnSaveProfile";
+            this.btnSaveProfile.Size = new System.Drawing.Size(30, 30);
+            this.btnSaveProfile.TabIndex = 1;
+            this.btnSaveProfile.UseVisualStyleBackColor = true;
+            this.btnSaveProfile.Click += new System.EventHandler(this.btnSaveProfile_Click);
+            // 
+            // btnNewProfile
+            // 
+            this.btnNewProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.add;
+            this.btnNewProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnNewProfile.Location = new System.Drawing.Point(38, 119);
+            this.btnNewProfile.Name = "btnNewProfile";
+            this.btnNewProfile.Size = new System.Drawing.Size(30, 30);
+            this.btnNewProfile.TabIndex = 3;
+            this.btnNewProfile.UseVisualStyleBackColor = true;
+            // 
+            // contextMenuInput
+            // 
+            this.contextMenuInput.Name = "contextMenuInput";
+            this.contextMenuInput.Size = new System.Drawing.Size(61, 4);
+            // 
+            // contextMenuFactory
+            // 
+            this.contextMenuFactory.Name = "contextMenuFactory";
+            this.contextMenuFactory.Size = new System.Drawing.Size(153, 26);
             // 
             // frmMain
             // 
@@ -613,7 +696,10 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barSharpness)).EndInit();
+<<<<<<< HEAD
             this.contextMenuPower.ResumeLayout(false);
+=======
+>>>>>>> origin/master
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -659,7 +745,8 @@ namespace MonitorProfiler
         private TrackBar barSharpness;
         private Button btnRestart;
         private ContextMenuStrip contextMenuPower;
-        private ToolStripMenuItem testToolStripMenuItem;
+        private ContextMenuStrip contextMenuInput;
+        private ContextMenuStrip contextMenuFactory;
     }
 }
 
