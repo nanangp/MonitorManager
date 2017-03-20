@@ -65,15 +65,6 @@ namespace MonitorProfiler
             this.cboFactoryReset = new System.Windows.Forms.ComboBox();
             this.lblSharpness = new System.Windows.Forms.Label();
             this.barSharpness = new System.Windows.Forms.TrackBar();
-<<<<<<< HEAD
-            this.btnFactoryReset = new System.Windows.Forms.Button();
-            this.btnInput = new System.Windows.Forms.Button();
-            this.btnPower = new System.Windows.Forms.Button();
-            this.btnDeleteProfile = new System.Windows.Forms.Button();
-            this.btnSaveProfile = new System.Windows.Forms.Button();
-            this.btnNewProfile = new System.Windows.Forms.Button();
-=======
->>>>>>> origin/master
             this.contextMenuPower = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.btnFactoryReset = new System.Windows.Forms.Button();
             this.btnInput = new System.Windows.Forms.Button();
@@ -97,10 +88,6 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barSharpness)).BeginInit();
-<<<<<<< HEAD
-            this.contextMenuPower.SuspendLayout();
-=======
->>>>>>> origin/master
             this.SuspendLayout();
             // 
             // cboInput
@@ -486,7 +473,6 @@ namespace MonitorProfiler
             this.barSharpness.TickFrequency = 5;
             this.barSharpness.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
             // 
-<<<<<<< HEAD
             // btnFactoryReset
             // 
             this.btnFactoryReset.BackgroundImage = global::MonitorProfiler.Properties.Resources.undo;
@@ -552,8 +538,6 @@ namespace MonitorProfiler
             this.btnNewProfile.TabIndex = 3;
             this.btnNewProfile.UseVisualStyleBackColor = true;
             // 
-=======
->>>>>>> origin/master
             // contextMenuPower
             // 
             this.contextMenuPower.Name = "contextMenuPower";
@@ -696,10 +680,6 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barSharpness)).EndInit();
-<<<<<<< HEAD
-            this.contextMenuPower.ResumeLayout(false);
-=======
->>>>>>> origin/master
             this.ResumeLayout(false);
             this.PerformLayout();
 

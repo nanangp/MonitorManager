@@ -355,8 +355,7 @@ namespace MonitorProfiler
             try
             {   // Assumes sender is a trackbar, and exists in the collection. Don't worry about errors :)
                 if (barVolume.Value <= 0) picVolume.BackgroundImage = MonitorProfiler.Properties.Resources.speaker_mute;
-                else if (barVolume.Value >= 14) picVolume.BackgroundImage = MonitorProfiler.Properties.Resources.speaker_high;
-                else if (barVolume.Value >= 7) picVolume.BackgroundImage = MonitorProfiler.Properties.Resources.speaker_medium;
+                else if (barVolume.Value >= 50) picVolume.BackgroundImage = MonitorProfiler.Properties.Resources.speaker_high;
                 else picVolume.BackgroundImage = MonitorProfiler.Properties.Resources.speaker_low;
                 
                 if ((string)btnLinkMonitors.Tag == "unlink")
