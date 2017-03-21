@@ -79,30 +79,6 @@ namespace MonitorProfiler
 
             if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
 
-            contextMenuInput.Click += new System.EventHandler(this.contextMenuInput_Click);
-            contextMenuInput.Items.Add("VGA-1");
-            contextMenuInput.Items.Add("DVI-1");
-            contextMenuInput.Items.Add("DVI-2");
-            contextMenuInput.Items.Add("DisplayPort-1");
-            contextMenuInput.Items.Add("DisplayPort-2");
-            contextMenuInput.Items.Add("HDMI-1");
-            contextMenuInput.Items.Add("HDMI-2");
-            ((ToolStripMenuItem)contextMenuInput.Items[1]).Checked = true;
-
-            contextMenuPower.Click += new System.EventHandler(this.contextMenuPower_Click);
-            contextMenuPower.Items.Add("Power on");
-            contextMenuPower.Items.Add("Standby");
-            contextMenuPower.Items.Add("Suspend");
-            contextMenuPower.Items.Add("Reduced power off");
-            contextMenuPower.Items.Add("Power off");
-            contextMenuPower.Items.Add("Sleep");
-            ((ToolStripMenuItem)contextMenuPower.Items[1]).Checked = true;
-
-            contextMenuFactory.Click += new System.EventHandler(this.contextMenuFactory_Click);
-            contextMenuFactory.Items.Add("Reset luminance");
-            contextMenuFactory.Items.Add("Reset colors");
-            contextMenuFactory.Items.Add("Reset factory defaults");
-            ((ToolStripMenuItem)contextMenuFactory.Items[1]).Checked = true;
 
             Dictionary<string, string> input = new Dictionary<string, string>();
             input.Add("VGA-1", "1");
@@ -129,6 +105,31 @@ namespace MonitorProfiler
             factoryreset.Add("Reset factory defaults", "4");
             cboFactoryReset.DataSource = new BindingSource(factoryreset, null);
 
+            contextMenuInput.Items.Add("VGA-1");
+            contextMenuInput.Items.Add("DVI-1");
+            contextMenuInput.Items.Add("DVI-2");
+            contextMenuInput.Items.Add("DisplayPort-1");
+            contextMenuInput.Items.Add("DisplayPort-2");
+            contextMenuInput.Items.Add("HDMI-1");
+            contextMenuInput.Items.Add("HDMI-2");
+            ((ToolStripMenuItem)contextMenuInput.Items[1]).Checked = true;
+            contextMenuInput.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuInput_Click);
+
+            contextMenuPower.Click += new System.EventHandler(this.contextMenuPower_Click);
+            contextMenuPower.Items.Add("Power on");
+            contextMenuPower.Items.Add("Standby");
+            contextMenuPower.Items.Add("Suspend");
+            contextMenuPower.Items.Add("Reduced power off");
+            contextMenuPower.Items.Add("Power off");
+            contextMenuPower.Items.Add("Sleep");
+            ((ToolStripMenuItem)contextMenuPower.Items[1]).Checked = true;
+
+            contextMenuFactory.Click += new System.EventHandler(this.contextMenuFactory_Click);
+            contextMenuFactory.Items.Add("Reset luminance");
+            contextMenuFactory.Items.Add("Reset colors");
+            contextMenuFactory.Items.Add("Reset factory defaults");
+            ((ToolStripMenuItem)contextMenuFactory.Items[1]).Checked = true;
+
             // Register Winkey + 0 as global hotkey. 
             NativeMethods.RegisterHotKey(this.Handle, 0, (int)NativeStructures.KeyModifier.WinKey, Keys.NumPad0.GetHashCode()); 
 
@@ -137,9 +138,9 @@ namespace MonitorProfiler
             return;
         }
 
-        private void contextMenuInput_Click(object sender, EventArgs e)
+        private void contextMenuInput_Click(object sender, ToolStripItemClickedEventArgs e)
         {
-            ((ToolStripMenuItem)sender).Checked = true;
+            ((ToolStripMenuItem)e.ClickedItem).Checked = true;
         }
 
         private void contextMenuPower_Click(object sender, EventArgs e)

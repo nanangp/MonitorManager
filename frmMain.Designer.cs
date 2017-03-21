@@ -74,6 +74,7 @@ namespace MonitorProfiler
             this.btnNewProfile = new System.Windows.Forms.Button();
             this.contextMenuInput = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuFactory = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.barGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barContrast)).BeginInit();
@@ -88,6 +89,7 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barSharpness)).BeginInit();
+            this.contextMenuPower.SuspendLayout();
             this.SuspendLayout();
             // 
             // cboInput
@@ -456,9 +458,9 @@ namespace MonitorProfiler
             this.lblSharpness.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblSharpness.Location = new System.Drawing.Point(340, 224);
             this.lblSharpness.Name = "lblSharpness";
-            this.lblSharpness.Size = new System.Drawing.Size(23, 15);
+            this.lblSharpness.Size = new System.Drawing.Size(13, 15);
             this.lblSharpness.TabIndex = 38;
-            this.lblSharpness.Text = "0%";
+            this.lblSharpness.Text = "0";
             this.lblSharpness.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // barSharpness
@@ -473,75 +475,12 @@ namespace MonitorProfiler
             this.barSharpness.TickFrequency = 5;
             this.barSharpness.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
             // 
-            // btnFactoryReset
-            // 
-            this.btnFactoryReset.BackgroundImage = global::MonitorProfiler.Properties.Resources.undo;
-            this.btnFactoryReset.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnFactoryReset.Location = new System.Drawing.Point(100, 217);
-            this.btnFactoryReset.Name = "btnFactoryReset";
-            this.btnFactoryReset.Size = new System.Drawing.Size(30, 30);
-            this.btnFactoryReset.TabIndex = 35;
-            this.btnFactoryReset.UseVisualStyleBackColor = true;
-            this.btnFactoryReset.Click += new System.EventHandler(this.btnFactoryReset_Click);
-            // 
-            // btnInput
-            // 
-            this.btnInput.BackgroundImage = global::MonitorProfiler.Properties.Resources.split;
-            this.btnInput.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnInput.Location = new System.Drawing.Point(100, 186);
-            this.btnInput.Name = "btnInput";
-            this.btnInput.Size = new System.Drawing.Size(30, 30);
-            this.btnInput.TabIndex = 21;
-            this.btnInput.UseVisualStyleBackColor = true;
-            this.btnInput.Click += new System.EventHandler(this.btnInput_Click);
-            // 
-            // btnPower
-            // 
-            this.btnPower.BackgroundImage = global::MonitorProfiler.Properties.Resources.power;
-            this.btnPower.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnPower.Location = new System.Drawing.Point(100, 155);
-            this.btnPower.Name = "btnPower";
-            this.btnPower.Size = new System.Drawing.Size(30, 30);
-            this.btnPower.TabIndex = 18;
-            this.btnPower.UseVisualStyleBackColor = true;
-            this.btnPower.Click += new System.EventHandler(this.btnPower_Click);
-            // 
-            // btnDeleteProfile
-            // 
-            this.btnDeleteProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.delete;
-            this.btnDeleteProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnDeleteProfile.Location = new System.Drawing.Point(69, 119);
-            this.btnDeleteProfile.Name = "btnDeleteProfile";
-            this.btnDeleteProfile.Size = new System.Drawing.Size(30, 30);
-            this.btnDeleteProfile.TabIndex = 2;
-            this.btnDeleteProfile.UseVisualStyleBackColor = true;
-            this.btnDeleteProfile.Click += new System.EventHandler(this.btnDeleteProfile_Click);
-            // 
-            // btnSaveProfile
-            // 
-            this.btnSaveProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.save;
-            this.btnSaveProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnSaveProfile.Location = new System.Drawing.Point(7, 119);
-            this.btnSaveProfile.Name = "btnSaveProfile";
-            this.btnSaveProfile.Size = new System.Drawing.Size(30, 30);
-            this.btnSaveProfile.TabIndex = 1;
-            this.btnSaveProfile.UseVisualStyleBackColor = true;
-            this.btnSaveProfile.Click += new System.EventHandler(this.btnSaveProfile_Click);
-            // 
-            // btnNewProfile
-            // 
-            this.btnNewProfile.BackgroundImage = global::MonitorProfiler.Properties.Resources.add;
-            this.btnNewProfile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnNewProfile.Location = new System.Drawing.Point(38, 119);
-            this.btnNewProfile.Name = "btnNewProfile";
-            this.btnNewProfile.Size = new System.Drawing.Size(30, 30);
-            this.btnNewProfile.TabIndex = 3;
-            this.btnNewProfile.UseVisualStyleBackColor = true;
-            // 
             // contextMenuPower
             // 
+            this.contextMenuPower.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem2});
             this.contextMenuPower.Name = "contextMenuPower";
-            this.contextMenuPower.Size = new System.Drawing.Size(61, 4);
+            this.contextMenuPower.Size = new System.Drawing.Size(153, 48);
             // 
             // btnFactoryReset
             // 
@@ -616,7 +555,15 @@ namespace MonitorProfiler
             // contextMenuFactory
             // 
             this.contextMenuFactory.Name = "contextMenuFactory";
-            this.contextMenuFactory.Size = new System.Drawing.Size(153, 26);
+            this.contextMenuFactory.Size = new System.Drawing.Size(61, 4);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Checked = true;
+            this.toolStripMenuItem2.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem2.Text = "11";
             // 
             // frmMain
             // 
@@ -680,6 +627,7 @@ namespace MonitorProfiler
             ((System.ComponentModel.ISupportInitialize)(this.picContrast)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBrightness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.barSharpness)).EndInit();
+            this.contextMenuPower.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -727,6 +675,7 @@ namespace MonitorProfiler
         private ContextMenuStrip contextMenuPower;
         private ContextMenuStrip contextMenuInput;
         private ContextMenuStrip contextMenuFactory;
+        private ToolStripMenuItem toolStripMenuItem2;
     }
 }
 
