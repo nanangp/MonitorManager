@@ -88,7 +88,7 @@ namespace MonitorProfiler
             input.Add("DisplayPort-2", "16");
             input.Add("HDMI-1", "17");
             input.Add("HDMI-2", "18");
-            cboInput.DataSource = new BindingSource(input, null);
+            //cboInput.DataSource = new BindingSource(input, null);
 
             Dictionary <string, string> power = new Dictionary<string, string>();
             power.Add("Power on", "1");
@@ -97,38 +97,43 @@ namespace MonitorProfiler
             power.Add("Reduced power off ", "4");
             power.Add("Power off", "5");
             power.Add("Sleep", "61808");
-            cboPower.DataSource = new BindingSource(power, null);
+            //cboPower.DataSource = new BindingSource(power, null);
 
             Dictionary<string, string> factoryreset = new Dictionary<string, string>();
             factoryreset.Add("Reset luminance", "5");
             factoryreset.Add("Reset colors", "8");
             factoryreset.Add("Reset factory defaults", "4");
-            cboFactoryReset.DataSource = new BindingSource(factoryreset, null);
+            //cboFactoryReset.DataSource = new BindingSource(factoryreset, null);
 
-            contextMenuInput.Items.Add("VGA-1");
-            contextMenuInput.Items.Add("DVI-1");
-            contextMenuInput.Items.Add("DVI-2");
-            contextMenuInput.Items.Add("DisplayPort-1");
-            contextMenuInput.Items.Add("DisplayPort-2");
-            contextMenuInput.Items.Add("HDMI-1");
-            contextMenuInput.Items.Add("HDMI-2");
-            ((ToolStripMenuItem)contextMenuInput.Items[1]).Checked = true;
+            foreach (KeyValuePair<string, string> entry in input)
+            {
+                ToolStripItem item = new ToolStripMenuItem();
+                item.Text = entry.Key;
+                item.Tag = entry.Value;
+                contextMenuInput.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { item });
+            }
+            //((ToolStripMenuItem)contextMenuInput.Items[1]).Checked = true;
             contextMenuInput.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuInput_Click);
 
-            contextMenuPower.Click += new System.EventHandler(this.contextMenuPower_Click);
-            contextMenuPower.Items.Add("Power on");
-            contextMenuPower.Items.Add("Standby");
-            contextMenuPower.Items.Add("Suspend");
-            contextMenuPower.Items.Add("Reduced power off");
-            contextMenuPower.Items.Add("Power off");
-            contextMenuPower.Items.Add("Sleep");
-            ((ToolStripMenuItem)contextMenuPower.Items[1]).Checked = true;
+            foreach (KeyValuePair<string, string> entry in power)
+            {
+                ToolStripItem item = new ToolStripMenuItem();
+                item.Text = entry.Key;
+                item.Tag = entry.Value;
+                contextMenuPower.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { item });
+            }
+            //((ToolStripMenuItem)contextMenuPower.Items[1]).Checked = true;
+            contextMenuPower.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuPower_Click);
 
-            contextMenuFactory.Click += new System.EventHandler(this.contextMenuFactory_Click);
-            contextMenuFactory.Items.Add("Reset luminance");
-            contextMenuFactory.Items.Add("Reset colors");
-            contextMenuFactory.Items.Add("Reset factory defaults");
-            ((ToolStripMenuItem)contextMenuFactory.Items[1]).Checked = true;
+            foreach (KeyValuePair<string, string> entry in factoryreset)
+            {
+                ToolStripItem item = new ToolStripMenuItem();
+                item.Text = entry.Key;
+                item.Tag = entry.Value;
+                contextMenuFactory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { item });
+            }
+            //((ToolStripMenuItem)contextMenuFactory.Items[1]).Checked = true;
+            contextMenuFactory.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuFactory_Click);
 
             // Register Winkey + 0 as global hotkey. 
             NativeMethods.RegisterHotKey(this.Handle, 0, (int)NativeStructures.KeyModifier.WinKey, Keys.NumPad0.GetHashCode()); 
@@ -138,19 +143,31 @@ namespace MonitorProfiler
             return;
         }
 
+        private void contextMenuFactory_Click(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
+            //item.Checked = !item.Checked;
+
+            DialogResult result = MessageBox.Show("Are you sure you want to " + item.Text.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (Convert.ToInt32(item.Tag) == 4 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.OK) NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, Convert.ToByte(item.Tag), 1);
+        }
+
         private void contextMenuInput_Click(object sender, ToolStripItemClickedEventArgs e)
         {
-            ((ToolStripMenuItem)e.ClickedItem).Checked = true;
+            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
+            //item.Checked = !item.Checked;
+
+            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(item.Tag));
         }
 
-        private void contextMenuPower_Click(object sender, EventArgs e)
+        private void contextMenuPower_Click(object sender, ToolStripItemClickedEventArgs e)
         {
-            ((ToolStripMenuItem)sender).Checked = true;
-        }
+            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
+            //item.Checked = !item.Checked;
 
-        private void contextMenuFactory_Click(object sender, EventArgs e)
-        {
-            ((ToolStripMenuItem)sender).Checked = true;
+            // No VCP just force windows monitor sleeping
+            if (Convert.ToUInt32(item.Tag) == 61808) NativeMethods.SendMessage(this.Handle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
+            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
         }
 
         private void OnDrawCbItem(object sender, DrawItemEventArgs e)
@@ -447,28 +464,12 @@ namespace MonitorProfiler
         {
             Button button = ((Button)sender);
             contextMenuPower.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
-
-            string value = ((KeyValuePair<string, string>)cboPower.SelectedItem).Value;
-            // No VCP just force windows monitor sleeping
-            if (value == "61808") NativeMethods.SendMessage(this.Handle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
-            else
-            {
-                bool teest = NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(value));
-                if (teest == false)
-                {
-                    Debug.WriteLine(Marshal.GetLastWin32Error());
-                }
-                else Debug.WriteLine(teest);
-            }
         }
 
         private void btnInput_Click(object sender, EventArgs e)
         {
             Button button = ((Button)sender);
             contextMenuInput.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
-
-            string value = ((KeyValuePair<string, string>)cboInput.SelectedItem).Value;
-            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(value));
         }
         
         private void btnSaveProfile_Click(object sender, EventArgs e)
@@ -514,13 +515,6 @@ namespace MonitorProfiler
         {
             Button button = ((Button)sender);
             contextMenuFactory.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
-
-            DialogResult result = MessageBox.Show("Are you sure you want to " + ((KeyValuePair<string, string>)cboFactoryReset.SelectedItem).Key.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (cboFactoryReset.SelectedIndex == 2 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.OK)
-            {
-                string value = ((KeyValuePair<string, string>)cboFactoryReset.SelectedItem).Value;
-                NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, Convert.ToByte(value), 1);
-            }
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
