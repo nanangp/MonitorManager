@@ -5,6 +5,7 @@ using System.Text;
 using MonitorProfiler.Win32;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace MonitorProfiler.Models.Display
 {
@@ -24,10 +25,11 @@ namespace MonitorProfiler.Models.Display
         public MonitorFeature RedGain;
         public MonitorFeature GreenGain;
         public MonitorFeature BlueGain;
+        public MonitorFeature Input;
         public MonitorFeature Sharpness;
         public MonitorFeature Volume;
         public MonitorFeature VCPFeature;
-        public Dictionary<string, string> Input;
+        //public Dictionary<string, string> Input;
         public Dictionary<string, string> Power;
 
         private uint _monitorCapabilities = 0u;
@@ -37,18 +39,34 @@ namespace MonitorProfiler.Models.Display
 
         public Monitor(NativeStructures.PHYSICAL_MONITOR physicalMonitor)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             HPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
             Name = physicalMonitor.szPhysicalMonitorDescription;
-            CheckCapabilities();
+            //CheckCapabilities();
+
+            Parallel.Invoke(() => CheckBrightness(),
+                () => CheckContrast(),
+                () => CheckRgbDrive(),
+                () => CheckRgbGain(),
+                () => CheckVolume(),
+                () => CheckInput(),
+                () => CheckPower(),
+                () => CheckSharpness(),
+                () => GetVCPStuff()
+                );
+
+            stopWatch.Stop();
+            // Get the elapsed time as a TimeSpan value.
+            TimeSpan ts = stopWatch.Elapsed;
+            Debug.Write("Checking duration: " + ts.ToString());
+
         }
 
         private void CheckCapabilities()
         {
             //NativeMethods.GetMonitorCapabilities(HPhysicalMonitor, ref _monitorCapabilities, ref _supportedColorTemperatures);
-
-            //SupportsDDC = (_monitorCapabilities > 0);
-            //if (SupportsDDC)
-            //{
             CheckBrightness();
             CheckContrast();
             CheckRgbDrive();
@@ -56,14 +74,15 @@ namespace MonitorProfiler.Models.Display
             CheckVolume();
             CheckInput();
             CheckPower();
-            //CheckALot();
             CheckSharpness();
             GetVCPStuff();
-            //}
+            //CheckALot();
         }
 
         private void CheckBrightness()
         {
+            Debug.WriteLine("Start CheckBrightness");
+
             //Brightness.Supported = ((int)NativeStructures.MC_MONITOR_CAPABILITIES.MC_CAPS_BRIGHTNESS & _monitorCapabilities) > 0;
             //if (Brightness.Supported)
             //{
@@ -71,85 +90,92 @@ namespace MonitorProfiler.Models.Display
             NativeMethods.GetMonitorBrightness(HPhysicalMonitor, ref Brightness.Min, ref Brightness.Current, ref Brightness.Max);
             Brightness.Original = Brightness.Current;
             //}
+
+            Debug.WriteLine("End CheckBrightness");
         }
+
         private void CheckContrast()
         {
+            Debug.WriteLine("Start CheckContrast");
+
             //Contrast.Supported = ((int)NativeStructures.MC_MONITOR_CAPABILITIES.MC_CAPS_CONTRAST & _monitorCapabilities) > 0;
             //if (Contrast.Supported)
             //{
             NativeMethods.GetMonitorContrast(HPhysicalMonitor, ref Contrast.Min, ref Contrast.Current, ref Contrast.Max);
             Contrast.Original = Contrast.Current;
-            //}
+
+            Debug.WriteLine("End CheckContrast");
         }
 
         private void CheckRgbDrive()
         {
-            //RgbDrive.Supported = ((int)NativeStructures.MC_MONITOR_CAPABILITIES.MC_CAPS_RED_GREEN_BLUE_DRIVE) > 0;
-            //if (RgbDrive.Supported)
-            //{
+            Debug.WriteLine("Start CheckRgbDrive");
+
             NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_BLUE_DRIVE, ref RgbDrive.Min, ref RgbDrive.Current, ref RgbDrive.Max);
-            //}
+
+            Debug.WriteLine("End CheckRgbDrive");
         }
 
         private void CheckRgbGain()
         {
-            //RgbGain.Supported = ((int)NativeStructures.MC_MONITOR_CAPABILITIES.MC_CAPS_RED_GREEN_BLUE_GAIN) > 0;
-            //if (RgbGain.Supported)
-            //{
+            Debug.WriteLine("Start CheckRgbGain");
+
             NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_RED_GAIN, ref RedGain.Min, ref RedGain.Current, ref RedGain.Max);
             NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GREEN_GAIN, ref GreenGain.Min, ref GreenGain.Current, ref GreenGain.Max);
             NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_BLUE_GAIN, ref BlueGain.Min, ref BlueGain.Current, ref BlueGain.Max);
             RedGain.Original = RedGain.Current;
             GreenGain.Original = GreenGain.Current;
             BlueGain.Original = BlueGain.Current;
-            //}
+
+            Debug.WriteLine("End CheckRgbGain");
         }
 
         private void CheckInput()
         {
-           // NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, IntPtr.Zero, ref Input.Current, ref Input.Max);
-            //Debug.WriteLine("Input: " + Input.Current);
+            Debug.WriteLine("Start CheckInput");
+
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, IntPtr.Zero, ref Input.Current, ref Input.Max);
+            Debug.WriteLine("Input: " + Input.Current);
+
+            Debug.WriteLine("End CheckInput");
         }
 
         private void CheckPower()
         {
+            Debug.WriteLine("Start CheckPower");
+
             // NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, IntPtr.Zero, ref Power.Current, ref Power.Max);
             // Debug.WriteLine("Power: " + Power.Current);
+
+            Debug.WriteLine("End CheckPower");
         }
 
         private void CheckSharpness()
         {
+            Debug.WriteLine("Start CheckSharpness");
+
             IntPtr sharpness = new IntPtr();
             NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, 135, sharpness, ref Sharpness.Current, ref Sharpness.Max);
             Sharpness.Original = Sharpness.Current;
             Debug.WriteLine("Sharpness: " + Sharpness.Current + " " + Sharpness.Max);
-        }
 
-        private void CheckALot()
-        {
-            IntPtr output = new IntPtr();
-            for (int i = 0; i <= 300; i++)
-            {
-                Sharpness.Max = 0;
-                Sharpness.Current = 0;
-                NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, (byte)i, output, ref Sharpness.Current, ref Sharpness.Max);
-                Debug.WriteLine(i.ToString("X") + ": " + Sharpness.Current + " " + Sharpness.Max);
-            }
+            Debug.WriteLine("Start CheckSharpness");
         }
 
         private void CheckVolume()
         {
-            //RgbGain.Supported = ((int)NativeStructures.MC_MONITOR_CAPABILITIES.MC_CAPS_RED_GREEN_BLUE_GAIN) > 0;
-            //if (RgbGain.Supported)
-            //{
-            IntPtr volume = new IntPtr();
-            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORVOLUME, volume, ref Volume.Current, ref Volume.Max);
+            Debug.WriteLine("Start CheckVolume");
+
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORVOLUME, IntPtr.Zero, ref Volume.Current, ref Volume.Max);
             Volume.Original = Volume.Current;
-            //}
+
+            Debug.WriteLine("End CheckVolume");
         }
 
         private void GetVCPStuff()
         {
+            Debug.WriteLine("Start GetVCPStuff");
+
             int[] values = new int[0];
 
             uint strSize;
@@ -179,9 +205,22 @@ namespace MonitorProfiler.Models.Display
 
             // Parse source codes.
             match = NativeConstants.vcp60ValuesRegex.Match(capabilitiesStr);
-           // if (match.Success) Input.Values = match.Groups[1].Value.Trim();
+            // if (match.Success) Input.Values = match.Groups[1].Value.Trim();
 
-          //  Debug.WriteLine(sources.ToString());
+            Debug.WriteLine("End GetVCPStuff");
+        }
+
+        // Loop all VCP
+        private void CheckALot()
+        {
+            IntPtr output = new IntPtr();
+            for (int i = 0; i <= 255; i++)
+            {
+                Sharpness.Max = 0;
+                Sharpness.Current = 0;
+                NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, (byte)i, output, ref Sharpness.Current, ref Sharpness.Max);
+                Debug.WriteLine(i.ToString("X") + ": " + Sharpness.Current + " " + Sharpness.Max);
+            }
         }
     }
 }

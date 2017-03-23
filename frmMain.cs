@@ -107,9 +107,10 @@ namespace MonitorProfiler
 
             foreach (KeyValuePair<string, string> entry in input)
             {
-                ToolStripItem item = new ToolStripMenuItem();
+                ToolStripMenuItem item = new ToolStripMenuItem();
                 item.Text = entry.Key;
                 item.Tag = entry.Value;
+                if (_currentMonitor.Input.Current == Convert.ToInt32(entry.Value)) item.Checked = true;
                 contextMenuInput.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { item });
             }
             //((ToolStripMenuItem)contextMenuInput.Items[1]).Checked = true;
@@ -158,6 +159,7 @@ namespace MonitorProfiler
             //item.Checked = !item.Checked;
 
             NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(item.Tag));
+            _currentMonitor.Input.Current = Convert.ToUInt32(item.Tag);
         }
 
         private void contextMenuPower_Click(object sender, ToolStripItemClickedEventArgs e)

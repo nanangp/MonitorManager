@@ -58,8 +58,6 @@ namespace MonitorProfiler.GUI
                     currentMonitor.Volume.Current = newValue;
                     NativeMethods.SetVCPFeature(currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORVOLUME, newValue);
                     break;
-
-
             }
         }
     }
