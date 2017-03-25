@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MonitorProfiler.Win32;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace MonitorProfiler.Models.Display
 {
@@ -19,12 +21,28 @@ namespace MonitorProfiler.Models.Display
             var monitorArray = new NativeStructures.PHYSICAL_MONITOR[monitorCount];
             NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, monitorCount, monitorArray);
 
-            foreach (var physicalMonitor in monitorArray)
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            /*
+            Parallel.ForEach(monitorArray, (physicalMonitor) =>
+            {
+               Monitor newMonitor = new Monitor(physicalMonitor);
+
+               this.Add(newMonitor);
+            });
+            */
+
+            foreach(var physicalMonitor in monitorArray)
             {
                 Monitor newMonitor = new Monitor(physicalMonitor);
 
                 this.Add(newMonitor);
-            }
+            };
+
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            Debug.Write("Checking duration: " + ts.ToString());
             return true;
         }
     }
