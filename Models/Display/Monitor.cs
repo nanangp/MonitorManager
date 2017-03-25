@@ -39,29 +39,9 @@ namespace MonitorProfiler.Models.Display
 
         public Monitor(NativeStructures.PHYSICAL_MONITOR physicalMonitor)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             HPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
             Name = physicalMonitor.szPhysicalMonitorDescription;
-            //CheckCapabilities();
-
-            Parallel.Invoke(() => CheckBrightness(),
-                () => CheckContrast(),
-                () => CheckRgbDrive(),
-                () => CheckRgbGain(),
-                () => CheckVolume(),
-                () => CheckInput(),
-                () => CheckPower(),
-                () => CheckSharpness(),
-                () => GetVCPStuff()
-                );
-
-            stopWatch.Stop();
-            // Get the elapsed time as a TimeSpan value.
-            TimeSpan ts = stopWatch.Elapsed;
-            Debug.Write("Checking duration: " + ts.ToString());
-
+            CheckCapabilities();
         }
 
         private void CheckCapabilities()
@@ -79,14 +59,14 @@ namespace MonitorProfiler.Models.Display
             //CheckALot();
         }
 
-        private void CheckBrightness()
+        public void CheckBrightness()
         {
             Debug.WriteLine("Start CheckBrightness");
 
             //Brightness.Supported = ((int)NativeStructures.MC_MONITOR_CAPABILITIES.MC_CAPS_BRIGHTNESS & _monitorCapabilities) > 0;
             //if (Brightness.Supported)
             //{
-               //short Current = -1, Min = -1, Max = -1;
+            //short Current = -1, Min = -1, Max = -1;
             NativeMethods.GetMonitorBrightness(HPhysicalMonitor, ref Brightness.Min, ref Brightness.Current, ref Brightness.Max);
             Brightness.Original = Brightness.Current;
             //}
@@ -94,7 +74,7 @@ namespace MonitorProfiler.Models.Display
             Debug.WriteLine("End CheckBrightness");
         }
 
-        private void CheckContrast()
+        public void CheckContrast()
         {
             Debug.WriteLine("Start CheckContrast");
 
@@ -107,7 +87,7 @@ namespace MonitorProfiler.Models.Display
             Debug.WriteLine("End CheckContrast");
         }
 
-        private void CheckRgbDrive()
+        public void CheckRgbDrive()
         {
             Debug.WriteLine("Start CheckRgbDrive");
 
@@ -116,7 +96,7 @@ namespace MonitorProfiler.Models.Display
             Debug.WriteLine("End CheckRgbDrive");
         }
 
-        private void CheckRgbGain()
+        public void CheckRgbGain()
         {
             Debug.WriteLine("Start CheckRgbGain");
 
@@ -153,9 +133,8 @@ namespace MonitorProfiler.Models.Display
         private void CheckSharpness()
         {
             Debug.WriteLine("Start CheckSharpness");
-
-            IntPtr sharpness = new IntPtr();
-            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, 135, sharpness, ref Sharpness.Current, ref Sharpness.Max);
+            
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, 135, IntPtr.Zero, ref Sharpness.Current, ref Sharpness.Max);
             Sharpness.Original = Sharpness.Current;
             Debug.WriteLine("Sharpness: " + Sharpness.Current + " " + Sharpness.Max);
 

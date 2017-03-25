@@ -13,6 +13,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 
 namespace MonitorProfiler
 {
@@ -143,35 +144,7 @@ namespace MonitorProfiler
             Log("Ready...");
             return;
         }
-
-        private void contextMenuFactory_Click(object sender, ToolStripItemClickedEventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
-            //item.Checked = !item.Checked;
-
-            DialogResult result = MessageBox.Show("Are you sure you want to " + item.Text.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (Convert.ToInt32(item.Tag) == 4 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.OK) NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, Convert.ToByte(item.Tag), 1);
-        }
-
-        private void contextMenuInput_Click(object sender, ToolStripItemClickedEventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
-            //item.Checked = !item.Checked;
-
-            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(item.Tag));
-            _currentMonitor.Input.Current = Convert.ToUInt32(item.Tag);
-        }
-
-        private void contextMenuPower_Click(object sender, ToolStripItemClickedEventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
-            //item.Checked = !item.Checked;
-
-            // No VCP just force windows monitor sleeping
-            if (Convert.ToUInt32(item.Tag) == 61808) NativeMethods.SendMessage(this.Handle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
-            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
-        }
-
+        
         private void OnDrawCbItem(object sender, DrawItemEventArgs e)
         {
             object item = ((ComboBox)sender).Items[e.Index];
@@ -202,6 +175,79 @@ namespace MonitorProfiler
             }
         }
 
+        private void btnFactoryReset_Click(object sender, EventArgs e)
+        {
+            Button button = ((Button)sender);
+            contextMenuFactory.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+        }
+
+        public void contextMenuFactory_Click(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
+            //item.Checked = !item.Checked;
+
+            DialogResult result = MessageBox.Show("Are you sure you want to " + item.Text.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (Convert.ToInt32(item.Tag) == 4 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes)
+            {
+                Debug.WriteLine("Reset: " + Convert.ToByte(item.Tag));
+                NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, Convert.ToByte(item.Tag), 1);
+            }
+            /*
+            NativeMethods.GetMonitorRedGreenOrBlueGain(_currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_RED_GAIN, ref _currentMonitor.RedGain.Min, ref _currentMonitor.RedGain.Current, ref _currentMonitor.RedGain.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueGain(_currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GREEN_GAIN, ref _currentMonitor.GreenGain.Min, ref _currentMonitor.GreenGain.Current, ref _currentMonitor.GreenGain.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueGain(_currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_BLUE_GAIN, ref _currentMonitor.BlueGain.Min, ref _currentMonitor.BlueGain.Current, ref _currentMonitor.BlueGain.Max);
+            */
+            
+
+
+            Task.Delay(2000).ContinueWith(t => testage());
+
+
+            Debug.WriteLine("Refreshing");
+            RefreshSliders(_currentMonitor);
+        }
+
+        private void testage()
+        {
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, 0x16, IntPtr.Zero, ref _currentMonitor.RedGain.Current, ref _currentMonitor.RedGain.Max);
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, 0x18, IntPtr.Zero, ref _currentMonitor.GreenGain.Current, ref _currentMonitor.GreenGain.Max);
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, 0x1a, IntPtr.Zero, ref _currentMonitor.BlueGain.Current, ref _currentMonitor.BlueGain.Max);
+
+            Debug.WriteLine("_currentMonitor.RedGain.Current " + _currentMonitor.RedGain.Current);
+            Debug.WriteLine("_currentMonitor.GreenGain.Current " + _currentMonitor.GreenGain.Current);
+            Debug.WriteLine("_currentMonitor.BlueGain.Current " + _currentMonitor.BlueGain.Current);
+        }
+
+        private void btnInput_Click(object sender, EventArgs e)
+        {
+            Button button = ((Button)sender);
+            contextMenuInput.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+        }
+
+        private void contextMenuInput_Click(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
+            //item.Checked = !item.Checked;
+
+            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(item.Tag));
+            _currentMonitor.Input.Current = Convert.ToUInt32(item.Tag);
+        }
+
+        private void btnPower_Click(object sender, EventArgs e)
+        {
+            Button button = ((Button)sender);
+            contextMenuPower.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+        }
+
+        private void contextMenuPower_Click(object sender, ToolStripItemClickedEventArgs e)
+        {
+            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
+            //item.Checked = !item.Checked;
+
+            // No VCP just force windows monitor sleeping
+            if (Convert.ToUInt32(item.Tag) == 61808) NativeMethods.SendMessage(this.Handle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
+            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
+        }
         private void ParseVCPStuff()
         {
           /*
@@ -308,9 +354,10 @@ namespace MonitorProfiler
             }
             else barContrast.Enabled = false;
 
+            Debug.WriteLine("RefreshSliders - RedGain.Max: " + m.RedGain.Max);
+            Debug.WriteLine("RefreshSliders - RedGain.Current: " + m.RedGain.Current);
             if (m.RedGain.Max > 0)
             {
-                Debug.WriteLine("RefreshSliders - RedGain.Max: " + m.RedGain.Max);
                 barRed.Minimum = (int)m.RedGain.Min;
                 barRed.Maximum = (int)m.RedGain.Max;
                 barRed.Value = (int)m.RedGain.Current;
@@ -319,6 +366,7 @@ namespace MonitorProfiler
             else barRed.Enabled = false;
 
             Debug.WriteLine("RefreshSliders - GreenGain.Max: " + m.GreenGain.Max);
+            Debug.WriteLine("RefreshSliders - GreenGain.Current: " + m.GreenGain.Current);
             if (m.GreenGain.Max > 0)
             {
                 barGreen.Minimum = (int)m.GreenGain.Min;
@@ -329,6 +377,7 @@ namespace MonitorProfiler
             else barGreen.Enabled = false;
 
             Debug.WriteLine("RefreshSliders - BlueGain.Max: " + m.BlueGain.Max);
+            Debug.WriteLine("RefreshSliders - BlueGain.Current: " + m.BlueGain.Current);
             if (m.BlueGain.Max > 0)
             {
                 barBlue.Minimum = (int)m.BlueGain.Min;
@@ -462,18 +511,6 @@ namespace MonitorProfiler
             }
         }
 
-        private void btnPower_Click(object sender, EventArgs e)
-        {
-            Button button = ((Button)sender);
-            contextMenuPower.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
-        }
-
-        private void btnInput_Click(object sender, EventArgs e)
-        {
-            Button button = ((Button)sender);
-            contextMenuInput.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
-        }
-        
         private void btnSaveProfile_Click(object sender, EventArgs e)
         {
             SaveProfiles();
@@ -503,20 +540,9 @@ namespace MonitorProfiler
             if (barVolume.Value > 0) barVolume.Value = 0;
         }
 
-        private void btnFactoryReset_Click(object sender, MouseEventArgs e)
-        {
-
-        }
-
         private void btnRestart_Click(object sender, EventArgs e)
         {
             Application.Restart();
-        }
-
-        private void btnFactoryReset_Click(object sender, EventArgs e)
-        {
-            Button button = ((Button)sender);
-            contextMenuFactory.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
