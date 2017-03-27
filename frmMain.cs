@@ -23,6 +23,7 @@ namespace MonitorProfiler
         private Monitor _currentMonitor;
         private Dictionary<TrackBar, TrackBarFeatures> _bars;
         private Config _config;
+        private static System.Timers.Timer _timer;
 
         protected override void WndProc(ref Message m)
         {
@@ -48,6 +49,7 @@ namespace MonitorProfiler
             InitializeComponent();
             InitialiseProfiles();
             InitialiseTrackBars();
+            InitialiseButtons();
 
             Log("Started.");
 
@@ -79,64 +81,7 @@ namespace MonitorProfiler
             }
 
             if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
-
-
-            Dictionary<string, string> input = new Dictionary<string, string>();
-            input.Add("VGA-1", "1");
-            input.Add("DVI-1", "2");
-            input.Add("DVI-2", "3");
-            input.Add("DisplayPort-1", "15");
-            input.Add("DisplayPort-2", "16");
-            input.Add("HDMI-1", "17");
-            input.Add("HDMI-2", "18");
-            //cboInput.DataSource = new BindingSource(input, null);
-
-            Dictionary <string, string> power = new Dictionary<string, string>();
-            power.Add("Power on", "1");
-            power.Add("Standby", "2");
-            power.Add("Suspend", "3");
-            power.Add("Reduced power off ", "4");
-            power.Add("Power off", "5");
-            power.Add("Sleep", "61808");
-            //cboPower.DataSource = new BindingSource(power, null);
-
-            Dictionary<string, string> factoryreset = new Dictionary<string, string>();
-            factoryreset.Add("Reset luminance", "5");
-            factoryreset.Add("Reset colors", "8");
-            factoryreset.Add("Reset factory defaults", "4");
-            //cboFactoryReset.DataSource = new BindingSource(factoryreset, null);
-
-            foreach (KeyValuePair<string, string> entry in input)
-            {
-                ToolStripMenuItem item = new ToolStripMenuItem();
-                item.Text = entry.Key;
-                item.Tag = entry.Value;
-                if (_currentMonitor.Input.Current == Convert.ToInt32(entry.Value)) item.Checked = true;
-                contextMenuInput.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { item });
-            }
-            //((ToolStripMenuItem)contextMenuInput.Items[1]).Checked = true;
-            contextMenuInput.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuInput_Click);
-
-            foreach (KeyValuePair<string, string> entry in power)
-            {
-                ToolStripItem item = new ToolStripMenuItem();
-                item.Text = entry.Key;
-                item.Tag = entry.Value;
-                contextMenuPower.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { item });
-            }
-            //((ToolStripMenuItem)contextMenuPower.Items[1]).Checked = true;
-            contextMenuPower.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuPower_Click);
-
-            foreach (KeyValuePair<string, string> entry in factoryreset)
-            {
-                ToolStripItem item = new ToolStripMenuItem();
-                item.Text = entry.Key;
-                item.Tag = entry.Value;
-                contextMenuFactory.Items.AddRange(new System.Windows.Forms.ToolStripItem[] { item });
-            }
-            //((ToolStripMenuItem)contextMenuFactory.Items[1]).Checked = true;
-            contextMenuFactory.ItemClicked += new ToolStripItemClickedEventHandler(this.contextMenuFactory_Click);
-
+            
             // Register Winkey + 0 as global hotkey. 
             NativeMethods.RegisterHotKey(this.Handle, 0, (int)NativeStructures.KeyModifier.WinKey, Keys.NumPad0.GetHashCode()); 
 
@@ -178,56 +123,64 @@ namespace MonitorProfiler
         private void btnFactoryReset_Click(object sender, EventArgs e)
         {
             Button button = ((Button)sender);
-            contextMenuFactory.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+            contextMenuFactory.Show(button, new Point(1, button.Height - 1));
         }
 
-        public void contextMenuFactory_Click(object sender, ToolStripItemClickedEventArgs e)
+        public void contextMenuFactory_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
-            //item.Checked = !item.Checked;
+            MenuItem item = (MenuItem)sender;
 
-            DialogResult result = MessageBox.Show("Are you sure you want to " + item.Text.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (Convert.ToInt32(item.Tag) == 4 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (result == DialogResult.Yes)
+            DialogResult result = MessageBox.Show("Are you sure you want to " + item.Text.ToLower() + " on " + cboMonitors.SelectedItem + " ?" + (Convert.ToInt32(item.Tag) == 4 ? "\nAll the monitor settings will be reset !" : ""), "Warning !", MessageBoxButtons.OKCancel, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (result == DialogResult.Yes || result == DialogResult.OK)
             {
                 Debug.WriteLine("Reset: " + Convert.ToByte(item.Tag));
                 NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, Convert.ToByte(item.Tag), 1);
+
+                // Create a timer with a two second interval.
+                if (Convert.ToUInt32(item.Tag) == 4) _timer = new System.Timers.Timer(2000);
+                else _timer = new System.Timers.Timer(100);
+                // Hook up the Elapsed event for the timer. 
+                if (Convert.ToUInt32(item.Tag) == 5) _timer.Elapsed += TimerResetLuminance;
+                if(Convert.ToUInt32(item.Tag) == 8) _timer.Elapsed += TimerResetColors;
+                if(Convert.ToUInt32(item.Tag) == 4) _timer.Elapsed += TimerResetFactory;
+                _timer.AutoReset = false;
+                _timer.Enabled = true;
+                _timer.SynchronizingObject = this;
             }
-            /*
-            NativeMethods.GetMonitorRedGreenOrBlueGain(_currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_RED_GAIN, ref _currentMonitor.RedGain.Min, ref _currentMonitor.RedGain.Current, ref _currentMonitor.RedGain.Max);
-            NativeMethods.GetMonitorRedGreenOrBlueGain(_currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GREEN_GAIN, ref _currentMonitor.GreenGain.Min, ref _currentMonitor.GreenGain.Current, ref _currentMonitor.GreenGain.Max);
-            NativeMethods.GetMonitorRedGreenOrBlueGain(_currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_BLUE_GAIN, ref _currentMonitor.BlueGain.Min, ref _currentMonitor.BlueGain.Current, ref _currentMonitor.BlueGain.Max);
-            */
-            
+        }
 
-
-            Task.Delay(2000).ContinueWith(t => testage());
-
-
-            Debug.WriteLine("Refreshing");
+        private void TimerResetColors(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            _currentMonitor.CheckRgbDrive();
+            _currentMonitor.CheckRgbGain();
             RefreshSliders(_currentMonitor);
         }
 
-        private void testage()
+        private void TimerResetLuminance(Object source, System.Timers.ElapsedEventArgs e)
         {
-            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, 0x16, IntPtr.Zero, ref _currentMonitor.RedGain.Current, ref _currentMonitor.RedGain.Max);
-            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, 0x18, IntPtr.Zero, ref _currentMonitor.GreenGain.Current, ref _currentMonitor.GreenGain.Max);
-            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, 0x1a, IntPtr.Zero, ref _currentMonitor.BlueGain.Current, ref _currentMonitor.BlueGain.Max);
+            _currentMonitor.CheckBrightness();
+            _currentMonitor.CheckContrast();
+            RefreshSliders(_currentMonitor);
+        }
 
-            Debug.WriteLine("_currentMonitor.RedGain.Current " + _currentMonitor.RedGain.Current);
-            Debug.WriteLine("_currentMonitor.GreenGain.Current " + _currentMonitor.GreenGain.Current);
-            Debug.WriteLine("_currentMonitor.BlueGain.Current " + _currentMonitor.BlueGain.Current);
+        private void TimerResetFactory(Object source, System.Timers.ElapsedEventArgs e)
+        {
+            _currentMonitor.CheckCapabilities();
+            RefreshSliders(_currentMonitor);
         }
 
         private void btnInput_Click(object sender, EventArgs e)
         {
             Button button = ((Button)sender);
-            contextMenuInput.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, IntPtr.Zero, ref _currentMonitor.Input.Current, ref _currentMonitor.Input.Max);
+            RefreshSourcesMenu();
+            contextMenuInput.Show(button, new Point(1, button.Height - 1));
         }
 
-        private void contextMenuInput_Click(object sender, ToolStripItemClickedEventArgs e)
+        private void contextMenuInput_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
-            //item.Checked = !item.Checked;
+            MenuItem item = (MenuItem)sender;
 
             NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(item.Tag));
             _currentMonitor.Input.Current = Convert.ToUInt32(item.Tag);
@@ -236,35 +189,16 @@ namespace MonitorProfiler
         private void btnPower_Click(object sender, EventArgs e)
         {
             Button button = ((Button)sender);
-            contextMenuPower.Show(PointToScreen(new Point(button.Location.X + 1, button.Location.Y + button.Height - 1)));
+            contextMenuPower.Show(button, new Point(1, button.Height - 1));
         }
 
-        private void contextMenuPower_Click(object sender, ToolStripItemClickedEventArgs e)
+        private void contextMenuPower_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem item = (ToolStripMenuItem)e.ClickedItem;
-            //item.Checked = !item.Checked;
+            MenuItem item = (MenuItem)sender;
 
             // No VCP just force windows monitor sleeping
             if (Convert.ToUInt32(item.Tag) == 61808) NativeMethods.SendMessage(this.Handle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
             NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
-        }
-        private void ParseVCPStuff()
-        {
-          /*
-            if(values)
-                string[] valueArray = valuesStr.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
-
-        values = Array.ConvertAll(valueArray, s => int.Parse(s, System.Globalization.NumberStyles.HexNumber));
-            }
-
-    // Prepare output.
-    NativeStructures.MonitorSource[] sources = new NativeStructures.MonitorSource[values.Length];
-            for (int i = 0; i<values.Length; ++i)
-            {
-                sources[i].code = values[i];
-                if (0 <= values[i] && values[i] < sourceNames.Length) sources[i].name = sourceNames[values[i]];
-                else sources[i].name = "**Unrecognized**";
-            }*/
         }
 
         private void InitialiseProfiles()
@@ -323,6 +257,44 @@ namespace MonitorProfiler
                 {barSharpness, new TrackBarFeatures(FeatureType.Sharpness, lblSharpness)},
                 {barVolume, new TrackBarFeatures(FeatureType.Volume, lblVolume)},
             };
+        }
+
+        private void InitialiseButtons()
+        {
+            Dictionary<string, string> factoryreset = new Dictionary<string, string>();
+            factoryreset.Add("Reset luminance", "5");
+            factoryreset.Add("Reset colors", "8");
+            factoryreset.Add("Reset factory defaults", "4");
+            //cboFactoryReset.DataSource = new BindingSource(factoryreset, null);
+
+            Dictionary<string, string> power = new Dictionary<string, string>();
+            power.Add("Power on", "1");
+            power.Add("Standby", "2");
+            power.Add("Suspend", "3");
+            power.Add("Reduced power off ", "4");
+            power.Add("Power off", "5");
+            power.Add("Sleep", "61808");
+            //cboPower.DataSource = new BindingSource(power, null);
+
+            foreach (KeyValuePair<string, string> entry in factoryreset)
+            {
+                MenuItem item = new MenuItem();
+                item.RadioCheck = true;
+                item.Text = entry.Key;
+                item.Tag = entry.Value;
+                item.Click += new EventHandler(contextMenuFactory_Click);
+                contextMenuFactory.MenuItems.Add(item);
+            }
+
+            foreach (KeyValuePair<string, string> entry in power)
+            {
+                MenuItem item = new MenuItem();
+                item.RadioCheck = true;
+                item.Text = entry.Key;
+                item.Tag = entry.Value;
+                item.Click += new EventHandler(contextMenuPower_Click);
+                contextMenuPower.MenuItems.Add(item);
+            }
         }
 
         // To be called by a delegate
@@ -412,9 +384,22 @@ namespace MonitorProfiler
             else barVolume.Enabled = false;
             lblVolume.Enabled = barVolume.Enabled;
 
-            /*Debug.WriteLine("RefreshSliders - Volume.Max: " + m.Volume.Max);
-            cboInput.SelectedIndex = monitorCfg.Input;
-            cboPower.SelectedIndex = monitorCfg.Power;*/
+            RefreshSourcesMenu();
+        }
+
+        private void RefreshSourcesMenu()
+        {
+            contextMenuInput.MenuItems.Clear();
+            for (int i = 0; i < _currentMonitor.Sources.Length; i++)
+            {
+                MenuItem item = new MenuItem();
+                item.RadioCheck = true;
+                item.Text = _currentMonitor.Sources[i].name;
+                item.Tag = _currentMonitor.Sources[i].code;
+                if (_currentMonitor.Input.Current == _currentMonitor.Sources[i].code) item.Checked = true;
+                item.Click += new EventHandler(contextMenuInput_Click);
+                contextMenuInput.MenuItems.Add(item);
+            }
         }
 
         #endregion
@@ -549,6 +534,25 @@ namespace MonitorProfiler
         {
             // Unregister hotkey with id 0 before closing the form. You might want to call this more than once with different id values if you are planning to register more than one hotkey.
             NativeMethods.UnregisterHotKey(this.Handle, 0);
+        }
+
+        private void ParseVCPStuff()
+        {
+            /*
+            if(values)
+                string[] valueArray = valuesStr.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+                values = Array.ConvertAll(valueArray, s => int.Parse(s, System.Globalization.NumberStyles.HexNumber));
+            }
+
+            // Prepare output.
+            NativeStructures.MonitorSource[] sources = new NativeStructures.MonitorSource[values.Length];
+            for (int i = 0; i<values.Length; ++i)
+            {
+                sources[i].code = values[i];
+                if (0 <= values[i] && values[i] < sourceNames.Length) sources[i].name = sourceNames[values[i]];
+                else sources[i].name = "**Unrecognized**";
+            }
+            */
         }
     }
 }

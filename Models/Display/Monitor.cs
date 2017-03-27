@@ -18,18 +18,19 @@ namespace MonitorProfiler.Models.Display
         public string Name { get; set; }
 
         public bool SupportsDDC { get; set; }
+        public MonitorFeature Capabilities;
         public MonitorFeature Brightness;
         public MonitorFeature Contrast;
-        public MonitorFeature RgbDrive;
-        public MonitorFeature RgbGain;
+        public MonitorFeature RedDrive;
+        public MonitorFeature GreenDrive;
+        public MonitorFeature BlueDrive;
         public MonitorFeature RedGain;
         public MonitorFeature GreenGain;
         public MonitorFeature BlueGain;
         public MonitorFeature Input;
         public MonitorFeature Sharpness;
         public MonitorFeature Volume;
-        public MonitorFeature VCPFeature;
-        //public Dictionary<string, string> Input;
+        public NativeStructures.MonitorSource[] Sources;
         public Dictionary<string, string> Power;
 
         private uint _monitorCapabilities = 0u;
@@ -44,7 +45,7 @@ namespace MonitorProfiler.Models.Display
             CheckCapabilities();
         }
 
-        private void CheckCapabilities()
+        public void CheckCapabilities()
         {
             //NativeMethods.GetMonitorCapabilities(HPhysicalMonitor, ref _monitorCapabilities, ref _supportedColorTemperatures);
             CheckBrightness();
@@ -52,10 +53,11 @@ namespace MonitorProfiler.Models.Display
             CheckRgbDrive();
             CheckRgbGain();
             CheckVolume();
-            CheckInput();
+            // not useful anymore, we check at each source menu click
+            //CheckInput();
             CheckPower();
             CheckSharpness();
-            GetVCPStuff();
+            GetCapabilities();
             //CheckALot();
         }
 
@@ -91,7 +93,16 @@ namespace MonitorProfiler.Models.Display
         {
             Debug.WriteLine("Start CheckRgbDrive");
 
-            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_BLUE_DRIVE, ref RgbDrive.Min, ref RgbDrive.Current, ref RgbDrive.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_RED_DRIVE, ref RedDrive.Min, ref RedDrive.Current, ref RedDrive.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_GREEN_DRIVE, ref GreenDrive.Min, ref GreenDrive.Current, ref GreenDrive.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_BLUE_DRIVE, ref BlueDrive.Min, ref BlueDrive.Current, ref BlueDrive.Max);
+            RedDrive.Original = RedDrive.Current;
+            GreenDrive.Original = GreenDrive.Current;
+            BlueDrive.Original = BlueDrive.Current;
+
+            Debug.WriteLine("RgbDrive.Min: " + RedDrive.Min);
+            Debug.WriteLine("RgbDrive.Current: " + RedDrive.Current);
+            Debug.WriteLine("RgbDrive.Max: " + RedDrive.Max);
 
             Debug.WriteLine("End CheckRgbDrive");
         }
@@ -151,23 +162,31 @@ namespace MonitorProfiler.Models.Display
             Debug.WriteLine("End CheckVolume");
         }
 
-        private void GetVCPStuff()
+        private void GetCapabilities()
         {
             Debug.WriteLine("Start GetVCPStuff");
 
             int[] values = new int[0];
-
             uint strSize;
+
             NativeMethods.GetCapabilitiesStringLength(HPhysicalMonitor, out strSize);
             StringBuilder capabilities = new StringBuilder((int)strSize);
             NativeMethods.CapabilitiesRequestAndCapabilitiesReply(HPhysicalMonitor, capabilities, strSize);
             string capabilitiesStr = capabilities.ToString();
 
-            Debug.WriteLine(capabilitiesStr);
-
             // Parse model version.
             Match match = NativeConstants.modelRegex.Match(capabilitiesStr);
             if (match.Success) Name = match.Groups[1].Value.Trim();
+
+            // Parse source codes.
+            match = NativeConstants.vcp60ValuesRegex.Match(capabilitiesStr);
+            if (match.Success)
+            {
+                string valuesStr = match.Groups[1].Value.Trim();
+                string[] valueArray = valuesStr.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+
+                values = Array.ConvertAll(valueArray, s => int.Parse(s, System.Globalization.NumberStyles.HexNumber));
+            }
 
             // Parse MCCS version.
             string[] sourceNames = new string[0];
@@ -186,6 +205,16 @@ namespace MonitorProfiler.Models.Display
             match = NativeConstants.vcp60ValuesRegex.Match(capabilitiesStr);
             // if (match.Success) Input.Values = match.Groups[1].Value.Trim();
 
+            // Prepare output.
+            Sources = new NativeStructures.MonitorSource[values.Length];
+            for (int i = 0; i < values.Length; ++i)
+            {
+                Sources[i].code = values[i];
+                if (0 <= values[i] && values[i] < sourceNames.Length) Sources[i].name = sourceNames[values[i]];
+                else Sources[i].name = "**Unrecognized**";
+            }
+
+            Debug.WriteLine(capabilitiesStr);
             Debug.WriteLine("End GetVCPStuff");
         }
 

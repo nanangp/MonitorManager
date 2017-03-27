@@ -223,7 +223,7 @@ namespace MonitorProfiler.Win32
 
     public class NativeStructures
     {
-        internal struct MonitorSource
+        public struct MonitorSource
         {
             public int code;
             public string name;

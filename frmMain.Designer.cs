@@ -62,15 +62,16 @@ namespace MonitorProfiler
             this.btnIdentifyMonitor = new System.Windows.Forms.Button();
             this.lblSharpness = new System.Windows.Forms.Label();
             this.barSharpness = new System.Windows.Forms.TrackBar();
-            this.contextMenuPower = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.btnFactoryReset = new System.Windows.Forms.Button();
             this.btnInput = new System.Windows.Forms.Button();
             this.btnPower = new System.Windows.Forms.Button();
             this.btnDeleteProfile = new System.Windows.Forms.Button();
             this.btnSaveProfile = new System.Windows.Forms.Button();
             this.btnNewProfile = new System.Windows.Forms.Button();
-            this.contextMenuInput = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.contextMenuFactory = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.contextMenuFactory = new System.Windows.Forms.ContextMenu();
+            this.contextMenuInput = new System.Windows.Forms.ContextMenu();
+            this.contextMenuPower = new System.Windows.Forms.ContextMenu();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.barGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barRed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.barContrast)).BeginInit();
@@ -425,11 +426,6 @@ namespace MonitorProfiler
             this.barSharpness.TickFrequency = 5;
             this.barSharpness.ValueChanged += new System.EventHandler(this.TrackBar_ValueChanged);
             // 
-            // contextMenuPower
-            // 
-            this.contextMenuPower.Name = "contextMenuPower";
-            this.contextMenuPower.Size = new System.Drawing.Size(153, 26);
-            // 
             // btnFactoryReset
             // 
             this.btnFactoryReset.BackgroundImage = global::MonitorProfiler.Properties.Resources.undo;
@@ -498,12 +494,18 @@ namespace MonitorProfiler
             // contextMenuInput
             // 
             this.contextMenuInput.Name = "contextMenuInput";
-            this.contextMenuInput.Size = new System.Drawing.Size(61, 4);
             // 
             // contextMenuFactory
             // 
             this.contextMenuFactory.Name = "contextMenuFactory";
-            this.contextMenuFactory.Size = new System.Drawing.Size(61, 4);
+            // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Checked = true;
+            this.testToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(127, 22);
+            this.testToolStripMenuItem.Text = "test";
             // 
             // frmMain
             // 
@@ -605,9 +607,10 @@ namespace MonitorProfiler
         private Label lblSharpness;
         private TrackBar barSharpness;
         private Button btnRestart;
-        private ContextMenuStrip contextMenuPower;
-        private ContextMenuStrip contextMenuInput;
-        private ContextMenuStrip contextMenuFactory;
+        private ContextMenu contextMenuPower;
+        private ContextMenu contextMenuInput;
+        private ContextMenu contextMenuFactory;
+        private ToolStripMenuItem testToolStripMenuItem;
     }
 }
 
