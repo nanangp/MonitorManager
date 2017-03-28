@@ -166,10 +166,12 @@ namespace MonitorProfiler.Win32
         public static readonly string modelPattern = @"model\((.*?)\)";
         // Operates on result of CapabilitiesRequestAndCapabilitiesReply(). Extracts vcp code 60 values into capture group 1.
         public static readonly string vcp60ValuesPattern = @"vcp\((?:.*?\(.*?\))*[^\(\)]*?60 ?\((.*?)\)";
+        public static readonly string vcpD6ValuesPattern = @"vcp\((?:.*?\(.*?\))*[^\(\)]*?D6 ?\((.*?)\)";
         // Operates on result of CapabilitiesRequestAndCapabilitiesReply(). Extracts the MCCS version.
         public static readonly string mccsVersionPattern = @"mccs_ver\((.*?)\)";
         public static readonly Regex modelRegex = new Regex(modelPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         public static readonly Regex vcp60ValuesRegex = new Regex(vcp60ValuesPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex vcpD6ValuesRegex = new Regex(vcpD6ValuesPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
         public static readonly Regex mccsVersionRegex = new Regex(mccsVersionPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         // Sources in MCCS v2.0 == v2.1, and both are a subset of 2.2, so we use a single array to cover them all.
@@ -219,11 +221,20 @@ namespace MonitorProfiler.Win32
             "DisplayPort 1",
             "DisplayPort 2"
         };
+
+        public static readonly string[] powerStates = {
+            "**undefined**",
+            "Power on",
+            "Standby",
+            "Suspend",
+            "Reduced power off",
+            "Power off"
+        };
     }
 
     public class NativeStructures
     {
-        public struct MonitorSource
+        public struct MonitorCap
         {
             public int code;
             public string name;

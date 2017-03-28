@@ -12,7 +12,6 @@ namespace MonitorProfiler.Models.Display
     {
         public bool Add(IntPtr hMonitor)
         {
-
             uint monitorCount = 0;
             NativeMethods.GetNumberOfPhysicalMonitorsFromHMONITOR(hMonitor, ref monitorCount);
             if (monitorCount <= 0)
@@ -20,10 +19,7 @@ namespace MonitorProfiler.Models.Display
 
             var monitorArray = new NativeStructures.PHYSICAL_MONITOR[monitorCount];
             NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, monitorCount, monitorArray);
-
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
+            
             /*
             Parallel.ForEach(monitorArray, (physicalMonitor) =>
             {
@@ -32,17 +28,25 @@ namespace MonitorProfiler.Models.Display
                this.Add(newMonitor);
             });
             */
-
+            
             foreach(var physicalMonitor in monitorArray)
             {
                 Monitor newMonitor = new Monitor(physicalMonitor);
-
                 this.Add(newMonitor);
             };
 
+            /*
+            Debug.Write("\n\nStart Add");
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             stopWatch.Stop();
             TimeSpan ts = stopWatch.Elapsed;
-            Debug.Write("Checking duration: " + ts.ToString());
+
+            Debug.Write("Checking duration: " + ts.ToString() + "\n");
+            */
+
             return true;
         }
     }

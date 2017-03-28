@@ -34,10 +34,12 @@ namespace MonitorProfiler
                 /* Note that the three lines below are not needed if you only want to register one hotkey.
                  * The below lines are useful in case you want to register multiple keys, which you can use a switch with the id as argument, or if you want to know which key/modifier was pressed for some particular reason. */
 
-                Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);                  // The key of the hotkey that was pressed.
-                NativeStructures.KeyModifier modifier = (NativeStructures.KeyModifier)((int)m.LParam & 0xFFFF);       // The modifier of the hotkey that was pressed.
-                int id = m.WParam.ToInt32();                                        // The id of the hotkey that was pressed.
-
+                // The key of the hotkey that was pressed.
+                Keys key = (Keys)(((int)m.LParam >> 16) & 0xFFFF);
+                // The modifier of the hotkey that was pressed.
+                NativeStructures.KeyModifier modifier = (NativeStructures.KeyModifier)((int)m.LParam & 0xFFFF);
+                // The id of the hotkey that was pressed.
+                int id = m.WParam.ToInt32();
 
                 //MessageBox.Show("Hotkey has been pressed!");
                 WakeHotKey();
@@ -55,12 +57,30 @@ namespace MonitorProfiler
 
             var @delegate = new NativeMethods.MonitorEnumDelegate(MonitorEnum);
             NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, @delegate, IntPtr.Zero);
+            
+            /*
+            Debug.Write("\n\nStart Add");
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            */
+
+            // Trying to get all monitors info in parrallel but for some reason it's not faster / working
+            Parallel.ForEach(_monitorCollection, (monitor) =>
+            {
+                monitor.CheckCapabilities();
+            });
+
+            /*
+            stopWatch.Stop();
+            TimeSpan ts = stopWatch.Elapsed;
+            Debug.Write("Checking duration: " + ts.ToString() + "\n");
+            */
+
             Log("Number of physical monitors: {0}", _monitorCollection.Count);
 
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
             {
- 
                 //NativeMethods.G GetCapabilitiesStringLength(hMonitor, out strSize);
                 // IntPtr nullVal = IntPtr.Zero;
                 // int currentValue;
@@ -141,8 +161,8 @@ namespace MonitorProfiler
                 else _timer = new System.Timers.Timer(100);
                 // Hook up the Elapsed event for the timer. 
                 if (Convert.ToUInt32(item.Tag) == 5) _timer.Elapsed += TimerResetLuminance;
-                if(Convert.ToUInt32(item.Tag) == 8) _timer.Elapsed += TimerResetColors;
-                if(Convert.ToUInt32(item.Tag) == 4) _timer.Elapsed += TimerResetFactory;
+                if (Convert.ToUInt32(item.Tag) == 8) _timer.Elapsed += TimerResetColors;
+                if (Convert.ToUInt32(item.Tag) == 4) _timer.Elapsed += TimerResetFactory;
                 _timer.AutoReset = false;
                 _timer.Enabled = true;
                 _timer.SynchronizingObject = this;
@@ -172,8 +192,7 @@ namespace MonitorProfiler
         private void btnInput_Click(object sender, EventArgs e)
         {
             Button button = ((Button)sender);
-
-            NativeMethods.GetVCPFeatureAndVCPFeatureReply(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, IntPtr.Zero, ref _currentMonitor.Input.Current, ref _currentMonitor.Input.Max);
+            _currentMonitor.CheckInput();
             RefreshSourcesMenu();
             contextMenuInput.Show(button, new Point(1, button.Height - 1));
         }
@@ -183,12 +202,14 @@ namespace MonitorProfiler
             MenuItem item = (MenuItem)sender;
 
             NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, Convert.ToUInt32(item.Tag));
-            _currentMonitor.Input.Current = Convert.ToUInt32(item.Tag);
+            _currentMonitor.Source.Current = Convert.ToUInt32(item.Tag);
         }
 
         private void btnPower_Click(object sender, EventArgs e)
         {
             Button button = ((Button)sender);
+            _currentMonitor.CheckPower();
+            RefreshPowerMenu();
             contextMenuPower.Show(button, new Point(1, button.Height - 1));
         }
 
@@ -196,9 +217,13 @@ namespace MonitorProfiler
         {
             MenuItem item = (MenuItem)sender;
 
+            Debug.WriteLine("Power : " + item.Tag);
             // No VCP just force windows monitor sleeping
-            if (Convert.ToUInt32(item.Tag) == 61808) NativeMethods.SendMessage(this.Handle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
-            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
+            if (Convert.ToUInt32(item.Tag) == 61808)
+            {
+                NativeMethods.SendMessage(this.Handle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
+            }
+            else NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
         }
 
         private void InitialiseProfiles()
@@ -267,15 +292,6 @@ namespace MonitorProfiler
             factoryreset.Add("Reset factory defaults", "4");
             //cboFactoryReset.DataSource = new BindingSource(factoryreset, null);
 
-            Dictionary<string, string> power = new Dictionary<string, string>();
-            power.Add("Power on", "1");
-            power.Add("Standby", "2");
-            power.Add("Suspend", "3");
-            power.Add("Reduced power off ", "4");
-            power.Add("Power off", "5");
-            power.Add("Sleep", "61808");
-            //cboPower.DataSource = new BindingSource(power, null);
-
             foreach (KeyValuePair<string, string> entry in factoryreset)
             {
                 MenuItem item = new MenuItem();
@@ -284,16 +300,6 @@ namespace MonitorProfiler
                 item.Tag = entry.Value;
                 item.Click += new EventHandler(contextMenuFactory_Click);
                 contextMenuFactory.MenuItems.Add(item);
-            }
-
-            foreach (KeyValuePair<string, string> entry in power)
-            {
-                MenuItem item = new MenuItem();
-                item.RadioCheck = true;
-                item.Text = entry.Key;
-                item.Tag = entry.Value;
-                item.Click += new EventHandler(contextMenuPower_Click);
-                contextMenuPower.MenuItems.Add(item);
             }
         }
 
@@ -384,21 +390,50 @@ namespace MonitorProfiler
             else barVolume.Enabled = false;
             lblVolume.Enabled = barVolume.Enabled;
 
+            RefreshPowerMenu();
             RefreshSourcesMenu();
+        }
+
+        private void RefreshPowerMenu()
+        {
+            contextMenuPower.MenuItems.Clear();
+            if (_currentMonitor.PowerModes.Length > 0)
+            {
+                for (int i = 0; i < _currentMonitor.PowerModes.Length; i++)
+                {
+                    MenuItem item = new MenuItem();
+                    item.RadioCheck = true;
+                    item.Text = _currentMonitor.PowerModes[i].name;
+                    item.Tag = _currentMonitor.PowerModes[i].code;
+                    //if (_currentMonitor.PowerMode.Current == _currentMonitor.PowerModes[i].code) item.Checked = true;
+                    item.Click += new EventHandler(contextMenuPower_Click);
+                    contextMenuPower.MenuItems.Add(item);
+                }
+
+                MenuItem lastitem = new MenuItem();
+                lastitem.RadioCheck = true;
+                lastitem.Text = "Sleep";
+                lastitem.Tag = "61808";
+                lastitem.Click += new EventHandler(contextMenuPower_Click);
+                contextMenuPower.MenuItems.Add(lastitem);
+            }
         }
 
         private void RefreshSourcesMenu()
         {
             contextMenuInput.MenuItems.Clear();
-            for (int i = 0; i < _currentMonitor.Sources.Length; i++)
+            if (_currentMonitor.Sources.Length > 0)
             {
-                MenuItem item = new MenuItem();
-                item.RadioCheck = true;
-                item.Text = _currentMonitor.Sources[i].name;
-                item.Tag = _currentMonitor.Sources[i].code;
-                if (_currentMonitor.Input.Current == _currentMonitor.Sources[i].code) item.Checked = true;
-                item.Click += new EventHandler(contextMenuInput_Click);
-                contextMenuInput.MenuItems.Add(item);
+                for (int i = 0; i < _currentMonitor.Sources.Length; i++)
+                {
+                    MenuItem item = new MenuItem();
+                    item.RadioCheck = true;
+                    item.Text = _currentMonitor.Sources[i].name;
+                    item.Tag = _currentMonitor.Sources[i].code;
+                    if (_currentMonitor.Source.Current == _currentMonitor.Sources[i].code) item.Checked = true;
+                    item.Click += new EventHandler(contextMenuInput_Click);
+                    contextMenuInput.MenuItems.Add(item);
+                }
             }
         }
 

@@ -14,7 +14,6 @@ namespace MonitorProfiler.Models.Display
         #region Declarations
 
         public IntPtr HPhysicalMonitor { get; set; }
-        public int Index { get; set; }
         public string Name { get; set; }
 
         public bool SupportsDDC { get; set; }
@@ -27,11 +26,12 @@ namespace MonitorProfiler.Models.Display
         public MonitorFeature RedGain;
         public MonitorFeature GreenGain;
         public MonitorFeature BlueGain;
-        public MonitorFeature Input;
+        public MonitorFeature Source;
+        public MonitorFeature PowerMode;
         public MonitorFeature Sharpness;
         public MonitorFeature Volume;
-        public NativeStructures.MonitorSource[] Sources;
-        public Dictionary<string, string> Power;
+        public NativeStructures.MonitorCap[] Sources;
+        public NativeStructures.MonitorCap[] PowerModes;
 
         private uint _monitorCapabilities = 0u;
         private uint _supportedColorTemperatures = 0u;
@@ -42,7 +42,7 @@ namespace MonitorProfiler.Models.Display
         {
             HPhysicalMonitor = physicalMonitor.hPhysicalMonitor;
             Name = physicalMonitor.szPhysicalMonitorDescription;
-            CheckCapabilities();
+            //CheckCapabilities();
         }
 
         public void CheckCapabilities()
@@ -121,27 +121,27 @@ namespace MonitorProfiler.Models.Display
             Debug.WriteLine("End CheckRgbGain");
         }
 
-        private void CheckInput()
+        public void CheckInput()
         {
             Debug.WriteLine("Start CheckInput");
 
-            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, IntPtr.Zero, ref Input.Current, ref Input.Max);
-            Debug.WriteLine("Input: " + Input.Current);
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORINPUT, IntPtr.Zero, ref Source.Current, ref Source.Max);
+            Debug.WriteLine("Input: " + Source.Current);
 
             Debug.WriteLine("End CheckInput");
         }
 
-        private void CheckPower()
+        public void CheckPower()
         {
             Debug.WriteLine("Start CheckPower");
 
-            // NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, IntPtr.Zero, ref Power.Current, ref Power.Max);
-            // Debug.WriteLine("Power: " + Power.Current);
+            NativeMethods.GetVCPFeatureAndVCPFeatureReply(HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, IntPtr.Zero, ref PowerMode.Current, ref PowerMode.Max);
+            Debug.WriteLine("Power Mode: " + PowerMode.Current);
 
             Debug.WriteLine("End CheckPower");
         }
 
-        private void CheckSharpness()
+        public void CheckSharpness()
         {
             Debug.WriteLine("Start CheckSharpness");
             
@@ -152,7 +152,7 @@ namespace MonitorProfiler.Models.Display
             Debug.WriteLine("Start CheckSharpness");
         }
 
-        private void CheckVolume()
+        public void CheckVolume()
         {
             Debug.WriteLine("Start CheckVolume");
 
@@ -162,7 +162,7 @@ namespace MonitorProfiler.Models.Display
             Debug.WriteLine("End CheckVolume");
         }
 
-        private void GetCapabilities()
+        public void GetCapabilities()
         {
             Debug.WriteLine("Start GetVCPStuff");
 
@@ -178,6 +178,7 @@ namespace MonitorProfiler.Models.Display
             Match match = NativeConstants.modelRegex.Match(capabilitiesStr);
             if (match.Success) Name = match.Groups[1].Value.Trim();
 
+            //// Sources
             // Parse source codes.
             match = NativeConstants.vcp60ValuesRegex.Match(capabilitiesStr);
             if (match.Success)
@@ -201,12 +202,8 @@ namespace MonitorProfiler.Models.Display
                 else sourceNames = NativeConstants.sourceNamesMccsV3;
             }
 
-            // Parse source codes.
-            match = NativeConstants.vcp60ValuesRegex.Match(capabilitiesStr);
-            // if (match.Success) Input.Values = match.Groups[1].Value.Trim();
-
             // Prepare output.
-            Sources = new NativeStructures.MonitorSource[values.Length];
+            Sources = new NativeStructures.MonitorCap[values.Length];
             for (int i = 0; i < values.Length; ++i)
             {
                 Sources[i].code = values[i];
@@ -214,12 +211,33 @@ namespace MonitorProfiler.Models.Display
                 else Sources[i].name = "**Unrecognized**";
             }
 
+            //// Power
+            // Parse power mode codes.
+            match = NativeConstants.vcpD6ValuesRegex.Match(capabilitiesStr);
+            if (match.Success)
+            {
+                string valuesStr = match.Groups[1].Value.Trim();
+                string[] valueArray = valuesStr.Split(new char[0], StringSplitOptions.RemoveEmptyEntries);
+
+                values = Array.ConvertAll(valueArray, s => int.Parse(s, System.Globalization.NumberStyles.HexNumber));
+            }
+
+            string[] powerModes = NativeConstants.powerStates;
+            // Prepare output.
+            PowerModes = new NativeStructures.MonitorCap[values.Length];
+            for (int i = 0; i < values.Length; ++i)
+            {
+                PowerModes[i].code = values[i];
+                if (0 <= values[i] && values[i] < powerModes.Length) PowerModes[i].name = powerModes[values[i]];
+                else PowerModes[i].name = "**Unrecognized**";
+            }
+
             Debug.WriteLine(capabilitiesStr);
             Debug.WriteLine("End GetVCPStuff");
         }
 
         // Loop all VCP
-        private void CheckALot()
+        public void CheckALot()
         {
             IntPtr output = new IntPtr();
             for (int i = 0; i <= 255; i++)
