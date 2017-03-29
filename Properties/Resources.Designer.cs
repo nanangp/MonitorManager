@@ -63,6 +63,16 @@ namespace MonitorProfiler.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _20151012_561baed03a54e {
+            get {
+                object obj = ResourceManager.GetObject("20151012_561baed03a54e", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap _lock {
             get {
                 object obj = ResourceManager.GetObject("lock", resourceCulture);
@@ -176,6 +186,16 @@ namespace MonitorProfiler.Properties {
         internal static System.Drawing.Bitmap power {
             get {
                 object obj = ResourceManager.GetObject("power", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap profiles {
+            get {
+                object obj = ResourceManager.GetObject("profiles", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

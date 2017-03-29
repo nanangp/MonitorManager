@@ -81,28 +81,12 @@ namespace MonitorProfiler
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
             {
-                //NativeMethods.G GetCapabilitiesStringLength(hMonitor, out strSize);
-                // IntPtr nullVal = IntPtr.Zero;
-                // int currentValue;
-                //int maxValue;
-                //NativeMethods.GetVCPFeatureAndVCPFeatureReply(monitor.HPhysicalMonitor, 0x60, IntPtr.Zero, out currentValue, out maxValue);
-
-                //Log("-----");
-                //Log(monitor.Name);
-                //Log(monitor.Index);
-                //Log(monitor.HPhysicalMonitor);
-                //Log("DDC : {0}", monitor.SupportsDDC);
-                //Log("Brightness : {0}", monitor.Brightness.Supported);
-                //Log("Contrast : {0}", monitor.Contrast.Supported);
-                //Log("RGB Drive : {0}", monitor.RgbDrive.Supported);
-                //Log("RGB Gain : {0}", monitor.RgbGain.Supported);
-
                 cboMonitors.Items.Add(monitor.Name + " #" + m++);
             }
 
             if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
             
-            // Register Winkey + 0 as global hotkey. 
+            // Register Winkey + 0 as global hotkey.
             NativeMethods.RegisterHotKey(this.Handle, 0, (int)NativeStructures.KeyModifier.WinKey, Keys.NumPad0.GetHashCode()); 
 
             Log("");
@@ -142,7 +126,7 @@ namespace MonitorProfiler
 
         private void btnFactoryReset_Click(object sender, EventArgs e)
         {
-            Button button = ((Button)sender);
+            Button button = (Button)sender;
             contextMenuFactory.Show(button, new Point(1, button.Height - 1));
         }
 
@@ -226,32 +210,10 @@ namespace MonitorProfiler
             else NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
         }
 
-        private void InitialiseProfiles()
+        private void btnProfiles_Click(object sender, EventArgs e)
         {
-            lstProfiles.Items.Clear();
-            var deserializer = new XmlSerializer(typeof(Config));
-            using (var reader = new StreamReader("profiles.xml"))
-            {
-                _config = (Config)deserializer.Deserialize(reader);
-            }
-            foreach (var cfg in _config.Profiles)
-                lstProfiles.Items.Add(cfg.Name);
-        }
-
-        private void SaveProfiles()
-        {
-            for (int i = _config.Profiles.Count - 1; i >= 0; i--)
-            {
-                if (_config.Profiles[i].Name == "Test") _config.Profiles.RemoveAt(i);
-            }
-
-            var serializer = new XmlSerializer(typeof(Config));
-            using (var writer = new StreamWriter("profiles.xml"))
-            {
-               serializer.Serialize(writer, _config);
-            }
-
-            InitialiseProfiles();
+            Button button = ((Button)sender);
+            contextMenuProfiles.Show(button, new Point(1, button.Height - 1));
         }
 
         ~frmMain()
@@ -437,6 +399,42 @@ namespace MonitorProfiler
             }
         }
 
+        private void InitialiseProfiles()
+        {
+            contextMenuProfiles.MenuItems.Clear();
+            var deserializer = new XmlSerializer(typeof(Config));
+            using (var reader = new StreamReader("profiles.xml"))
+            {
+                _config = (Config)deserializer.Deserialize(reader);
+            }
+            foreach (var cfg in _config.Profiles)
+            {
+                MenuItem item = new MenuItem();
+                item.RadioCheck = true;
+                item.Text = cfg.Name;
+                //if (_currentMonitor.Source.Current == _currentMonitor.Sources[i].code) item.Checked = true;
+                item.Click += new EventHandler(contextMenuProfiles_Click);
+                contextMenuProfiles.MenuItems.Add(item);
+            }
+        }
+
+        private void SaveProfiles()
+        {
+            for (int i = _config.Profiles.Count - 1; i >= 0; i--)
+            {
+                if (_config.Profiles[i].Name == "Test") _config.Profiles.RemoveAt(i);
+            }
+
+            var serializer = new XmlSerializer(typeof(Config));
+            using (var writer = new StreamWriter("profiles.xml"))
+            {
+                serializer.Serialize(writer, _config);
+            }
+
+            InitialiseProfiles();
+        }
+
+
         #endregion
 
         private void TrackBar_ValueChanged(object sender, EventArgs e)
@@ -505,29 +503,25 @@ namespace MonitorProfiler
             NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, _currentContrast); 
         }
 
-        private void lstProfiles_SelectedValueChanged(object sender, EventArgs e)
+        private void contextMenuProfiles_Click(object sender, EventArgs e)
         {
-            // Exception occured when clicking white space of the list (index = -1)
-            if (lstProfiles.SelectedIndex >= 0)
+            var selectedProfile = _config.Profiles.Where(p => p.Name == ((MenuItem)sender).Text).FirstOrDefault();
+
+            if (selectedProfile == null)
+                return;
+
+            foreach (var monitorCfg in selectedProfile.MonitorConfigs)
             {
-                var selectedProfile = _config.Profiles.Where(p => p.Name == lstProfiles.SelectedItem.ToString()).FirstOrDefault();
+                if (monitorCfg.Index >= cboMonitors.Items.Count)
+                    continue;
 
-                if (selectedProfile == null)
-                    return;
-
-                foreach (var monitorCfg in selectedProfile.MonitorConfigs)
-                {
-                    if (monitorCfg.Index >= cboMonitors.Items.Count)
-                        continue;
-
-                    cboMonitors.SelectedIndex = monitorCfg.Index;
-                    barBrightness.Value = monitorCfg.Brightness;
-                    barContrast.Value = monitorCfg.Contrast;
-                    barRed.Value = monitorCfg.Red;
-                    barGreen.Value = monitorCfg.Green;
-                    barBlue.Value = monitorCfg.Blue;
-                    barVolume.Value = monitorCfg.Volume;
-                }
+                cboMonitors.SelectedIndex = monitorCfg.Index;
+                barBrightness.Value = monitorCfg.Brightness;
+                barContrast.Value = monitorCfg.Contrast;
+                barRed.Value = monitorCfg.Red;
+                barGreen.Value = monitorCfg.Green;
+                barBlue.Value = monitorCfg.Blue;
+                barVolume.Value = monitorCfg.Volume;
             }
         }
 

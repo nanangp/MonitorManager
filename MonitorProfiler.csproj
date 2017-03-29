@@ -132,6 +132,8 @@
     <None Include="Images\unlink.png" />
     <None Include="Images\refresh.png" />
     <None Include="Images\electricity-512.png" />
+    <None Include="Images\20151012_561baed03a54e.png" />
+    <None Include="Images\profiles.png" />
     <Content Include="monitor.ico" />
     <Content Include="profiles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
