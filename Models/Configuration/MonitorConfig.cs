@@ -10,9 +10,9 @@ namespace MonitorProfiler.Models.Configuration
         public int Index { get; set; }
         public int Brightness { get; set; }
         public int Contrast { get; set; }
-        public int Red { get; set; }
-        public int Green { get; set; }
-        public int Blue { get; set; }
+        public int GainRed { get; set; }
+        public int GainGreen { get; set; }
+        public int GainBlue { get; set; }
         public int Sharpness { get; set; }
         public int Volume { get; set; }
     }

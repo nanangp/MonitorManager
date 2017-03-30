@@ -20,15 +20,15 @@ namespace MonitorProfiler.Models.Display
         public MonitorFeature Capabilities;
         public MonitorFeature Brightness;
         public MonitorFeature Contrast;
-        public MonitorFeature RedDrive;
-        public MonitorFeature GreenDrive;
-        public MonitorFeature BlueDrive;
-        public MonitorFeature RedGain;
-        public MonitorFeature GreenGain;
-        public MonitorFeature BlueGain;
-        public MonitorFeature Source;
+        public MonitorFeature DriveRed;
+        public MonitorFeature DriveGreen;
+        public MonitorFeature DriveBlue;
+        public MonitorFeature GainRed;
+        public MonitorFeature GainGreen;
+        public MonitorFeature GainBlue;
         public MonitorFeature PowerMode;
         public MonitorFeature Sharpness;
+        public MonitorFeature Source;
         public MonitorFeature Volume;
         public NativeStructures.MonitorCap[] Sources;
         public NativeStructures.MonitorCap[] PowerModes;
@@ -93,16 +93,16 @@ namespace MonitorProfiler.Models.Display
         {
             Debug.WriteLine("Start CheckRgbDrive");
 
-            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_RED_DRIVE, ref RedDrive.Min, ref RedDrive.Current, ref RedDrive.Max);
-            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_GREEN_DRIVE, ref GreenDrive.Min, ref GreenDrive.Current, ref GreenDrive.Max);
-            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_BLUE_DRIVE, ref BlueDrive.Min, ref BlueDrive.Current, ref BlueDrive.Max);
-            RedDrive.Original = RedDrive.Current;
-            GreenDrive.Original = GreenDrive.Current;
-            BlueDrive.Original = BlueDrive.Current;
+            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_DRIVE_RED, ref DriveRed.Min, ref DriveRed.Current, ref DriveRed.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_DRIVE_GREEN, ref DriveGreen.Min, ref DriveGreen.Current, ref DriveGreen.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueDrive(HPhysicalMonitor, NativeStructures.MC_DRIVE_TYPE.MC_DRIVE_BLUE, ref DriveBlue.Min, ref DriveBlue.Current, ref DriveBlue.Max);
+            DriveRed.Original = DriveRed.Current;
+            DriveGreen.Original = DriveGreen.Current;
+            DriveBlue.Original = DriveBlue.Current;
 
-            Debug.WriteLine("RgbDrive.Min: " + RedDrive.Min);
-            Debug.WriteLine("RgbDrive.Current: " + RedDrive.Current);
-            Debug.WriteLine("RgbDrive.Max: " + RedDrive.Max);
+            Debug.WriteLine("RgbDrive.Min: " + DriveRed.Min);
+            Debug.WriteLine("RgbDrive.Current: " + DriveRed.Current);
+            Debug.WriteLine("RgbDrive.Max: " + DriveRed.Max);
 
             Debug.WriteLine("End CheckRgbDrive");
         }
@@ -111,12 +111,12 @@ namespace MonitorProfiler.Models.Display
         {
             Debug.WriteLine("Start CheckRgbGain");
 
-            NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_RED_GAIN, ref RedGain.Min, ref RedGain.Current, ref RedGain.Max);
-            NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GREEN_GAIN, ref GreenGain.Min, ref GreenGain.Current, ref GreenGain.Max);
-            NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_BLUE_GAIN, ref BlueGain.Min, ref BlueGain.Current, ref BlueGain.Max);
-            RedGain.Original = RedGain.Current;
-            GreenGain.Original = GreenGain.Current;
-            BlueGain.Original = BlueGain.Current;
+            NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GAIN_RED, ref GainRed.Min, ref GainRed.Current, ref GainRed.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GAIN_GREEN, ref GainGreen.Min, ref GainGreen.Current, ref GainGreen.Max);
+            NativeMethods.GetMonitorRedGreenOrBlueGain(HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GAIN_BLUE, ref GainBlue.Min, ref GainBlue.Current, ref GainBlue.Max);
+            GainRed.Original = GainRed.Current;
+            GainGreen.Original = GainGreen.Current;
+            GainBlue.Original = GainBlue.Current;
 
             Debug.WriteLine("End CheckRgbGain");
         }

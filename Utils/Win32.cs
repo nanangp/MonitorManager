@@ -297,35 +297,18 @@ namespace MonitorProfiler.Win32
             MC_SET_PARAMETER,
         }
 
-        public enum MC_MONITOR_CAPABILITIES
-        {
-            MC_CAPS_NONE = 0x00000000,
-            MC_CAPS_MONITOR_TECHNOLOGY_TYPE = 0x00000001,
-            MC_CAPS_BRIGHTNESS = 0x00000002,
-            MC_CAPS_CONTRAST = 0x00000004,
-            MC_CAPS_COLOR_TEMPERATURE = 0x00000008,
-            MC_CAPS_RED_GREEN_BLUE_GAIN = 0x00000010,
-            MC_CAPS_RED_GREEN_BLUE_DRIVE = 0x00000020,
-            MC_CAPS_DEGAUSS = 0x00000040,
-            MC_CAPS_DISPLAY_AREA_POSITION = 0x00000080,
-            MC_CAPS_DISPLAY_AREA_SIZE = 0x00000100,
-            MC_CAPS_RESTORE_FACTORY_DEFAULTS = 0x00000400,
-            MC_CAPS_RESTORE_FACTORY_COLOR_DEFAULTS = 0x00000800,
-            MC_RESTORE_FACTORY_DEFAULTS_ENABLES_MONITOR_SETTINGS = 0x00001000
-        }
-
         public enum MC_DRIVE_TYPE
         {
-            MC_RED_DRIVE = 0,
-            MC_GREEN_DRIVE = 1,
-            MC_BLUE_DRIVE = 2
+            MC_DRIVE_RED = 0,
+            MC_DRIVE_GREEN = 1,
+            MC_DRIVE_BLUE = 2
         }
 
         public enum MC_GAIN_TYPE
         {
-            MC_RED_GAIN = 0,
-            MC_GREEN_GAIN = 1,
-            MC_BLUE_GAIN = 2
+            MC_GAIN_RED = 0,
+            MC_GAIN_GREEN = 1,
+            MC_GAIN_BLUE = 2
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]

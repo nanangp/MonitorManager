@@ -38,17 +38,17 @@ namespace MonitorProfiler.GUI
                     currentMonitor.Contrast.Current = newValue;
                     NativeMethods.SetMonitorContrast(currentMonitor.HPhysicalMonitor, newValue);
                     break;
-                case FeatureType.RedGain:
-                    currentMonitor.RedGain.Current = newValue;
-                    NativeMethods.SetMonitorRedGreenOrBlueGain(currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_RED_GAIN, newValue);
+                case FeatureType.GainRed:
+                    currentMonitor.GainRed.Current = newValue;
+                    NativeMethods.SetMonitorRedGreenOrBlueGain(currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GAIN_RED, newValue);
                     break;
-                case FeatureType.GreenGain:
-                    currentMonitor.GreenGain.Current = newValue;
-                    NativeMethods.SetMonitorRedGreenOrBlueGain(currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GREEN_GAIN, newValue);
+                case FeatureType.GainGreen:
+                    currentMonitor.GainGreen.Current = newValue;
+                    NativeMethods.SetMonitorRedGreenOrBlueGain(currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GAIN_GREEN, newValue);
                     break;
-                case FeatureType.BlueGain:
-                    currentMonitor.BlueGain.Current = newValue;
-                    NativeMethods.SetMonitorRedGreenOrBlueGain(currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_BLUE_GAIN, newValue);
+                case FeatureType.GainBlue:
+                    currentMonitor.GainBlue.Current = newValue;
+                    NativeMethods.SetMonitorRedGreenOrBlueGain(currentMonitor.HPhysicalMonitor, NativeStructures.MC_GAIN_TYPE.MC_GAIN_BLUE, newValue);
                     break;
                 case FeatureType.Sharpness:
                     currentMonitor.Sharpness.Current = newValue;

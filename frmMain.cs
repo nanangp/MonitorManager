@@ -53,7 +53,7 @@ namespace MonitorProfiler
             InitialiseTrackBars();
             InitialiseButtons();
 
-            Log("Started.");
+            //Log("Started.");
 
             var @delegate = new NativeMethods.MonitorEnumDelegate(MonitorEnum);
             NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, @delegate, IntPtr.Zero);
@@ -76,7 +76,7 @@ namespace MonitorProfiler
             Debug.Write("Checking duration: " + ts.ToString() + "\n");
             */
 
-            Log("Number of physical monitors: {0}", _monitorCollection.Count);
+            //("Number of physical monitors: {0}", _monitorCollection.Count);
 
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
@@ -89,8 +89,8 @@ namespace MonitorProfiler
             // Register Winkey + 0 as global hotkey.
             NativeMethods.RegisterHotKey(this.Handle, 0, (int)NativeStructures.KeyModifier.WinKey, Keys.NumPad0.GetHashCode()); 
 
-            Log("");
-            Log("Ready...");
+            //Log("");
+            //Log("Ready...");
             return;
         }
         
@@ -225,22 +225,22 @@ namespace MonitorProfiler
         }
 
         #region Private Methods
-
+/*
         // Writes message to a textbox and scroll it to bottom
         private void Log(object message, params object[] args)
         {
             txtLog.Text += Environment.NewLine + string.Format(message.ToString(), args);
             NativeMethods.ScrollToBottom(txtLog);
         }
-
+*/
         private void InitialiseTrackBars()
         {
             _bars = new Dictionary<TrackBar, TrackBarFeatures>{
                 {barBrightness, new TrackBarFeatures(FeatureType.Brightness, lblBrightness)},
                 {barContrast, new TrackBarFeatures(FeatureType.Contrast, lblContrast)},
-                {barRed, new TrackBarFeatures(FeatureType.RedGain, lblRed)},
-                {barGreen, new TrackBarFeatures(FeatureType.GreenGain, lblGreen)},
-                {barBlue, new TrackBarFeatures(FeatureType.BlueGain, lblBlue)},
+                {barGainRed, new TrackBarFeatures(FeatureType.GainRed, lblGainRed)},
+                {barGainGreen, new TrackBarFeatures(FeatureType.GainGreen, lblGainGreen)},
+                {barGainBlue, new TrackBarFeatures(FeatureType.GainBlue, lblGainBlue)},
                 {barSharpness, new TrackBarFeatures(FeatureType.Sharpness, lblSharpness)},
                 {barVolume, new TrackBarFeatures(FeatureType.Volume, lblVolume)},
             };
@@ -294,38 +294,38 @@ namespace MonitorProfiler
             }
             else barContrast.Enabled = false;
 
-            Debug.WriteLine("RefreshSliders - RedGain.Max: " + m.RedGain.Max);
-            Debug.WriteLine("RefreshSliders - RedGain.Current: " + m.RedGain.Current);
-            if (m.RedGain.Max > 0)
+            Debug.WriteLine("RefreshSliders - GainRed.Max: " + m.GainRed.Max);
+            Debug.WriteLine("RefreshSliders - GainRed.Current: " + m.GainRed.Current);
+            if (m.GainRed.Max > 0)
             {
-                barRed.Minimum = (int)m.RedGain.Min;
-                barRed.Maximum = (int)m.RedGain.Max;
-                barRed.Value = (int)m.RedGain.Current;
-                barRed.Enabled = true;
+                barGainRed.Minimum = (int)m.GainRed.Min;
+                barGainRed.Maximum = (int)m.GainRed.Max;
+                barGainRed.Value = (int)m.GainRed.Current;
+                barGainRed.Enabled = true;
             }
-            else barRed.Enabled = false;
+            else barGainRed.Enabled = false;
 
-            Debug.WriteLine("RefreshSliders - GreenGain.Max: " + m.GreenGain.Max);
-            Debug.WriteLine("RefreshSliders - GreenGain.Current: " + m.GreenGain.Current);
-            if (m.GreenGain.Max > 0)
+            Debug.WriteLine("RefreshSliders - GainGreen.Max: " + m.GainGreen.Max);
+            Debug.WriteLine("RefreshSliders - GainGreen.Current: " + m.GainGreen.Current);
+            if (m.GainGreen.Max > 0)
             {
-                barGreen.Minimum = (int)m.GreenGain.Min;
-                barGreen.Maximum = (int)m.GreenGain.Max;
-                barGreen.Value = (int)m.GreenGain.Current;
-                barGreen.Enabled = true;
+                barGainGreen.Minimum = (int)m.GainGreen.Min;
+                barGainGreen.Maximum = (int)m.GainGreen.Max;
+                barGainGreen.Value = (int)m.GainGreen.Current;
+                barGainGreen.Enabled = true;
             }
-            else barGreen.Enabled = false;
+            else barGainGreen.Enabled = false;
 
-            Debug.WriteLine("RefreshSliders - BlueGain.Max: " + m.BlueGain.Max);
-            Debug.WriteLine("RefreshSliders - BlueGain.Current: " + m.BlueGain.Current);
-            if (m.BlueGain.Max > 0)
+            Debug.WriteLine("RefreshSliders - GainBlue.Max: " + m.GainBlue.Max);
+            Debug.WriteLine("RefreshSliders - GainBlue.Current: " + m.GainBlue.Current);
+            if (m.GainBlue.Max > 0)
             {
-                barBlue.Minimum = (int)m.BlueGain.Min;
-                barBlue.Maximum = (int)m.BlueGain.Max;
-                barBlue.Value = (int)m.BlueGain.Current;
-                barBlue.Enabled = true;
+                barGainBlue.Minimum = (int)m.GainBlue.Min;
+                barGainBlue.Maximum = (int)m.GainBlue.Max;
+                barGainBlue.Value = (int)m.GainBlue.Current;
+                barGainBlue.Enabled = true;
             }
-            else barBlue.Enabled = false;
+            else barGainBlue.Enabled = false;
 
             Debug.WriteLine("RefreshSliders - Sharpness.Max: " + m.Sharpness.Max);
             if (m.Sharpness.Max > 0)
@@ -466,9 +466,9 @@ namespace MonitorProfiler
         {
             barBrightness.Value = (int) _currentMonitor.Brightness.Original;
             barContrast.Value = (int) _currentMonitor.Contrast.Original;
-            barRed.Value = (int)_currentMonitor.RedGain.Original;
-            barGreen.Value = (int)_currentMonitor.GreenGain.Original;
-            barBlue.Value = (int)_currentMonitor.BlueGain.Original;
+            barGainRed.Value = (int)_currentMonitor.GainRed.Original;
+            barGainGreen.Value = (int)_currentMonitor.GainGreen.Original;
+            barGainBlue.Value = (int)_currentMonitor.GainBlue.Original;
             barSharpness.Value = (int)_currentMonitor.Sharpness.Original;
             barVolume.Value = (int)_currentMonitor.Volume.Original;
         }
@@ -518,9 +518,9 @@ namespace MonitorProfiler
                 cboMonitors.SelectedIndex = monitorCfg.Index;
                 barBrightness.Value = monitorCfg.Brightness;
                 barContrast.Value = monitorCfg.Contrast;
-                barRed.Value = monitorCfg.Red;
-                barGreen.Value = monitorCfg.Green;
-                barBlue.Value = monitorCfg.Blue;
+                barGainRed.Value = monitorCfg.GainRed;
+                barGainGreen.Value = monitorCfg.GainGreen;
+                barGainBlue.Value = monitorCfg.GainBlue;
                 barVolume.Value = monitorCfg.Volume;
             }
         }
