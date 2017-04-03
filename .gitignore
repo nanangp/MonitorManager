@@ -1,3 +1,8 @@
 .vs/MonitorProfiler/v14/.suo
 MonitorProfiler/bin/*
 MonitorProfiler/obj/*
+MonitorProfiler/bin/Debug/MonitorProfiler.exe
+MonitorProfiler/bin/Debug/MonitorProfiler.pdb
+MonitorProfiler/obj/Debug/MainWindow.g.i.cs
+*.exe
+*.pdb

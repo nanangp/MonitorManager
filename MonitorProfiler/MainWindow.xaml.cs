@@ -459,9 +459,19 @@ namespace MonitorProfiler
             try
             {
                 // Assumes sender is a Slider, and exists in the collection. Don't worry about errors :)
-                if (barVolume.Value <= 0) picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_mute.png"));
-                else if (barVolume.Value >= 50) picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_high.png"));
-                else picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_low.png"));
+                if (barVolume.Value <= 0)
+                {
+                    picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_mute.png"));
+                    picVolume.ToolTip = "Volume";
+                    picVolume.Cursor = Cursors.Arrow;
+                }
+                else
+                {
+                    if (barVolume.Value >= 50) picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_high.png"));
+                    else picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_low.png"));
+                    picVolume.ToolTip = "Mute";
+                    picVolume.Cursor = Cursors.Hand;
+                }
 
                 if ((string)btnLinkMonitors.Tag == "link")
                 {

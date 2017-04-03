@@ -30,7 +30,7 @@
         <Image x:Name="rgbgreen_png" Margin="12,145,0,0" Source="images/rgbgreen.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Green gain"/>
         <Image x:Name="rgbblue_png" Margin="12,175,0,0" Source="images/rgbblue.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Blue gain"/>
         <Image x:Name="sharpness_png" Margin="12,205,0,0" Source="images/sharpness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Sharpness"/>
-        <Image x:Name="picVolume" Margin="12,235,0,0" Source="images/speaker_mute.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" MouseLeftButtonDown="picVolume_Click" ToolTip="Volume (click to mute)"/>
+        <Image x:Name="picVolume" Margin="12,235,0,0" Source="images/speaker_mute.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" MouseLeftButtonDown="picVolume_Click" ToolTip="Volume"/>
         <Button x:Name="btnProfiles" HorizontalAlignment="Left" Margin="10,268,0,-20" Width="42" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" Background="#FFE6E6E6" BorderBrush="#FFE6E6E6" ToolTip="Profiles">
             <Image x:Name="profiles_png" Height="24" Source="images/profiles.png" Width="19"/>
             <Button.ContextMenu>
