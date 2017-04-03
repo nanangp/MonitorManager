@@ -224,8 +224,6 @@ namespace MonitorProfiler
         private void btnPower_Click(object sender, RoutedEventArgs e)
         {
             Button button = ((Button)sender);
-            _currentMonitor.GetPowerModes();
-            RefreshPowerMenu();
             ShowContextMemu(button);
         }
 

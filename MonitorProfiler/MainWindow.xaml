@@ -70,6 +70,6 @@
         <Image x:Name="link_png" Source="images/link.png" Stretch="Fill" Width="26" Height="26" Visibility="Hidden"/>
         <Image x:Name="speaker_low_png" Source="images/speaker_low.png" Stretch="Fill" Width="28" Height="28" Visibility="Hidden"/>
         <Image x:Name="speaker_high_png" Source="images/speaker_high.png" Stretch="Fill" Width="28" Height="28" Visibility="Hidden"/>
-        <Label x:Name="lblWait" Content="Reloading..." VerticalContentAlignment="Center" Background="#A5FFFFFF" HorizontalContentAlignment="Center" Visibility="Hidden"/>
+        <Label x:Name="lblWait" Content="Refreshing monitors informations..." VerticalContentAlignment="Center" Background="#CCFFFFFF" HorizontalContentAlignment="Center" FontSize="16" Visibility="Hidden"/>
     </Grid>
 </Window>
