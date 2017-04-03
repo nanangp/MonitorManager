@@ -8,8 +8,8 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="VerticalContentAlignment" Value="Top" />
         </Style>
-        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#ccc" />
-        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="WhiteSmoke" />
+        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#E6E6E6" />
+        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#E6E6E6" />
         <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
         <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
         <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
@@ -37,7 +37,7 @@
                     <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="{StaticResource ComboBoxDisabledBackgroundBrush}"/>
                     <Setter Property="Border.BorderBrush" TargetName="ButtonBorder" Value="{StaticResource ComboBoxDisabledBorderBrush}"/>
                     <Setter Property="TextElement.Foreground" Value="{StaticResource ComboBoxDisabledForegroundBrush}"/>
-                    <Setter Property="Shape.Fill" TargetName="Arrow" Value="#999"/>
+                    <Setter Property="Shape.Fill" TargetName="Arrow" Value="#E6E6E6"/>
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
@@ -55,7 +55,7 @@
                     <ControlTemplate TargetType="ComboBox">
                         <Grid>
                             <ToggleButton Name="ToggleButton" Grid.Column="2" ClickMode="Press" Focusable="False" IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Template="{StaticResource ComboBoxToggleButtonTemplate}"/>
-                            <ContentPresenter Name="ContentSite" Margin="13, 3, 23, 3" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding ComboBox.SelectionBoxItem}" ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                            <ContentPresenter Name="ContentSite" Margin="10, 3, 23, 3" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding ComboBox.SelectionBoxItem}" ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
                             <TextBox Name="PART_EditableTextBox" Margin="3, 3, 23, 3" IsReadOnly="{TemplateBinding IsReadOnly}" Visibility="Hidden" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Focusable="True" >
                                 <TextBox.Template>
                                     <ControlTemplate TargetType="TextBox" >

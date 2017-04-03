@@ -8,13 +8,13 @@
         Title="MonitorConfig" Height="359" Width="310" ResizeMode="NoResize" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="Images/icon.png" Closing="Window_Closing">
     <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
         <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="Black" BorderThickness="0" Padding="10,3,5,3" FontSize="14"/>
-        <Button x:Name="btnLinkMonitors" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink">
+        <Button x:Name="btnLinkMonitors" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" BorderBrush="#FFE6E6E6" Background="#FFE6E6E6">
             <Image x:Name="unlink_png" Height="20" Source="images/unlink.png" Stretch="Fill" Width="20"/>
         </Button>
-        <Button x:Name="btnIdentifyMonitor" HorizontalAlignment="Left" Margin="199,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="#FFDDDDDD" Click="btnIdentifyMonitor_Click">
+        <Button x:Name="btnIdentifyMonitor" HorizontalAlignment="Left" Margin="199,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="#FFE6E6E6" Click="btnIdentifyMonitor_Click" BorderBrush="#FFE6E6E6">
             <Image x:Name="light_png" Height="20" Source="images/light.png" Stretch="Fill" Width="20"/>
         </Button>
-        <Button x:Name="btnRestart" HorizontalAlignment="Left" Margin="244,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnRestart_Click">
+        <Button x:Name="btnRestart" HorizontalAlignment="Left" Margin="244,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnRestart_Click" BorderBrush="#FFE6E6E6" Background="#FFE6E6E6">
             <Image x:Name="refresh_png" Height="20" Source="images/refresh.png" Stretch="Fill" Width="20"/>
         </Button>
         <Slider x:Name="barBrightness" HorizontalAlignment="Left" Margin="50,60,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
@@ -31,35 +31,35 @@
         <Image x:Name="rgbblue_png" Margin="12,175,0,0" Source="images/rgbblue.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28"/>
         <Image x:Name="sharpness_png" Margin="12,205,0,0" Source="images/sharpness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28"/>
         <Image x:Name="picVolume" Margin="12,235,0,0" Source="images/speaker_mute.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" MouseLeftButtonDown="picVolume_Click"/>
-        <Button x:Name="btnProfiles" HorizontalAlignment="Left" Margin="10,268,0,-20" Width="42" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top">
+        <Button x:Name="btnProfiles" HorizontalAlignment="Left" Margin="10,268,0,-20" Width="42" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" Background="#FFE6E6E6" BorderBrush="#FFE6E6E6">
             <Image x:Name="profiles_png" Height="24" Source="images/profiles.png" Width="19"/>
             <Button.ContextMenu>
                 <ContextMenu>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <Button x:Name="btnPower" HorizontalAlignment="Left" Margin="57,268,0,-20" VerticalAlignment="Top" Width="42" Height="42" Click="btnPower_Click" ContextMenuService.IsEnabled="false">
+        <Button x:Name="btnPower" HorizontalAlignment="Left" Margin="57,268,0,-20" VerticalAlignment="Top" Width="42" Height="42" Click="btnPower_Click" ContextMenuService.IsEnabled="false" BorderBrush="#FFE6E6E6" Background="#FFE6E6E6">
             <Image x:Name="power_png" Height="20" Source="images/power.png" Stretch="Fill" Width="20"/>
             <Button.ContextMenu>
                 <ContextMenu>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <Button x:Name="btnSources" HorizontalAlignment="Left" Margin="104,268,0,-20" Width="42" Click="btnSources_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top">
+        <Button x:Name="btnSources" HorizontalAlignment="Left" Margin="104,268,0,-20" Width="42" Click="btnSources_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" Background="#FFE6E6E6" BorderBrush="#FFE6E6E6">
             <Image x:Name="split_png" Height="17" Source="images/split.png" Stretch="Fill" Width="17"/>
             <Button.ContextMenu>
                 <ContextMenu>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <Button x:Name="btnFactoryReset" HorizontalAlignment="Left" Margin="151,268,0,-20" VerticalAlignment="Top" Width="42" Height="42" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false">
+        <Button x:Name="btnFactoryReset" HorizontalAlignment="Left" Margin="151,268,0,-20" VerticalAlignment="Top" Width="42" Height="42" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" BorderBrush="#FFE6E6E6" Background="#FFE6E6E6">
             <Image x:Name="undo_png" Height="20" Source="images/undo.png" Stretch="Fill" Width="20"/>
             <Button.ContextMenu>
                 <ContextMenu>
                 </ContextMenu>
             </Button.ContextMenu>
         </Button>
-        <Button x:Name="btnRevert" Content="Revert" HorizontalAlignment="Left" Margin="209,268,0,-20" VerticalAlignment="Top" Width="75" Height="42" Click="btnRevert_Click"/>
+        <Button x:Name="btnRevert" Content="Revert" HorizontalAlignment="Left" Margin="209,268,0,-20" VerticalAlignment="Top" Width="75" Height="42" Click="btnRevert_Click" Background="#FFE6E6E6" BorderBrush="#FFE6E6E6"/>
         <Label x:Name="lblBrightness" Content="0%" HorizontalAlignment="Left" Margin="248,56,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblContrast" Content="0%" HorizontalAlignment="Left" Margin="248,86,0,0" VerticalAlignment="Top"/>
         <Label x:Name="lblRedGain" Content="0%" HorizontalAlignment="Left" Margin="248,116,0,0" VerticalAlignment="Top"/>
