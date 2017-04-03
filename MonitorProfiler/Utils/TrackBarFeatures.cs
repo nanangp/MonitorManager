@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MonitorProfiler.Win32;
-using MonitorProfiler.Models.Display;
-using System.Diagnostics;
+﻿using MonitorProfiler.Models.Display;
 using System.Windows.Controls;
 
 namespace MonitorProfiler.GUI

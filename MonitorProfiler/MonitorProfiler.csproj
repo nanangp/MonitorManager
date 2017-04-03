@@ -152,7 +152,9 @@
     <Resource Include="Images\undo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="profiles.xml" />
+    <Resource Include="profiles.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="monitor.ico" />

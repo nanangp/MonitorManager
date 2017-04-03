@@ -21,7 +21,6 @@ D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler.exe
 D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler.pdb
 D:\Source\monitorprofiler\MonitorProfiler\bin\Debug\MonitorProfiler.exe
 D:\Source\monitorprofiler\MonitorProfiler\bin\Debug\MonitorProfiler.pdb
-D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler.csprojResolveAssemblyReference.cache
 D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MainWindow.g.cs
 D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\App.g.cs
 D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler_MarkupCompile.cache

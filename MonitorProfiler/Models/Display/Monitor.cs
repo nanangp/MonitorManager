@@ -30,9 +30,6 @@ namespace MonitorProfiler.Models.Display
         public NativeStructures.MonitorCap[] Sources;
         public NativeStructures.MonitorCap[] PowerModes;
 
-        private uint _monitorCapabilities = 0u;
-        private uint _supportedColorTemperatures = 0u;
-
         #endregion
 
         public Monitor(NativeStructures.PHYSICAL_MONITOR physicalMonitor)

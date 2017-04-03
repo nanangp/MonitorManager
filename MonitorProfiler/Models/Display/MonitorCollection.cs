@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using MonitorProfiler.Win32;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 namespace MonitorProfiler.Models.Display
 {
