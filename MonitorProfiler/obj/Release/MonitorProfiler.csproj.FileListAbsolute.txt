@@ -1,0 +1,13 @@
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\bin\Release\MonitorProfiler.exe.config
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\bin\Release\MonitorProfiler.exe
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\bin\Release\MonitorProfiler.pdb
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MainWindow.g.cs
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\App.g.cs
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MonitorProfiler_MarkupCompile.cache
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MonitorProfiler_MarkupCompile.lref
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MainWindow.baml
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MonitorProfiler.g.resources
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MonitorProfiler.Properties.Resources.resources
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MonitorProfiler.csproj.GenerateResource.Cache
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MonitorProfiler.exe
+D:\Source\monitorconf\MonitorProfiler\MonitorProfiler\obj\Release\MonitorProfiler.pdb
