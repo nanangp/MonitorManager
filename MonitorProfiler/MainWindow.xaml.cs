@@ -28,7 +28,10 @@ namespace MonitorProfiler
         private readonly MonitorCollection _monitorCollection = new MonitorCollection();
         private Dictionary<Slider, TrackBarFeatures> _bars;
         private Config _config;
-        DispatcherTimer _timer = new DispatcherTimer();
+        DispatcherTimer _timerResetColors = new DispatcherTimer(); 
+        DispatcherTimer _timerResetFactory = new DispatcherTimer();
+        DispatcherTimer _timerResetLuminance = new DispatcherTimer();
+        DispatcherTimer _timerRestart = new DispatcherTimer();
 
         private const int HOTKEY_ID = 9000;
         //Modifiers:
@@ -98,6 +101,15 @@ namespace MonitorProfiler
 
             if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
 
+            _timerResetColors.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerResetColors.Tick += new EventHandler(TimerResetColors);
+            _timerResetFactory.Interval = new TimeSpan(0, 0, 0, 2, 0);
+            _timerResetFactory.Tick += new EventHandler(TimerResetFactory);
+            _timerResetLuminance.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerResetLuminance.Tick += new EventHandler(TimerResetLuminance);
+            _timerRestart.Interval = new TimeSpan(0, 0, 0, 0, 500);
+            _timerRestart.Tick += new EventHandler(Restart);
+
             return;
         }
         
@@ -147,35 +159,50 @@ namespace MonitorProfiler
                 Debug.WriteLine("Reset: " + Convert.ToByte(item.Tag));
                 NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, Convert.ToByte(item.Tag), 1);
 
-                if (Convert.ToUInt32(item.Tag) == 4) _timer.Interval = new TimeSpan(0, 0, 0, 2, 0);
-                else _timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
-                if (Convert.ToUInt32(item.Tag) == 5) _timer.Tick += new EventHandler(TimerResetLuminance);
-                if (Convert.ToUInt32(item.Tag) == 8) _timer.Tick += new EventHandler(TimerResetColors);
-                if (Convert.ToUInt32(item.Tag) == 4) _timer.Tick += new EventHandler(TimerResetFactory);
-                _timer.Start();
+                if (Convert.ToUInt32(item.Tag) == 4)
+                {
+                    _timerResetFactory.IsEnabled = true;
+                    _timerResetFactory.Start();
+                }
+                if (Convert.ToUInt32(item.Tag) == 5)
+                {
+                    _timerResetLuminance.IsEnabled = true;
+                    _timerResetLuminance.Start();
+                }
+                if (Convert.ToUInt32(item.Tag) == 8)
+                {
+                    _timerResetColors.IsEnabled = true;
+                    _timerResetColors.Start();
+                }
             }
         }
 
         private void TimerResetColors(Object source, EventArgs e)
         {
-            _timer.Stop();
+            Debug.WriteLine("TimerResetColors");
+            _timerResetColors.Stop();
+            _timerResetColors.IsEnabled = false;
             _currentMonitor.GetRgbDrive();
             _currentMonitor.GetRgbGain();
             RefreshSliders(_currentMonitor);
         }
 
-        private void TimerResetLuminance(Object source, EventArgs e)
+        private void TimerResetFactory(Object source, EventArgs e)
         {
-            _timer.Stop();
-            _currentMonitor.GetBrightness();
-            _currentMonitor.GetContrast();
+            Debug.WriteLine("TimerResetFactory");
+            _timerResetFactory.Stop();
+            _timerResetFactory.IsEnabled = false;
+            _currentMonitor.CheckCapabilities();
             RefreshSliders(_currentMonitor);
         }
 
-        private void TimerResetFactory(Object source, EventArgs e)
+        private void TimerResetLuminance(Object source, EventArgs e)
         {
-            _timer.Stop();
-            _currentMonitor.CheckCapabilities();
+            Debug.WriteLine("TimerResetLuminance");
+            _timerResetLuminance.Stop();
+            _timerResetLuminance.IsEnabled = false;
+            _currentMonitor.GetBrightness();
+            _currentMonitor.GetContrast();
             RefreshSliders(_currentMonitor);
         }
 
@@ -559,6 +586,16 @@ namespace MonitorProfiler
 
         private void btnRestart_Click(object sender, RoutedEventArgs e)
         {
+            lblWait.Visibility = Visibility.Visible;
+            Debug.WriteLine("show the thing");
+            _timerRestart.IsEnabled = true;
+            _timerRestart.Start();
+        }
+
+        private void Restart(object sender, EventArgs e)
+        {
+            _timerRestart.Stop();
+            _timerRestart.IsEnabled = false;
             _monitorCollection.Clear();
             cboMonitors.SelectionChanged -= CboMonitors_SelectionChanged;
             cboMonitors.Items.Clear();
@@ -579,6 +616,9 @@ namespace MonitorProfiler
             }
 
             if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
+
+            Debug.WriteLine("hide the thing");
+            lblWait.Visibility = Visibility.Hidden;
         }
 
         private void btnSaveProfile_Click(object sender, RoutedEventArgs e)

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MonitorProfiler"
         mc:Ignorable="d"
         Title="MonitorConfig" Height="359" Width="310" ResizeMode="NoResize" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="Images/icon.png" Closing="Window_Closing">
-    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid Margin="0">
         <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="Black" BorderThickness="0" Padding="10,3,5,3" FontSize="14"/>
         <Button x:Name="btnLinkMonitors" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" BorderBrush="#FFE6E6E6" Background="#FFE6E6E6">
             <Image x:Name="unlink_png" Height="20" Source="images/unlink.png" Stretch="Fill" Width="20"/>
@@ -53,7 +53,7 @@
             </Button.ContextMenu>
         </Button>
         <Button x:Name="btnFactoryReset" HorizontalAlignment="Left" Margin="151,268,0,-20" VerticalAlignment="Top" Width="42" Height="42" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" BorderBrush="#FFE6E6E6" Background="#FFE6E6E6">
-            <Image x:Name="undo_png" Height="20" Source="images/undo.png" Stretch="Fill" Width="20"/>
+            <Image x:Name="undo_png" Height="28" Source="images/undo.png" Stretch="Fill" Width="28"/>
             <Button.ContextMenu>
                 <ContextMenu>
                 </ContextMenu>
@@ -70,5 +70,6 @@
         <Image x:Name="link_png" Source="images/link.png" Stretch="Fill" Width="26" Height="26" Visibility="Hidden"/>
         <Image x:Name="speaker_low_png" Source="images/speaker_low.png" Stretch="Fill" Width="28" Height="28" Visibility="Hidden"/>
         <Image x:Name="speaker_high_png" Source="images/speaker_high.png" Stretch="Fill" Width="28" Height="28" Visibility="Hidden"/>
+        <Label x:Name="lblWait" Content="Reloading..." VerticalContentAlignment="Center" Background="#A5FFFFFF" HorizontalContentAlignment="Center" Visibility="Hidden"/>
     </Grid>
 </Window>

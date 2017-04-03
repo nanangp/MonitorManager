@@ -30,3 +30,4 @@ D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MainWindow.baml
 D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler.g.resources
 D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler.Properties.Resources.resources
 D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler.csproj.GenerateResource.Cache
+D:\Source\monitorprofiler\MonitorProfiler\obj\Debug\MonitorProfiler.csprojResolveAssemblyReference.cache
