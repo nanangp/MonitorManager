@@ -8,3 +8,5 @@ MonitorProfiler/obj/Debug/MainWindow.g.i.cs
 *.pdb
 MonitorProfiler/bin/Debug/MonitorProfiler.exe
 MonitorProfiler/bin/Debug/MonitorProfiler.pdb
+MonitorProfiler/bin/Debug/MonitorProfiler.exe
+*.pdb
