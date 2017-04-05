@@ -42,6 +42,7 @@ namespace MonitorProfiler
         private const uint MOD_WIN = 0x0008; //WINDOWS
         private const uint VK_CAPITAL = 0x14; //CAPSLOCK
         private const uint NK_0 = 0x60; // NUM_KEY 0
+        private const string profiles_xml = "profiles.xml";
 
         private HwndSource _source;
         protected override void OnSourceInitialized(EventArgs e)
@@ -419,19 +420,38 @@ namespace MonitorProfiler
         private void InitialiseProfiles()
         {
             btnProfiles.ContextMenu.Items.Clear();
-            var deserializer = new XmlSerializer(typeof(Config));
-            using (var reader = new StreamReader("profiles.xml"))
+            MenuItem item;
+
+            if (File.Exists(profiles_xml))
             {
-                _config = (Config)deserializer.Deserialize(reader);
+                var deserializer = new XmlSerializer(typeof(Config));
+                using (var reader = new StreamReader(profiles_xml))
+                {
+                    _config = (Config)deserializer.Deserialize(reader);
+                }
+                foreach (var cfg in _config.Profiles)
+                {
+                    item = new MenuItem();
+                    item.Header = cfg.Name;
+                    //if (_currentMonitor.Source.Current == _currentMonitor.Sources[i].code) item.IsChecked = true;
+                    item.Click += new RoutedEventHandler(contextMenuProfiles_Click);
+                    btnProfiles.ContextMenu.Items.Add(item);
+                }
             }
-            foreach (var cfg in _config.Profiles)
-            {
-                MenuItem item = new MenuItem();
-                item.Header = cfg.Name;
-                //if (_currentMonitor.Source.Current == _currentMonitor.Sources[i].code) item.IsChecked = true;
-                item.Click += new RoutedEventHandler(contextMenuProfiles_Click);
-                btnProfiles.ContextMenu.Items.Add(item);
-            }
+
+            if (btnProfiles.ContextMenu.Items.Count > 0) btnProfiles.ContextMenu.Items.Add(new Separator());
+
+            item = new MenuItem();
+            item.Header = "Delete profile";
+            item.Tag = "delete";
+            item.Click += new RoutedEventHandler(contextMenuProfiles_Click);
+            btnProfiles.ContextMenu.Items.Add(item);
+
+            item = new MenuItem();
+            item.Header = "Save profile";
+            item.Tag = "save";
+            item.Click += new RoutedEventHandler(contextMenuProfiles_Click);
+            btnProfiles.ContextMenu.Items.Add(item);
         }
 
         private void SaveProfiles()
@@ -442,7 +462,7 @@ namespace MonitorProfiler
             }
 
             var serializer = new XmlSerializer(typeof(Config));
-            using (var writer = new StreamWriter("profiles.xml"))
+            using (var writer = new StreamWriter(profiles_xml))
             {
                 serializer.Serialize(writer, _config);
             }
