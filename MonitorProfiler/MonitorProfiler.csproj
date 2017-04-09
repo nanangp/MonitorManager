@@ -35,7 +35,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>monitor.ico</ApplicationIcon>
+    <ApplicationIcon>monitorprofiler.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -59,6 +59,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\Configuration\Settings.cs" />
     <Compile Include="Utils\TrackBarFeatures.cs" />
     <Compile Include="Utils\Win32.cs" />
     <Page Include="MainWindow.xaml">
@@ -157,19 +158,16 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="monitor.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\link.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\speaker_high.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\speaker_low.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="monitorprofiler.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

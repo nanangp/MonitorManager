@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonitorProfiler"
         mc:Ignorable="d"
-        Title="MonitorConfig" Height="359" Width="310" ResizeMode="CanMinimize" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="Images/icon.png" Closing="Window_Closing">
+        Title="MonitorConfig" Height="359" Width="310" ResizeMode="CanMinimize" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitorprofiler.ico" Closing="Window_Closing">
     <Grid Margin="0">
         <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="Black" BorderThickness="0" Padding="10,3,5,3" FontSize="14"/>
         <Button x:Name="btnLinkMonitors" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" BorderBrush="#FFE6E6E6" Background="#FFE6E6E6" ToolTip="Link monitors">
@@ -24,13 +24,13 @@
         <Slider x:Name="barBlueGain" HorizontalAlignment="Left" Margin="50,180,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" AutoToolTipPlacement="TopLeft" LargeChange="5" Maximum="100" SmallChange="1" TickFrequency="5" IsSnapToTickEnabled="True"/>
         <Slider x:Name="barSharpness" HorizontalAlignment="Left" Margin="50,210,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" AutoToolTipPlacement="TopLeft" Maximum="5" SmallChange="1" IsSnapToTickEnabled="True"/>
         <Slider x:Name="barVolume" HorizontalAlignment="Left" Margin="50,240,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
-        <Image x:Name="brightness_png" Margin="12,55,0,0" Source="images/brightness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Brightness"/>
-        <Image x:Name="contrast_png" Margin="12,85,0,0" Source="images/contrast.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Contrast"/>
-        <Image x:Name="rgbred_png" Margin="12,115,0,0" Source="images/rgbred.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Red gain"/>
-        <Image x:Name="rgbgreen_png" Margin="12,145,0,0" Source="images/rgbgreen.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Green gain"/>
-        <Image x:Name="rgbblue_png" Margin="12,175,0,0" Source="images/rgbblue.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Blue gain"/>
-        <Image x:Name="sharpness_png" Margin="12,205,0,0" Source="images/sharpness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Sharpness" OpacityMask="Black"/>
-        <Image x:Name="picVolume" Margin="12,235,0,0" Source="images/speaker_mute.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" MouseLeftButtonDown="picVolume_Click" ToolTip="Volume"/>
+        <Image x:Name="brightness_png" Margin="13,55,0,0" Source="images/brightness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Brightness"/>
+        <Image x:Name="contrast_png" Margin="13,85,0,0" Source="images/contrast.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Contrast"/>
+        <Image x:Name="rgbred_png" Margin="13,115,0,0" Source="images/rgbred.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Red gain"/>
+        <Image x:Name="rgbgreen_png" Margin="13,145,0,0" Source="images/rgbgreen.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Green gain"/>
+        <Image x:Name="rgbblue_png" Margin="13,175,0,0" Source="images/rgbblue.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Blue gain"/>
+        <Image x:Name="sharpness_png" Margin="13,205,0,0" Source="images/sharpness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Sharpness" OpacityMask="Black"/>
+        <Image x:Name="picVolume" Margin="13,235,0,0" Source="images/speaker_mute.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" MouseLeftButtonDown="picVolume_Click" ToolTip="Volume"/>
         <Button x:Name="btnProfiles" HorizontalAlignment="Left" Margin="10,268,0,-20" Width="42" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" Background="#FFE6E6E6" BorderBrush="#FFE6E6E6" ToolTip="Profiles">
             <Image x:Name="profiles_png" Height="28" Source="images/profiles.png" Width="28"/>
             <Button.ContextMenu>

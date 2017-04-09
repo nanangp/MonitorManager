@@ -429,6 +429,14 @@ namespace MonitorProfiler
                 {
                     _config = (Config)deserializer.Deserialize(reader);
                 }
+
+                string link = _config.Settings[0].Link;
+                if (link.ToLower() == "true")
+                {
+                    unlink_png.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/link.png"));
+                    btnLinkMonitors.Tag = "link";
+                }
+
                 foreach (var cfg in _config.Profiles)
                 {
                     item = new MenuItem();
@@ -450,11 +458,11 @@ namespace MonitorProfiler
             item = new MenuItem();
             item.Header = "Save profile";
             item.Tag = "save";
-            item.Click += new RoutedEventHandler(contextMenuProfiles_Click);
+            item.Click += new RoutedEventHandler(SaveProfiles);
             btnProfiles.ContextMenu.Items.Add(item);
         }
 
-        private void SaveProfiles()
+        private void SaveProfiles(object sender, RoutedEventArgs e)
         {
             for (int i = _config.Profiles.Count - 1; i >= 0; i--)
             {
@@ -599,11 +607,13 @@ namespace MonitorProfiler
             {
                 unlink_png.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/link.png"));
                 btnLinkMonitors.Tag = "link";
+                _config.Settings[0].Link = "True";
             }
             else
             {
                 unlink_png.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/unlink.png"));
                 btnLinkMonitors.Tag = "unlink";
+                _config.Settings[0].Link = "False";
             }
         }
 
@@ -649,11 +659,6 @@ namespace MonitorProfiler
             lblWait.Visibility = Visibility.Hidden;
         }
 
-        private void btnSaveProfile_Click(object sender, RoutedEventArgs e)
-        {
-            SaveProfiles();
-        }
-
         private void btnDeleteProfile_Click(object sender, RoutedEventArgs e)
         {
 
@@ -662,6 +667,7 @@ namespace MonitorProfiler
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             NativeMethods.UnregisterHotKey(_windowHandle, HOTKEY_ID); //WINDOWS + NUMKEY_0
+            SaveProfiles(sender, null);
         }
     }
 }

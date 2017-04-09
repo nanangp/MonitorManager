@@ -7,5 +7,7 @@ namespace MonitorProfiler.Models.Configuration
     {
         [XmlElement("Profile")]
         public List<Profile> Profiles { get; set; }
+        [XmlElement("Settings")]
+        public List<Settings> Settings { get; set; }
     }
 }
