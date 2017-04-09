@@ -573,30 +573,30 @@ namespace MonitorProfiler
                 if (monitorCfg.Index == cboMonitors.SelectedIndex)
                 {
                     //update bars on current selected monitor
-                    barBrightness.Value = monitorCfg.Brightness;
-                    barContrast.Value = monitorCfg.Contrast;
-                    barRedGain.Value = monitorCfg.RedGain;
-                    barGreenGain.Value = monitorCfg.GreenGain;
-                    barBlueGain.Value = monitorCfg.BlueGain;
-                    barSharpness.Value = monitorCfg.Sharpness;
-                    barVolume.Value = monitorCfg.Volume;
+                    if (monitorCfg.Brightness >= 0) barBrightness.Value = monitorCfg.Brightness;
+                    if (monitorCfg.Contrast >= 0) barContrast.Value = monitorCfg.Contrast;
+                    if (monitorCfg.RedGain >= 0) barRedGain.Value = monitorCfg.RedGain;
+                    if (monitorCfg.GreenGain >= 0) barGreenGain.Value = monitorCfg.GreenGain;
+                    if (monitorCfg.BlueGain >= 0) barBlueGain.Value = monitorCfg.BlueGain;
+                    if (monitorCfg.Sharpness >= 0) barSharpness.Value = monitorCfg.Sharpness;
+                    if (monitorCfg.Volume >= 0) barVolume.Value = monitorCfg.Volume;
                 }
                 else
                 {
-                    _monitorCollection[monitorCfg.Index].Brightness.Current = (uint)monitorCfg.Brightness;
-                    _monitorCollection[monitorCfg.Index].Contrast.Current = (uint)monitorCfg.Contrast;
-                    _monitorCollection[monitorCfg.Index].RedGain.Current = (uint)monitorCfg.RedGain;
-                    _monitorCollection[monitorCfg.Index].GreenGain.Current = (uint)monitorCfg.GreenGain;
-                    _monitorCollection[monitorCfg.Index].BlueGain.Current = (uint)monitorCfg.BlueGain;
-                    _monitorCollection[monitorCfg.Index].Sharpness.Current = (uint)monitorCfg.Sharpness;
-                    _monitorCollection[monitorCfg.Index].Volume.Current = (uint)monitorCfg.Volume;
-                    _monitorCollection[monitorCfg.Index].SetBrightness((uint)monitorCfg.Brightness);
-                    _monitorCollection[monitorCfg.Index].SetContrast((uint)monitorCfg.Contrast);
-                    _monitorCollection[monitorCfg.Index].SetRedGain((uint)monitorCfg.RedGain);
-                    _monitorCollection[monitorCfg.Index].SetGreenGain((uint)monitorCfg.GreenGain);
-                    _monitorCollection[monitorCfg.Index].SetBlueGain((uint)monitorCfg.BlueGain);
-                    _monitorCollection[monitorCfg.Index].SetSharpness((uint)monitorCfg.Sharpness);
-                    _monitorCollection[monitorCfg.Index].SetVolume((uint)monitorCfg.Volume);
+                    if (monitorCfg.Brightness >= 0) _monitorCollection[monitorCfg.Index].Brightness.Current = (uint)monitorCfg.Brightness;
+                    if (monitorCfg.Contrast >= 0) _monitorCollection[monitorCfg.Index].Contrast.Current = (uint)monitorCfg.Contrast;
+                    if (monitorCfg.RedGain >= 0) _monitorCollection[monitorCfg.Index].RedGain.Current = (uint)monitorCfg.RedGain;
+                    if (monitorCfg.GreenGain >= 0) _monitorCollection[monitorCfg.Index].GreenGain.Current = (uint)monitorCfg.GreenGain;
+                    if (monitorCfg.BlueGain >= 0) _monitorCollection[monitorCfg.Index].BlueGain.Current = (uint)monitorCfg.BlueGain;
+                    if (monitorCfg.Sharpness >= 0) _monitorCollection[monitorCfg.Index].Sharpness.Current = (uint)monitorCfg.Sharpness;
+                    if (monitorCfg.Volume >= 0) _monitorCollection[monitorCfg.Index].Volume.Current = (uint)monitorCfg.Volume;
+                    if (monitorCfg.Brightness >= 0) _monitorCollection[monitorCfg.Index].SetBrightness((uint)monitorCfg.Brightness);
+                    if (monitorCfg.Contrast >= 0) _monitorCollection[monitorCfg.Index].SetContrast((uint)monitorCfg.Contrast);
+                    if (monitorCfg.RedGain >= 0) _monitorCollection[monitorCfg.Index].SetRedGain((uint)monitorCfg.RedGain);
+                    if (monitorCfg.GreenGain >= 0) _monitorCollection[monitorCfg.Index].SetGreenGain((uint)monitorCfg.GreenGain);
+                    if (monitorCfg.BlueGain >= 0) _monitorCollection[monitorCfg.Index].SetBlueGain((uint)monitorCfg.BlueGain);
+                    if (monitorCfg.Sharpness >= 0) _monitorCollection[monitorCfg.Index].SetSharpness((uint)monitorCfg.Sharpness);
+                    if (monitorCfg.Volume >= 0) _monitorCollection[monitorCfg.Index].SetVolume((uint)monitorCfg.Volume);
                 }
             }
         }
