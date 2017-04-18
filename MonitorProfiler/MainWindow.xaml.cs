@@ -80,7 +80,6 @@ namespace MonitorProfiler
             InitializeComponent();
             InitialiseProfiles();
             InitialiseTrackBars();
-            InitialiseButtons();
             GetMonitors();
 
             foreach (Monitor monitor in _monitorCollection)
@@ -269,23 +268,6 @@ namespace MonitorProfiler
             };
         }
 
-        private void InitialiseButtons()
-        {
-            Dictionary<string, string> factoryreset = new Dictionary<string, string>();
-            factoryreset.Add("Reset luminance", "5");
-            factoryreset.Add("Reset colors", "8");
-            factoryreset.Add("Reset factory defaults", "4");
-
-            foreach (KeyValuePair<string, string> entry in factoryreset)
-            {
-                MenuItem item = new MenuItem();
-                item.Header = entry.Key;
-                item.Tag = entry.Value;
-                item.Click += new RoutedEventHandler(contextMenuFactory_Click);
-                btnFactoryReset.ContextMenu.Items.Add(item);
-            }
-        }
-
         // To be called by a delegate
         private bool MonitorEnum(IntPtr hMonitor, IntPtr hdcMonitor, ref System.Drawing.Rectangle lprcMonitor, IntPtr dwData)
         {
@@ -375,6 +357,7 @@ namespace MonitorProfiler
 
             RefreshPowerMenu();
             RefreshSourcesMenu();
+            RefreshFactoryResetMenu();
         }
 
         private void RefreshPowerMenu()
@@ -413,6 +396,24 @@ namespace MonitorProfiler
                     if (_currentMonitor.Source.Current == _currentMonitor.Sources[i].code) item.IsChecked = true;
                     item.Click += new RoutedEventHandler(contextMenuSources_Click);
                     btnSources.ContextMenu.Items.Add(item);
+                }
+            }
+        }
+
+        private void RefreshFactoryResetMenu()
+        {
+            btnFactoryReset.ContextMenu.Items.Clear();
+
+            for (int i = 0; i < NativeConstants.factoryResets.Length; ++i)
+            {
+                string _reset = NativeConstants.factoryResets[i];
+                if (_reset != "**undefined**" && _reset != "**Unrecognized**")
+                {
+                    MenuItem item = new MenuItem();
+                    item.Header = _reset;
+                    item.Tag = i;
+                    item.Click += new RoutedEventHandler(contextMenuFactory_Click);
+                    btnFactoryReset.ContextMenu.Items.Add(item);
                 }
             }
         }
@@ -639,7 +640,7 @@ namespace MonitorProfiler
             cboMonitors.Items.Clear();
             cboMonitors.SelectionChanged += CboMonitors_SelectionChanged;
             InitialiseTrackBars();
-            InitialiseButtons();
+            RefreshFactoryResetMenu();
             GetMonitors();
 
             foreach (Monitor monitor in _monitorCollection)

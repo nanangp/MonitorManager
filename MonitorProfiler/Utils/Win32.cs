@@ -186,13 +186,25 @@ namespace MonitorProfiler.Win32
             "DisplayPort 2"
         };
 
-        public static readonly string[] powerStates = {
+        public static readonly string[] powerModes = {
             "**undefined**",
             "Power on",
             "Standby",
             "Suspend",
             "Reduced power off",
             "Power off"
+        };
+
+        public static readonly string[] factoryResets = {
+            "**undefined**",
+            "**Unrecognized**",
+            "**Unrecognized**",
+            "**Unrecognized**",
+            "Reset factory defaults",
+            "Reset brightness and contrast",
+            "**Unrecognized**",
+            "**Unrecognized**",
+            "Reset colors"
         };
     }
 

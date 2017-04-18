@@ -29,6 +29,7 @@ namespace MonitorProfiler.Models.Display
         public MonitorFeature Volume;
         public NativeStructures.MonitorCap[] Sources;
         public NativeStructures.MonitorCap[] PowerModes;
+        public NativeStructures.MonitorCap[] FactoryResets;
 
         #endregion
 
@@ -213,7 +214,7 @@ namespace MonitorProfiler.Models.Display
                 values = Array.ConvertAll(valueArray, s => int.Parse(s, System.Globalization.NumberStyles.HexNumber));
             }
 
-            string[] powerModes = NativeConstants.powerStates;
+            string[] powerModes = NativeConstants.powerModes;
             // Prepare output.
             PowerModes = new NativeStructures.MonitorCap[values.Length];
             for (int i = 0; i < values.Length; ++i)
@@ -223,6 +224,14 @@ namespace MonitorProfiler.Models.Display
                 else PowerModes[i].name = "**Unrecognized**";
             }
 
+            string[] factoryResets = NativeConstants.factoryResets;
+            // Prepare output.
+            FactoryResets = new NativeStructures.MonitorCap[NativeConstants.factoryResets.Length];
+            for (int i = 0; i < NativeConstants.factoryResets.Length; ++i)
+            {
+                FactoryResets[i].code = i;
+                FactoryResets[i].name = NativeConstants.factoryResets[i];
+            }
             Debug.WriteLine(capabilitiesStr);
         }
 
