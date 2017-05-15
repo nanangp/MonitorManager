@@ -10,3 +10,7 @@ MonitorProfiler/bin/Debug/MonitorProfiler.exe
 MonitorProfiler/bin/Debug/MonitorProfiler.pdb
 MonitorProfiler/bin/Debug/MonitorProfiler.exe
 *.pdb
+*.exe
+MonitorProfiler/bin/Debug/MonitorProfiler.pdb
+*.pdb
+*.exe

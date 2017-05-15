@@ -116,8 +116,14 @@ namespace MonitorProfiler.Win32
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref NativeStructures.WindowCompositionAttributeData data);
+
+        [DllImport("dwmapi.dll", EntryPoint = "#127")]
+        internal static extern void DwmGetColorizationParameters(ref NativeStructures.DWMCOLORIZATIONPARAMS dp);
     }
-    
+
     public class NativeConstants
     {
         public const int WM_SYSCOMMAND = 0x112;
@@ -348,6 +354,51 @@ namespace MonitorProfiler.Win32
             ModesPruned = 0x8000000,
             Remote = 0x4000000,
             Disconnect = 0x2000000
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct WindowCompositionAttributeData
+        {
+            public WindowCompositionAttribute Attribute;
+            public IntPtr Data;
+            public int SizeOfData;
+        }
+
+        internal enum WindowCompositionAttribute
+        {
+            // ...
+            WCA_ACCENT_POLICY = 19
+            // ...
+        }
+
+        internal enum AccentState
+        {
+            ACCENT_DISABLED = 0,
+            ACCENT_ENABLE_GRADIENT = 1,
+            ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
+            ACCENT_ENABLE_BLURBEHIND = 3,
+            ACCENT_INVALID_STATE = 4
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct AccentPolicy
+        {
+            public AccentState AccentState;
+            public int AccentFlags;
+            public int GradientColor;
+            public int AnimationId;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct DWMCOLORIZATIONPARAMS
+        {
+            public UInt32 ColorizationColor;
+            public UInt32 ColorizationAfterglow;
+            public UInt32 ColorizationColorBalance;
+            public UInt32 ColorizationAfterglowBalance;
+            public UInt32 ColorizationBlurBalance;
+            public UInt32 ColorizationGlassReflectionIntensity;
+            public UInt32 ColorizationOpaqueBlend;
         }
     }
 }

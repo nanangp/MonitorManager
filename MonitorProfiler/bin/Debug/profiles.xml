@@ -59,6 +59,6 @@
     </MonitorConfig>
   </Profile>
   <Settings>
-    <Link>False</Link>
+    <Link>True</Link>
   </Settings>
 </Config>
