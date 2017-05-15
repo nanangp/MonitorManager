@@ -15,6 +15,9 @@ using System.Xml.Serialization;
 using System.IO;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
+using System.Runtime.InteropServices;
+using System.Windows.Media;
+using System.Windows.Shell;
 
 namespace MonitorProfiler
 {
@@ -43,6 +46,7 @@ namespace MonitorProfiler
         private const uint VK_CAPITAL = 0x14; //CAPSLOCK
         private const uint NK_0 = 0x60; // NUM_KEY 0
         private const string profiles_xml = "profiles.xml";
+        private static Brush WindowGlassBrush = GetWindowGlassBrush();
 
         private HwndSource _source;
         protected override void OnSourceInitialized(EventArgs e)
@@ -109,10 +113,31 @@ namespace MonitorProfiler
             _timerResetLuminance.Tick += new EventHandler(TimerResetLuminance);
             _timerRestart.Interval = new TimeSpan(0, 0, 0, 0, 500);
             _timerRestart.Tick += new EventHandler(Restart);
-
             return;
         }
-        
+
+        internal void EnableBlur()
+        {
+            var windowHelper = new WindowInteropHelper(this);
+
+            var accent = new NativeStructures.AccentPolicy();
+            accent.AccentState = NativeStructures.AccentState.ACCENT_ENABLE_BLURBEHIND;
+
+            var accentStructSize = Marshal.SizeOf(accent);
+
+            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
+            Marshal.StructureToPtr(accent, accentPtr, false);
+
+            var data = new NativeStructures.WindowCompositionAttributeData();
+            data.Attribute = NativeStructures.WindowCompositionAttribute.WCA_ACCENT_POLICY;
+            data.SizeOfData = accentStructSize;
+            data.Data = accentPtr;
+
+            NativeMethods.SetWindowCompositionAttribute(windowHelper.Handle, ref data);
+
+            Marshal.FreeHGlobal(accentPtr);
+        }
+
         private void GetMonitors()
         {
             var handler = new NativeMethods.EnumMonitorsDelegate(MonitorEnum);
@@ -669,6 +694,54 @@ namespace MonitorProfiler
         {
             NativeMethods.UnregisterHotKey(_windowHandle, HOTKEY_ID); //WINDOWS + NUMKEY_0
             SaveProfiles(sender, null);
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            EnableBlur();
+        }
+
+        private void MinButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left) Application.Current.MainWindow.DragMove();
+        }
+
+        private static Brush GetWindowGlassBrush()
+        {
+            var colorizationParams = new NativeStructures.DWMCOLORIZATIONPARAMS();
+            NativeMethods.DwmGetColorizationParameters(ref colorizationParams);
+            var frameColor = ToColor(colorizationParams.ColorizationColor);
+
+            return new SolidColorBrush(frameColor);
+        }
+
+        private static Color ToColor(UInt32 value)
+        {
+            return Color.FromArgb(255,
+                (byte)(value >> 16),
+                (byte)(value >> 8),
+                (byte)value
+                );
+        }
+
+        private void Window_Activated(object sender, EventArgs e)
+        {
+            this.BorderBrush = WindowGlassBrush;
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            this.BorderBrush = new SolidColorBrush(SystemColors.MenuBarColor);
         }
     }
 }
