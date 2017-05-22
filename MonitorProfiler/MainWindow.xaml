@@ -5,86 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonitorProfiler"
         mc:Ignorable="d"
-        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="352" Width="295" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitorprofiler.ico" Background="#D8FFFFFF" BorderThickness="1" Loaded="Window_Loaded" Closing="Window_Closing" Deactivated="Window_Deactivated" Activated="Window_Activated" ResizeMode="CanMinimize">
+        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="444" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitorprofiler.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" Deactivated="Window_Deactivated" Activated="Window_Activated" ResizeMode="CanMinimize" Background="Transparent">
     <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="1" CornerRadius="0" CaptionHeight="31" />
+        <WindowChrome GlassFrameThickness="1" CaptionHeight="31" />
     </WindowChrome.WindowChrome>
-    <Grid Margin="0">
-        <Grid x:Name="RootWindow">
-            <DockPanel x:Name="TitleBar" Height="31" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
-                <Button Name="CloseButton" WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Right" Width="46" Click="CloseButton_Click" BorderThickness="0" Style="{StaticResource ButtonClose}">
-                    <Grid Width="30" Height="25" UseLayoutRounding="True">
-                        <Path Data="M0,0 L1,1 M0,1 L1,0" Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill"
-                        Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" StrokeThickness="1"  />
-                    </Grid>
-                </Button>
-                <Button Name="MinimizeButton" WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Right" Width="46" Click="MinButton_Click" BorderThickness="0" Style="{StaticResource ButtonMinimize}">
-                    <Grid Width="30" Height="25" UseLayoutRounding="True" RenderTransform="1,0,0,1,1,1">
-                        <Path Data="M0,1h1" Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Center" Stretch="Fill"
-                        Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" StrokeThickness="1"  />
-                    </Grid>
-                </Button>
-                <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" >MonitorProfiler</TextBlock>
-            </DockPanel>
-            <Grid Height="319" VerticalAlignment="Bottom">
-                <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="139" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="Black" BorderThickness="0" Padding="10,3,5,3" FontSize="14" Background="Black"/>
-                <Button x:Name="btnLinkMonitors" HorizontalAlignment="Left" Margin="154,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" BorderBrush="#19000000" Background="#19000000" ToolTip="Link monitors" BorderThickness="2">
-                    <Image x:Name="unlink_png" Height="28" Source="Images/unlink.png" Stretch="Fill" Width="28"/>
-                </Button>
-                <Button x:Name="btnIdentifyMonitor" HorizontalAlignment="Left" Margin="199,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Background="#19000000" Click="btnIdentifyMonitor_Click" BorderBrush="#19000000" ToolTip="Identify" BorderThickness="2">
-                    <Image x:Name="light_png" Height="28" Source="Images/light.png" Stretch="Fill" Width="28"/>
-                </Button>
-                <Button x:Name="btnRestart" HorizontalAlignment="Left" Margin="244,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnRestart_Click" BorderBrush="#19000000" Background="#19000000" ToolTip="Refresh list" BorderThickness="2">
-                    <Image x:Name="refresh_png" Height="28" Source="Images/refresh.png" Stretch="Fill" Width="28"/>
-                </Button>
-                <Slider x:Name="barBrightness" HorizontalAlignment="Left" Margin="50,60,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
-                <Slider x:Name="barContrast" HorizontalAlignment="Left" Margin="50,90,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" TickFrequency="5" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
-                <Slider x:Name="barRedGain" HorizontalAlignment="Left" Margin="50,120,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" SmallChange="1" TickFrequency="5" LargeChange="5" Maximum="100" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
-                <Slider x:Name="barGreenGain" HorizontalAlignment="Left" Margin="50,150,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
-                <Slider x:Name="barBlueGain" HorizontalAlignment="Left" Margin="50,180,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" AutoToolTipPlacement="TopLeft" LargeChange="5" Maximum="100" SmallChange="1" TickFrequency="5" IsSnapToTickEnabled="True"/>
-                <Slider x:Name="barSharpness" HorizontalAlignment="Left" Margin="50,210,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" AutoToolTipPlacement="TopLeft" Maximum="5" SmallChange="1" IsSnapToTickEnabled="True"/>
-                <Slider x:Name="barVolume" HorizontalAlignment="Left" Margin="50,240,0,0" VerticalAlignment="Top" Width="200" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" AutoToolTipPlacement="TopLeft" IsSnapToTickEnabled="True"/>
-                <Image x:Name="brightness_png" Margin="13,55,0,0" Source="Images/brightness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Brightness"/>
-                <Image x:Name="contrast_png" Margin="13,85,0,0" Source="Images/contrast.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Contrast"/>
-                <Image x:Name="rgbred_png" Margin="13,115,0,0" Source="Images/rgbred.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Red gain"/>
-                <Image x:Name="rgbgreen_png" Margin="13,145,0,0" Source="Images/rgbgreen.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Green gain"/>
-                <Image x:Name="rgbblue_png" Margin="13,175,0,0" Source="Images/rgbblue.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Blue gain"/>
-                <Image x:Name="sharpness_png" Margin="13,205,0,0" Source="Images/sharpness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Sharpness" OpacityMask="Black"/>
-                <Image x:Name="picVolume" Margin="13,235,0,0" Source="Images/speaker_mute.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" MouseLeftButtonDown="picVolume_Click" ToolTip="Volume"/>
-                <Button x:Name="btnProfiles" HorizontalAlignment="Left" Margin="10,268,0,0" Width="42" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" Background="#19000000" BorderBrush="#19000000" ToolTip="Profiles" BorderThickness="2">
-                    <Button.ContextMenu>
-                        <ContextMenu/>
-                    </Button.ContextMenu>
-                    <Image x:Name="profiles_png" Height="28" Source="Images/profiles.png" Width="28"/>
-                </Button>
-                <Button x:Name="btnSources" HorizontalAlignment="Left" Margin="57,268,0,0" Width="42" Click="btnSources_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" Background="#19000000" BorderBrush="#19000000" ToolTip="Sources" BorderThickness="2">
-                    <Button.ContextMenu>
-                        <ContextMenu/>
-                    </Button.ContextMenu>
-                    <Image x:Name="split_png" Height="28" Source="Images/split.png" Stretch="Fill" Width="28"/>
-                </Button>
-                <Button x:Name="btnPower" HorizontalAlignment="Left" Margin="104,268,0,0" VerticalAlignment="Top" Width="42" Height="42" Click="btnPower_Click" ContextMenuService.IsEnabled="false" BorderBrush="#19000000" Background="#19000000" ToolTip="Power modes" BorderThickness="2">
-                    <Button.ContextMenu>
-                        <ContextMenu/>
-                    </Button.ContextMenu>
-                    <Image x:Name="power_png" Height="28" Source="Images/power.png" Stretch="Fill" Width="28"/>
-                </Button>
-                <Button x:Name="btnFactoryReset" HorizontalAlignment="Left" Margin="151,268,0,0" VerticalAlignment="Top" Width="42" Height="42" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" BorderBrush="#19000000" Background="#19000000" ToolTip="Reset" BorderThickness="2">
-                    <Button.ContextMenu>
-                        <ContextMenu/>
-                    </Button.ContextMenu>
-                    <Image x:Name="undo_png" Height="28" Source="Images/undo.png" Stretch="Fill" Width="28"/>
-                </Button>
-                <Button x:Name="btnRevert" Content="Revert" HorizontalAlignment="Left" Margin="209,268,0,0" VerticalAlignment="Top" Width="75" Height="42" Click="btnRevert_Click" Background="#19000000" BorderBrush="#19000000" FontSize="14" BorderThickness="2"/>
-                <Label x:Name="lblBrightness" Content="0%" HorizontalAlignment="Left" Margin="248,56,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblContrast" Content="0%" HorizontalAlignment="Left" Margin="248,86,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblRedGain" Content="0%" HorizontalAlignment="Left" Margin="248,116,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblGreenGain" Content="0%" HorizontalAlignment="Left" Margin="248,146,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblBlueGain" Content="0%" HorizontalAlignment="Left" Margin="248,176,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblSharpness" Content="0" HorizontalAlignment="Left" Margin="248,206,0,0" VerticalAlignment="Top"/>
-                <Label x:Name="lblVolume" Content="0%" HorizontalAlignment="Left" Margin="248,236,0,0" VerticalAlignment="Top"/>
+    <Grid>
+        <Border BorderBrush="#63282828" BorderThickness="1">
+            <Grid x:Name="RootWindow" Background="#D8282828">
+                <DockPanel x:Name="TitleBar" Height="31" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
+                    <Button Name="CloseButton" WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Right" Width="46" Click="CloseButton_Click" BorderThickness="0" Style="{StaticResource ButtonClose}" Foreground="White" HorizontalAlignment="Left">
+                        <Grid VerticalAlignment="Top" Margin="0,0,0,1" Height="30" Width="46">
+                            <Path Data="M10,10L9 10 5 6 1 10 0 10 0 9 4 5 0 1 0 0 1 0 5 4 9 0 10 0 10 1 6 5 10 9z" Width="10" Height="10"
+                            Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" />
+                        </Grid>
+                    </Button>
+                    <Button Name="MinimizeButton" WindowChrome.IsHitTestVisibleInChrome="True" DockPanel.Dock="Right" Width="46" Click="MinButton_Click" BorderThickness="0" Style="{StaticResource ButtonMinimize}" Foreground="White">
+                        <Grid Height="30" Width="46" Margin="0,0,0,1">
+                            <Path Data="M0 5h10v1H0z" Width="10" Height="10" Fill="White"  />
+                        </Grid>
+                    </Button>
+                    <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White" >MonitorProfiler</TextBlock>
+                </DockPanel>
+                <Grid Margin="0,31,0,0">
+                    <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="205" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="#33FFFFFF" BorderThickness="0" Padding="10,3,5,3" FontSize="15" Background="#33FFFFFF" Foreground="White"/>
+                    <Button x:Name="btnLinkMonitors" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="220,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" ToolTip="Link monitors" BorderThickness="2">
+                        <Image x:Name="unlink_png" Height="28" Source="Images/unlink.png" Stretch="Fill" Width="28"/>
+                    </Button>
+                    <Button x:Name="btnIdentifyMonitor" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="265,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnIdentifyMonitor_Click" ToolTip="Identify" BorderThickness="2" IsEnabled="False">
+                        <Image x:Name="light_png" Height="28" Source="Images/light.png" Stretch="Fill" Width="28"/>
+                    </Button>
+                    <Button x:Name="btnRestart" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="310,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnRestart_Click" ToolTip="Refresh list" BorderThickness="2">
+                        <Image x:Name="refresh_png" Height="28" Source="Images/refresh.png" Stretch="Fill" Width="28"/>
+                    </Button>
+                    <Slider x:Name="barBrightness" HorizontalAlignment="Left" Margin="65,70,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barContrast" HorizontalAlignment="Left" Margin="65,110,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barRedGain" HorizontalAlignment="Left" Margin="65,150,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" SmallChange="1" TickFrequency="5" LargeChange="5" Maximum="100" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barGreenGain" HorizontalAlignment="Left" Margin="65,190,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barBlueGain" HorizontalAlignment="Left" Margin="65,230,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barSharpness" HorizontalAlignment="Left" Margin="65,270,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" Maximum="5" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barVolume" HorizontalAlignment="Left" Margin="65,310,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" Maximum="100" LargeChange="5" SmallChange="1" TickFrequency="5" IsSnapToTickEnabled="True"/>
+                    <Image x:Name="brightness_png" Margin="19,68,0,0" Source="Images/brightness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Brightness" Opacity="0.9"/>
+                    <Image x:Name="contrast_png" Margin="19,108,0,0" Source="Images/contrast.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Contrast" Opacity="0.9"/>
+                    <Image x:Name="rgbred_png" Margin="19,148,0,0" Source="Images/rgbred.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Red gain" Opacity="0.9"/>
+                    <Image x:Name="rgbgreen_png" Margin="19,188,0,0" Source="Images/rgbgreen.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Green gain" Opacity="0.9"/>
+                    <Image x:Name="rgbblue_png" Margin="19,228,0,0" Source="Images/rgbblue.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Blue gain" Opacity="0.9"/>
+                    <Image x:Name="sharpness_png" Margin="19,268,0,0" Source="Images/sharpness.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" ToolTip="Sharpness" OpacityMask="Black" Opacity="0.9"/>
+                    <Image x:Name="picVolume" Margin="19,308,0,0" Source="Images/speaker_mute.png" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Width="28" Height="28" MouseLeftButtonDown="picVolume_Click" ToolTip="Volume" Opacity="0.9"/>
+                    <Button x:Name="btnProfiles" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="10,359,0,0" Width="42" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" ToolTip="Profiles" BorderThickness="2">
+                        <Button.ContextMenu>
+                            <ContextMenu/>
+                        </Button.ContextMenu>
+                        <Image x:Name="profiles_png" Height="28" Source="Images/profiles.png" Width="28"/>
+                    </Button>
+                    <Button x:Name="btnSources" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="57,359,0,0" Width="42" Click="btnSources_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" ToolTip="Sources" BorderThickness="2">
+                        <Button.ContextMenu>
+                            <ContextMenu/>
+                        </Button.ContextMenu>
+                        <Image x:Name="split_png" Height="28" Source="Images/split.png" Stretch="Fill" Width="28"/>
+                    </Button>
+                    <Button x:Name="btnPower" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="104,359,0,0" VerticalAlignment="Top" Width="42" Height="42" Click="btnPower_Click" ContextMenuService.IsEnabled="false" ToolTip="Power modes" BorderThickness="2">
+                        <Button.ContextMenu>
+                            <ContextMenu/>
+                        </Button.ContextMenu>
+                        <Image x:Name="power_png" Height="28" Source="Images/power.png" Stretch="Fill" Width="28"/>
+                    </Button>
+                    <Button x:Name="btnFactoryReset" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="151,359,0,0" VerticalAlignment="Top" Width="42" Height="42" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" ToolTip="Reset" BorderThickness="2">
+                        <Button.ContextMenu>
+                            <ContextMenu/>
+                        </Button.ContextMenu>
+                        <Image x:Name="undo_png" Height="28" Source="Images/undo.png" Stretch="Fill" Width="28"/>
+                    </Button>
+                    <Button x:Name="btnRevert" Style="{StaticResource IconButton}" Content="Revert" HorizontalAlignment="Left" Margin="275,359,0,-17" VerticalAlignment="Top" Width="75" Height="42" Click="btnRevert_Click" FontSize="15" BorderThickness="2" Foreground="White"/>
+                    <Label x:Name="lblBrightness" Content="0" HorizontalAlignment="Left" Margin="295,60,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                    <Label x:Name="lblContrast" Content="0" HorizontalAlignment="Left" Margin="295,100,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblRedGain" Content="0" HorizontalAlignment="Left" Margin="295,140,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblGreenGain" Content="0" HorizontalAlignment="Left" Margin="295,180,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblBlueGain" Content="0" HorizontalAlignment="Left" Margin="295,220,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblSharpness" Content="0" HorizontalAlignment="Left" Margin="295,260,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblVolume" Content="0" HorizontalAlignment="Left" Margin="295,300,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                </Grid>
             </Grid>
-        </Grid>
+        </Border>
         <Image x:Name="link_png" Source="images/link.png" Stretch="Fill" Width="26" Height="26" Visibility="Hidden"/>
         <Image x:Name="speaker_low_png" Source="images/speaker_low.png" Stretch="Fill" Width="28" Height="28" Visibility="Hidden"/>
         <Image x:Name="speaker_high_png" Source="images/speaker_high.png" Stretch="Fill" Width="28" Height="28" Visibility="Hidden"/>

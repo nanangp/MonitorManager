@@ -736,12 +736,12 @@ namespace MonitorProfiler
 
         private void Window_Activated(object sender, EventArgs e)
         {
-            this.BorderBrush = WindowGlassBrush;
+            //this.BorderBrush = WindowGlassBrush;
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            this.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFA5A5A5"));
+            //this.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFA5A5A5"));
         }
     }
 }

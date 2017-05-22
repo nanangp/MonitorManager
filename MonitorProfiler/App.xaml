@@ -4,10 +4,111 @@
              xmlns:local="clr-namespace:MonitorProfiler"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style TargetType="{x:Type MenuItem}">
-            <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="VerticalContentAlignment" Value="Top" />
+        <!-- Buttons -->
+        <Style x:Key="IconButton" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#28ffffff"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="#28ffffff" BorderThickness="2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#80ffffff" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#80ffffff" />
+                                <Setter Property="Background" Value="#80ffffff"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
+
+
+        <!-- Sliders -->
+        <Style x:Key="SliderRepeatLeft" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border SnapsToDevicePixels="True" Background="#429ce3" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SliderRepeatRight" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="#969291" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SliderThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Rectangle Name="rect" Fill="#0078d7" Width="8" Height="24" RadiusX="4" RadiusY="4" />
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="True">
+                                <Setter TargetName="rect" Property="Fill" Value="#ffffff"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="Slider" TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Track Grid.Row="1" x:Name="PART_Track"   >
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatLeft}"  Command="Slider.DecreaseLarge" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumb}"  />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatRight}" Command="Slider.IncreaseLarge" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+        <Style TargetType="{x:Type Slider}">
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="20" />
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="Template" Value="{StaticResource Slider}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="MinHeight" Value="20" />
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="Template" Value="{StaticResource Slider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+        <!-- Titlebar Buttons -->
         <Style x:Key="ButtonMinimize" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#00000000"/>
             <Setter Property="Template">
@@ -24,21 +125,22 @@
                     <Setter Property="Foreground" Value="#60000000"/>
                 </DataTrigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#20000000"/>
+                    <Setter Property="Background" Value="#20ffffff"/>
                     <Setter Property="Foreground" Value="black"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#30000000"/>
+                    <Setter Property="Background" Value="#30ffffff"/>
                 </Trigger>
                 <EventTrigger RoutedEvent="MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#20000000" To="#00000000" Duration="0:0:0.2"/>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#20ffffff" To="#00ffffff" Duration="0:0:0.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+        
         <Style x:Key="ButtonClose" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#00000000"/>
             <Setter Property="Template">
@@ -59,7 +161,7 @@
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#80e81123"/>
+                    <Setter Property="Background" Value="#f1707a"/>
                 </Trigger>
                 <EventTrigger RoutedEvent="MouseLeave">
                     <BeginStoryboard>
@@ -70,8 +172,18 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
-        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#19000000" />
-        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#19000000" />
+
+
+        <!-- Context Menus -->
+        <Style TargetType="{x:Type MenuItem}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+        </Style>
+
+        
+        <!-- Combo Box -->
+        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#28ffffff" />
+        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#28ffffff" />
         <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
         <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
         <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
@@ -79,20 +191,20 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="30" />
                 </Grid.ColumnDefinitions>
-                <Border Grid.ColumnSpan="2" Name="Border" BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" CornerRadius="0" BorderThickness="0" Background="{StaticResource ComboBoxNormalBackgroundBrush}" />
+                <Border Grid.ColumnSpan="2" Name="Border" BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" CornerRadius="0" BorderThickness="2" Background="{StaticResource ComboBoxNormalBackgroundBrush}" />
                 <Border Grid.Column="1" Margin="0, 0, 0, 0" BorderBrush="#444" Name="ButtonBorder" CornerRadius="0" BorderThickness="0" Background="#00000000" />
-                <Path Name="Arrow" Grid.Column="1" Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z" HorizontalAlignment="Center" Fill="#444" VerticalAlignment="Center" />
+                <Path Name="Arrow" Grid.Column="1" Data="M0 0v1l6 6 6-6V0h-1L6 5 1 0H0z" Fill="white" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
             <ControlTemplate.Triggers>
                 <!-- Right thing -->
                 <Trigger Property="UIElement.IsMouseOver" Value="True">
-                    <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="WhiteSmoke"/>
+                    <Setter Property="Border.BorderBrush" TargetName="Border" Value="#80ffffff"/>
                 </Trigger>
                 <Trigger Property="ToggleButton.IsChecked" Value="True">
-                    <Setter Property="Panel.Background" TargetName="ButtonBorder" Value="WhiteSmoke"/>
-                    <Setter Property="Shape.Fill" TargetName="Arrow" Value="#FF8D979E"/>
+                    <Setter Property="Background" TargetName="Border" Value="#80ffffff"/>
+                    <Setter Property="Border.BorderBrush" TargetName="Border" Value="#80ffffff"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsEnabled" Value="False">
                     <Setter Property="Panel.Background" TargetName="Border" Value="{StaticResource ComboBoxDisabledBackgroundBrush}"/>

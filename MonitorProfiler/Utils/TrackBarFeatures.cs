@@ -20,7 +20,7 @@ namespace MonitorProfiler.GUI
         {
             uint newValue = (uint)bar.Value;
             if(bar.Maximum < 100) _label.Content = string.Format("{0}", newValue);
-            else _label.Content = string.Format("{0}%", newValue);
+            else _label.Content = string.Format("{0}", newValue);
 
             switch (_type)
             {
