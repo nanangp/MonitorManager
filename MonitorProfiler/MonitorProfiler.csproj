@@ -115,60 +115,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\brightness.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\contrast.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\rgbred.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\rgbgreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\rgbblue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\speaker_mute.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\sharpness.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\unlink.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\light.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\profiles.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\power.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\split.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\undo.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="profiles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\link.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\speaker_high.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\speaker_low.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="monitorprofiler.ico" />

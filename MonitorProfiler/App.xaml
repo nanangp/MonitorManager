@@ -35,7 +35,12 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
-                        <Border SnapsToDevicePixels="True" Background="#429ce3" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                        <Border Name="sliderleft" SnapsToDevicePixels="True" Background="#429ce3" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="False">
+                                <Setter TargetName="sliderleft" Property="Background" Value="#50ffffff"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -48,7 +53,12 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
-                        <Border Background="#969291" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                        <Border Name="sliderright" Background="#969291" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="False">
+                                <Setter TargetName="sliderright" Property="Background" Value="#30ffffff"/>
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -59,10 +69,13 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
-                        <Rectangle Name="rect" Fill="#0078d7" Width="8" Height="24" RadiusX="4" RadiusY="4" />
+                        <Rectangle Name="thumb" Fill="#0078d7" Width="8" Height="24" RadiusX="4" RadiusY="4" />
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="True">
-                                <Setter TargetName="rect" Property="Fill" Value="#ffffff"/>
+                                <Setter TargetName="thumb" Property="Fill" Value="#ffffff"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="False">
+                                <Setter TargetName="thumb" Property="Fill" Value="#30ffffff"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

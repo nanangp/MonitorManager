@@ -17,7 +17,6 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
-using System.Windows.Shell;
 
 namespace MonitorProfiler
 {
@@ -34,7 +33,15 @@ namespace MonitorProfiler
         DispatcherTimer _timerResetColors = new DispatcherTimer(); 
         DispatcherTimer _timerResetFactory = new DispatcherTimer();
         DispatcherTimer _timerResetLuminance = new DispatcherTimer();
+        DispatcherTimer _timerIdentify = new DispatcherTimer();
         DispatcherTimer _timerRestart = new DispatcherTimer();
+
+        private string svgLink = "M12.7 17l.3.3c.5.5 1 .8 1.5 1 .3-.5.4-1 .5-1.5-.4-.2-.8-.4-1.1-.8-1.6-1.6-1.6-4.1 0-5.7L16 8.2c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7l-1 1c.2.6.2 1.3.2 2l2.1-2.1c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-2.4 2.4c-2.1 2.1-2.1 5.5-.1 7.6z M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l2.4-2.4c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-.5-.5-1-.8-1.5-1-.3.5-.4 1-.5 1.5.4.2.8.4 1.1.8 1.6 1.6 1.6 4.1 0 5.7L14 21.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1-1c-.2-.6-.2-1.3-.2-2L7 15.2c-2 2-2 5.4.1 7.4z";
+        private string svgUnlink = "M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l1.9-1.9-1.1-1.1-1.8 1.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1.8-1.8-1-1-1.9 1.9c-2.1 2.1-2.1 5.5 0 7.5zM16.1 8.3c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7L20 15.7l1 1 1.9-1.9c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-1.9 2 1.1 1.1 1.8-1.8zM19.435 20.515l1.06-1.06 2.83 2.828-1.062 1.06zM17.6 21.9h1.5v3.2h-1.5zM21.9 17.6h3.2v1.5h-3.2zM6.676 7.717l1.06-1.06 2.83 2.828-1.062 1.06zM4.9 10.9h3.2v1.5H4.9zM10.9 4.9h1.5v3.2h-1.5z";
+        private string svgVolumeMute = "M26 11.5l-1-1-3.5 3.4-3.5-3.4-1 1 3.4 3.5-3.4 3.5 1 1 3.5-3.4 3.5 3.4 1-1-3.4-3.5M5.3 10.3v9.5h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.3v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9z";
+        private string svgVolumeLow = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z";
+        private string svgVolumeMedium = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z M21.2 7.2l-1 1.1C21.9 10 23 12.4 23 15s-1.1 5-2.8 6.7l1 1.1c2-2 3.3-4.8 3.3-7.8s-1.3-5.9-3.3-7.8z";
+        private string svgVolumeHigh = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z M21.2 7.2l-1 1.1C21.9 10 23 12.4 23 15s-1.1 5-2.8 6.7l1 1.1c2-2 3.3-4.8 3.3-7.8s-1.3-5.9-3.3-7.8z M23.9 4.2l-1 1.1c2.6 2.5 4.2 6 4.1 9.9-.1 3.7-1.6 7.1-4.1 9.5l1 1.1c2.8-2.7 4.5-6.4 4.6-10.5.1-4.4-1.7-8.3-4.6-11.1z";
 
         private const int HOTKEY_ID = 9000;
         //Modifiers:
@@ -113,6 +120,8 @@ namespace MonitorProfiler
             _timerResetLuminance.Tick += new EventHandler(TimerResetLuminance);
             _timerRestart.Interval = new TimeSpan(0, 0, 0, 0, 500);
             _timerRestart.Tick += new EventHandler(Restart);
+            _timerIdentify.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerIdentify.Tick += new EventHandler(IdentifyEnable);
             return;
         }
 
@@ -309,8 +318,14 @@ namespace MonitorProfiler
                 barBrightness.Maximum = (int)m.Brightness.Max;
                 barBrightness.Value = (int)m.Brightness.Current;
                 barBrightness.IsEnabled = true;
+                pathBrightness.Opacity = 0.9;
             }
-            else barBrightness.IsEnabled = false;
+            else
+            {
+                barBrightness.IsEnabled = false;
+                pathBrightness.Opacity = 0.2;
+            }
+            lblBrightness.Opacity = pathBrightness.Opacity;
 
             Debug.WriteLine("RefreshSliders - Contrast.Max: " + m.Contrast.Max);
             if (m.Contrast.Max > 0)
@@ -319,8 +334,15 @@ namespace MonitorProfiler
                 barContrast.Maximum = (int)m.Contrast.Max;
                 barContrast.Value = (int)m.Contrast.Current;
                 barContrast.IsEnabled = true;
+                pathContrast.Opacity = 0.9;
+                lblContrast.Opacity = pathContrast.Opacity;
             }
-            else barContrast.IsEnabled = false;
+            else
+            {
+                barContrast.IsEnabled = false;
+                pathContrast.Opacity = 0.2;
+            }
+            lblContrast.Opacity = lblContrast.Opacity;
 
             Debug.WriteLine("RefreshSliders - RedGain.Max: " + m.RedGain.Max);
             Debug.WriteLine("RefreshSliders - RedGain.Current: " + m.RedGain.Current);
@@ -330,8 +352,14 @@ namespace MonitorProfiler
                 barRedGain.Maximum = (int)m.RedGain.Max;
                 barRedGain.Value = (int)m.RedGain.Current;
                 barRedGain.IsEnabled = true;
+                pathRedGain.Opacity = 0.9;
             }
-            else barRedGain.IsEnabled = false;
+            else
+            {
+                barRedGain.IsEnabled = false;
+                pathRedGain.Opacity = 0.2;
+            }
+            lblRedGain.Opacity = pathRedGain.Opacity;
 
             Debug.WriteLine("RefreshSliders - GreenGain.Max: " + m.GreenGain.Max);
             Debug.WriteLine("RefreshSliders - GreenGain.Current: " + m.GreenGain.Current);
@@ -341,8 +369,14 @@ namespace MonitorProfiler
                 barGreenGain.Maximum = (int)m.GreenGain.Max;
                 barGreenGain.Value = (int)m.GreenGain.Current;
                 barGreenGain.IsEnabled = true;
+                pathGreenGain.Opacity = 0.9;
             }
-            else barGreenGain.IsEnabled = false;
+            else
+            {
+                barGreenGain.IsEnabled = false;
+                pathGreenGain.Opacity = 0.2;
+            }
+            lblGreenGain.Opacity = pathGreenGain.Opacity;
 
             Debug.WriteLine("RefreshSliders - BlueGain.Max: " + m.BlueGain.Max);
             Debug.WriteLine("RefreshSliders - BlueGain.Current: " + m.BlueGain.Current);
@@ -352,8 +386,14 @@ namespace MonitorProfiler
                 barBlueGain.Maximum = (int)m.BlueGain.Max;
                 barBlueGain.Value = (int)m.BlueGain.Current;
                 barBlueGain.IsEnabled = true;
+                pathBlueGain.Opacity = 0.9;
             }
-            else barBlueGain.IsEnabled = false;
+            else
+            {
+                barBlueGain.IsEnabled = false;
+                pathBlueGain.Opacity = 0.2;
+            }
+            lblBlueGain.Opacity = pathBlueGain.Opacity;
 
             Debug.WriteLine("RefreshSliders - Sharpness.Max: " + m.Sharpness.Max);
             if (m.Sharpness.Max > 0)
@@ -365,9 +405,14 @@ namespace MonitorProfiler
                 barSharpness.Maximum = (int)m.Sharpness.Max;
                 barSharpness.Value = (int)m.Sharpness.Current;
                 barSharpness.IsEnabled = true;
+                pathSharpness.Opacity = 0.9;
             }
-            else barSharpness.IsEnabled = false;
-            lblSharpness.IsEnabled = barSharpness.IsEnabled;
+            else
+            {
+                barSharpness.IsEnabled = false;
+                pathSharpness.Opacity = 0.2;
+            }
+            lblSharpness.Opacity = pathSharpness.Opacity;
 
             Debug.WriteLine("RefreshSliders - Volume.Max: " + m.Volume.Max);
             if (m.Volume.Max > 0)
@@ -376,9 +421,14 @@ namespace MonitorProfiler
                 barVolume.Maximum = (int)m.Volume.Max;
                 barVolume.Value = (int)m.Volume.Current;
                 barVolume.IsEnabled = true;
+                pathVolume.Opacity = 0.9;
             }
-            else barVolume.IsEnabled = false;
-            lblVolume.IsEnabled = barVolume.IsEnabled;
+            else
+            {
+                barVolume.IsEnabled = false;
+                pathVolume.Opacity = 0.2;
+            }
+            lblVolume.Opacity = pathVolume.Opacity;
 
             RefreshPowerMenu();
             RefreshSourcesMenu();
@@ -459,7 +509,7 @@ namespace MonitorProfiler
                 string link = _config.Settings[0].Link;
                 if (link.ToLower() == "true")
                 {
-                    unlink_png.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/link.png"));
+                    pathlink.Data = Geometry.Parse(svgLink);
                     btnLinkMonitors.Tag = "link";
                 }
 
@@ -513,16 +563,15 @@ namespace MonitorProfiler
                 // Assumes sender is a Slider, and exists in the collection. Don't worry about errors :)
                 if (barVolume.Value <= 0)
                 {
-                    picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_mute.png"));
+                    pathVolume.Data = Geometry.Parse(svgVolumeMute);
                     picVolume.ToolTip = "Volume";
-                    picVolume.Cursor = Cursors.Arrow;
                 }
                 else
                 {
-                    if (barVolume.Value >= 50) picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_high.png"));
-                    else picVolume.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/speaker_low.png"));
+                    if (barVolume.Value >= 66) pathVolume.Data = Geometry.Parse(svgVolumeHigh);
+                    else if (barVolume.Value >= 33) pathVolume.Data = Geometry.Parse(svgVolumeMedium);
+                    else pathVolume.Data = Geometry.Parse(svgVolumeLow);
                     picVolume.ToolTip = "Mute";
-                    picVolume.Cursor = Cursors.Hand;
                 }
 
                 if ((string)btnLinkMonitors.Tag == "link")
@@ -562,6 +611,19 @@ namespace MonitorProfiler
 
         private void btnIdentifyMonitor_Click(object sender, RoutedEventArgs e)
         {
+            btnIdentifyMonitor.IsEnabled = false;
+            _timerIdentify.IsEnabled = true;
+            _timerIdentify.Start();
+        }
+
+        private void IdentifyEnable(object sender, EventArgs e)
+        {
+
+            _timerIdentify.Stop();
+            _timerIdentify.IsEnabled = false;
+            btnIdentifyMonitor.IsEnabled = true;
+
+            // Revert
             uint _currentBrightness = _currentMonitor.Brightness.Current;
             uint _currentContrast = _currentMonitor.Contrast.Current;
 
@@ -578,8 +640,8 @@ namespace MonitorProfiler
                 NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, minBrightness);
                 NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, minContrast);
             }
-            System.Threading.Thread.Sleep(100);
-            // Revert
+
+
             NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, _currentBrightness);
             NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, _currentContrast);
         }
@@ -631,19 +693,19 @@ namespace MonitorProfiler
         {
             if ((string)btnLinkMonitors.Tag == "unlink")
             {
-                unlink_png.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/link.png"));
+                pathlink.Data = Geometry.Parse(svgLink);
                 btnLinkMonitors.Tag = "link";
                 _config.Settings[0].Link = "True";
             }
             else
             {
-                unlink_png.Source = new BitmapImage(new Uri("pack://application:,,,/MonitorProfiler;component/images/unlink.png"));
+                pathlink.Data = Geometry.Parse(svgUnlink);
                 btnLinkMonitors.Tag = "unlink";
                 _config.Settings[0].Link = "False";
             }
         }
 
-        private void picVolume_Click(object sender, MouseButtonEventArgs e)
+        private void picVolume_Click(object sender, RoutedEventArgs e)
         {
             if (barVolume.Value > 0) barVolume.Value = 0;
         }
