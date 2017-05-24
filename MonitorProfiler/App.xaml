@@ -4,9 +4,105 @@
              xmlns:local="clr-namespace:MonitorProfiler"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <Style x:Key="Focus">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle StrokeThickness="2" Stroke="#ffffff" SnapsToDevicePixels="true"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <Style x:Key="FocusLarge">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="-8" StrokeThickness="2" Stroke="#ffffff" SnapsToDevicePixels="true"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        <!-- Titlebar Buttons -->
+        <Style x:Key="ButtonMinimize" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#00000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
+                    <Setter Property="Foreground" Value="#80ffffff"/>
+                </DataTrigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#20ffffff"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#20ffffff"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#30ffffff"/>
+                </Trigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#20ffffff" To="#00ffffff" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ButtonClose" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#00000000"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
+                    <Setter Property="Foreground" Value="#80ffffff"/>
+                </DataTrigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="Background" Value="#e81123"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#e81123"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#f1707a"/>
+                    <Setter Property="Foreground" Value="black"/>
+                </Trigger>
+                <EventTrigger RoutedEvent="MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#e81123" To="#00000000" Duration="0:0:0.2"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+
+
         <!-- Buttons -->
         <Style x:Key="IconButton" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#28ffffff"/>
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource Focus}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
@@ -30,8 +126,10 @@
 
         <!-- Sliders -->
         <Style x:Key="SliderRepeatLeft" TargetType="RepeatButton">
-            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="IsTabStop" Value="false" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
@@ -46,10 +144,10 @@
             </Setter>
         </Style>
         <Style x:Key="SliderRepeatRight" TargetType="RepeatButton">
-            <Setter Property="SnapsToDevicePixels" Value="true" />
-            <Setter Property="OverridesDefaultStyle" Value="true" />
-            <Setter Property="IsTabStop" Value="false" />
             <Setter Property="Focusable" Value="false" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
@@ -64,8 +162,8 @@
             </Setter>
         </Style>
         <Style x:Key="SliderThumb" TargetType="Thumb">
-            <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
@@ -103,9 +201,10 @@
             </Grid>
         </ControlTemplate>
         <Style TargetType="{x:Type Slider}">
-            <Setter Property="Focusable" Value="False"/>
-            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="Focusable" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource FocusLarge}"/>
             <Style.Triggers>
                 <Trigger Property="Orientation" Value="Horizontal">
                     <Setter Property="MinHeight" Value="20" />
@@ -117,72 +216,6 @@
                     <Setter Property="MinWidth" Value="104" />
                     <Setter Property="Template" Value="{StaticResource Slider}" />
                 </Trigger>
-            </Style.Triggers>
-        </Style>
-
-
-        <!-- Titlebar Buttons -->
-        <Style x:Key="ButtonMinimize" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#00000000"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
-                    <Setter Property="Foreground" Value="#60000000"/>
-                </DataTrigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#20ffffff"/>
-                    <Setter Property="Foreground" Value="black"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#30ffffff"/>
-                </Trigger>
-                <EventTrigger RoutedEvent="MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#20ffffff" To="#00ffffff" Duration="0:0:0.2"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Style.Triggers>
-        </Style>
-        
-        <Style x:Key="ButtonClose" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#00000000"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="Black" BorderThickness="0">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
-                    <Setter Property="Foreground" Value="#60000000"/>
-                </DataTrigger>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#e81123"/>
-                    <Setter Property="Foreground" Value="White"/>
-                </Trigger>
-                <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#f1707a"/>
-                </Trigger>
-                <EventTrigger RoutedEvent="MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#e81123" To="#00000000" Duration="0:0:0.2"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
             </Style.Triggers>
         </Style>
 
@@ -211,7 +244,6 @@
                 <Path Name="Arrow" Grid.Column="1" Data="M0 0v1l6 6 6-6V0h-1L6 5 1 0H0z" Fill="white" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
             <ControlTemplate.Triggers>
-                <!-- Right thing -->
                 <Trigger Property="UIElement.IsMouseOver" Value="True">
                     <Setter Property="Border.BorderBrush" TargetName="Border" Value="#80ffffff"/>
                 </Trigger>
@@ -229,14 +261,14 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
 
-        <Style x:Key="ComboBoxFlatStyle"  TargetType="{x:Type ComboBox}">
+        <Style x:Key="ComboBoxFlatStyle" TargetType="{x:Type ComboBox}">
             <Setter Property="UIElement.SnapsToDevicePixels" Value="True"/>
             <Setter Property="FrameworkElement.OverridesDefaultStyle" Value="True"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
             <Setter Property="TextElement.Foreground" Value="Black"/>
-            <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource Focus}"/>
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
@@ -253,8 +285,8 @@
                             <!-- Popup showing items -->
                             <Popup Name="Popup" Placement="Bottom" Focusable="False" AllowsTransparency="True" IsOpen="{TemplateBinding ComboBox.IsDropDownOpen}" PopupAnimation="Slide">
                                 <Grid Name="DropDown" SnapsToDevicePixels="True" MinWidth="{TemplateBinding FrameworkElement.ActualWidth}" MaxHeight="{TemplateBinding ComboBox.MaxDropDownHeight}">
-                                    <Border Name="DropDownBorder" Background="WhiteSmoke" Margin="0, 0, 0, 0" CornerRadius="0" BorderThickness="0, 0, 0, 0" BorderBrush="{StaticResource ComboBoxNormalBorderBrush}"/>
-                                    <ScrollViewer Margin="0" SnapsToDevicePixels="True">
+                                    <Border Name="DropDownBorder" Background="#2b2b2b" Margin="0" CornerRadius="0" BorderThickness="1,0,1,1" BorderBrush="{StaticResource ComboBoxNormalBorderBrush}"/>
+                                    <ScrollViewer Margin="1,0,1,1" SnapsToDevicePixels="True">
                                         <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
                                     </ScrollViewer>
                                 </Grid>
