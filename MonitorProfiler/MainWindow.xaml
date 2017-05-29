@@ -5,23 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonitorProfiler"
         mc:Ignorable="d"
-        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="444" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitorprofiler.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" Deactivated="Window_Deactivated" Activated="Window_Activated" ResizeMode="CanMinimize" Background="Transparent" AllowsTransparency="False">
+        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="444" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitorprofiler.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="CanMinimize" Background="Transparent" AllowsTransparency="False">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="1" CaptionHeight="31" />
     </WindowChrome.WindowChrome>
     <Grid>
         <Border BorderBrush="#63282828" BorderThickness="1">
-            <Grid Name="RootWindow">
-                <Grid.Style>
-                    <Style TargetType="Grid">
-                        <Setter Property="Background" Value="#d8282828" />
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
-                                <Setter Property="Background" Value="#ee282828"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
+            <Grid Style="{StaticResource rootWindow}">
                 <DockPanel x:Name="TitleBar" Height="31" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
                     <Button Name="CloseButton" WindowChrome.IsHitTestVisibleInChrome="True" KeyboardNavigation.TabIndex="1" DockPanel.Dock="Right" Width="46" Click="CloseButton_Click" BorderThickness="0" Style="{StaticResource ButtonClose}">
                         <Grid VerticalAlignment="Top" Margin="0,0,0,1" Height="30" Width="46">

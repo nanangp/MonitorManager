@@ -4,6 +4,32 @@
              xmlns:local="clr-namespace:MonitorProfiler"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <!-- Background -->
+        <Style x:Key="rootWindow" TargetType="{x:Type Grid}">
+            <Setter Property="Background" Value="#d8282828" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
+                    <Setter Property="Background" Value="#ee282828"/>
+                    <DataTrigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#d8282828" To="#ee282828" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.EnterActions>
+                    <DataTrigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#ee282828" To="#d8282828" Duration="0:0:0.1"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </DataTrigger.ExitActions>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        
+        
+        <!-- Focus Styles -->
         <Style x:Key="Focus">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -23,6 +49,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         
         <!-- Titlebar Buttons -->
         <Style x:Key="ButtonMinimize" TargetType="{x:Type Button}">
@@ -143,6 +170,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="SliderRepeatRight" TargetType="RepeatButton">
             <Setter Property="Focusable" Value="false" />
             <Setter Property="IsTabStop" Value="false" />
@@ -161,6 +189,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <Style x:Key="SliderThumb" TargetType="Thumb">
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="SnapsToDevicePixels" Value="true" />
@@ -180,6 +209,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
         <ControlTemplate x:Key="Slider" TargetType="Slider">
             <Grid>
                 <Grid.RowDefinitions>
@@ -200,6 +230,7 @@
                 </Track>
             </Grid>
         </ControlTemplate>
+        
         <Style TargetType="{x:Type Slider}">
             <Setter Property="Focusable" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="true" />
