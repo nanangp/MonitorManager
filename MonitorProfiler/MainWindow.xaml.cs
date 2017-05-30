@@ -428,6 +428,7 @@ namespace MonitorProfiler
                 barVolume.IsEnabled = false;
                 pathVolume.Opacity = 0.2;
             }
+            picVolume.IsEnabled = barVolume.IsEnabled;
             lblVolume.Opacity = pathVolume.Opacity;
 
             RefreshPowerMenu();
