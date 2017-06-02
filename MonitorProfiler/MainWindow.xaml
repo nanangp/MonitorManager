@@ -11,6 +11,9 @@
     </WindowChrome.WindowChrome>
     <Grid>
         <Border BorderBrush="#63282828" BorderThickness="1">
+            <Border.Effect>
+                <BlurEffect x:Name="blurEffect" Radius="0"/>
+            </Border.Effect>
             <Grid Style="{StaticResource rootWindow}">
                 <DockPanel x:Name="TitleBar" Height="31" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
                     <Button Name="CloseButton" WindowChrome.IsHitTestVisibleInChrome="True" KeyboardNavigation.TabIndex="1" DockPanel.Dock="Right" Width="46" Click="CloseButton_Click" BorderThickness="0" Style="{StaticResource ButtonClose}">
@@ -93,7 +96,8 @@
                         <Button.Triggers>
                             <EventTrigger RoutedEvent="Button.Click">
                                 <BeginStoryboard>
-                                    <Storyboard>
+                                    <Storyboard Completed="Restart">
+                                        <DoubleAnimation Storyboard.TargetName="blurEffect" Storyboard.TargetProperty="Radius" From="0" To="5" Duration="0:0:0.1"/>
                                         <DoubleAnimation Storyboard.TargetName="lblWait" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -190,6 +194,10 @@
                 </Grid>
             </Grid>
         </Border>
-        <Label x:Name="lblWait" Style="{StaticResource lblWait}" Content="Refreshing monitors informations..." VerticalContentAlignment="Center" Background="#CCFFFFFF" HorizontalContentAlignment="Center" FontSize="16" Margin="1"/>
+        <Label x:Name="lblWait" Style="{StaticResource WaitMessage}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#CC000000" FontSize="24" Margin="-1,1,1,1" Foreground="White" Opacity="0" Visibility="Hidden" BorderThickness="20" BorderBrush="#CC000000">
+            <Label.Content>
+                <AccessText TextWrapping="Wrap" Text="Refreshing monitors informations..." HorizontalAlignment="Center" TextAlignment="Center"/>
+            </Label.Content>
+        </Label>
     </Grid>
 </Window>

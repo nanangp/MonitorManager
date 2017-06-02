@@ -724,14 +724,14 @@ namespace MonitorProfiler
         {
             lblWait.Visibility = Visibility.Visible;
             Debug.WriteLine("show the thing");
-            _timerRestart.IsEnabled = true;
-            _timerRestart.Start();
+            //_timerRestart.IsEnabled = true;
+            //_timerRestart.Start();
         }
 
         private void Restart(object sender, EventArgs e)
         {
-            _timerRestart.Stop();
-            _timerRestart.IsEnabled = false;
+            //_timerRestart.Stop();
+            //_timerRestart.IsEnabled = false;
             _monitorCollection.Clear();
             cboMonitors.SelectionChanged -= CboMonitors_SelectionChanged;
             cboMonitors.Items.Clear();
@@ -755,6 +755,7 @@ namespace MonitorProfiler
 
             Debug.WriteLine("hide the thing");
             lblWait.Visibility = Visibility.Hidden;
+            blurEffect.Radius = 0;
         }
 
         private void btnDeleteProfile_Click(object sender, RoutedEventArgs e)

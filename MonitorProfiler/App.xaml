@@ -28,8 +28,9 @@
             </Style.Triggers>
         </Style>
 
-
-        <Style x:Key="lblWait" TargetType="{x:Type Label}">
+        
+        <!-- Wait Message -->
+        <Style x:Key="WaitMessage" TargetType="{x:Type Label}">
             <Setter Property="Opacity" Value="0"/>
             <Setter Property="Visibility" Value="Hidden"/>
         </Style>
