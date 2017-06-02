@@ -27,6 +27,12 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+
+
+        <Style x:Key="lblWait" TargetType="{x:Type Label}">
+            <Setter Property="Opacity" Value="0"/>
+            <Setter Property="Visibility" Value="Hidden"/>
+        </Style>
         
         
         <!-- Focus Styles -->
@@ -71,9 +77,11 @@
                 </DataTrigger>
                 <Trigger Property="IsFocused" Value="True">
                     <Setter Property="Background" Value="#20ffffff"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#20ffffff"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="#30ffffff"/>
@@ -107,13 +115,15 @@
                 </DataTrigger>
                 <Trigger Property="IsFocused" Value="True">
                     <Setter Property="Background" Value="#e81123"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#e81123"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="#f1707a"/>
-                    <Setter Property="Foreground" Value="black"/>
+                    <!--<Setter Property="Foreground" Value="black"/>-->
                 </Trigger>
                 <EventTrigger RoutedEvent="MouseLeave">
                     <BeginStoryboard>
@@ -222,7 +232,7 @@
                         <RepeatButton Style="{StaticResource SliderRepeatLeft}"  Command="Slider.DecreaseLarge" />
                     </Track.DecreaseRepeatButton>
                     <Track.Thumb>
-                        <Thumb Style="{StaticResource SliderThumb}"  />
+                        <Thumb Style="{StaticResource SliderThumb}" />
                     </Track.Thumb>
                     <Track.IncreaseRepeatButton>
                         <RepeatButton Style="{StaticResource SliderRepeatRight}" Command="Slider.IncreaseLarge" />

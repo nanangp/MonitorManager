@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using MonitorProfiler.GUI;
 using MonitorProfiler.Win32;
 using MonitorProfiler.Models.Display;
@@ -121,6 +122,15 @@ namespace MonitorProfiler
             _timerRestart.Tick += new EventHandler(Restart);
             _timerIdentify.Interval = new TimeSpan(0, 0, 0, 0, 100);
             _timerIdentify.Tick += new EventHandler(IdentifyEnable);
+
+            barBrightness.PreviewMouseWheel += (sender, e) => barBrightness.Value += barBrightness.SmallChange * e.Delta / 60;
+            barContrast.PreviewMouseWheel += (sender, e) => barContrast.Value += barContrast.SmallChange * e.Delta / 60;
+            barRedGain.PreviewMouseWheel += (sender, e) => barRedGain.Value += barRedGain.SmallChange * e.Delta / 60;
+            barGreenGain.PreviewMouseWheel += (sender, e) => barGreenGain.Value += barGreenGain.SmallChange * e.Delta / 60;
+            barBlueGain.PreviewMouseWheel += (sender, e) => barBlueGain.Value += barBlueGain.SmallChange * e.Delta / 60;
+            barSharpness.PreviewMouseWheel += (sender, e) => barSharpness.Value += barSharpness.SmallChange * e.Delta / 120;
+            barVolume.PreviewMouseWheel += (sender, e) => barVolume.Value += barVolume.SmallChange * e.Delta / 60;
+
             return;
         }
 
