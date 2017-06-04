@@ -4,7 +4,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using MonitorProfiler.GUI;
 using MonitorProfiler.Win32;
 using MonitorProfiler.Models.Display;
@@ -17,6 +16,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Threading.Tasks;
+using Microsoft.Win32;
 
 namespace MonitorProfiler
 {
@@ -25,7 +27,6 @@ namespace MonitorProfiler
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IntPtr _windowHandle;
         private Monitor _currentMonitor;
         private readonly MonitorCollection _monitorCollection = new MonitorCollection();
         private Dictionary<Slider, TrackBarFeatures> _bars;
@@ -33,8 +34,6 @@ namespace MonitorProfiler
         DispatcherTimer _timerResetColors = new DispatcherTimer(); 
         DispatcherTimer _timerResetFactory = new DispatcherTimer();
         DispatcherTimer _timerResetLuminance = new DispatcherTimer();
-        DispatcherTimer _timerIdentify = new DispatcherTimer();
-        DispatcherTimer _timerRestart = new DispatcherTimer();
 
         private string svgLink = "M12.7 17l.3.3c.5.5 1 .8 1.5 1 .3-.5.4-1 .5-1.5-.4-.2-.8-.4-1.1-.8-1.6-1.6-1.6-4.1 0-5.7L16 8.2c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7l-1 1c.2.6.2 1.3.2 2l2.1-2.1c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-2.4 2.4c-2.1 2.1-2.1 5.5-.1 7.6z M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l2.4-2.4c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-.5-.5-1-.8-1.5-1-.3.5-.4 1-.5 1.5.4.2.8.4 1.1.8 1.6 1.6 1.6 4.1 0 5.7L14 21.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1-1c-.2-.6-.2-1.3-.2-2L7 15.2c-2 2-2 5.4.1 7.4z";
         private string svgUnlink = "M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l1.9-1.9-1.1-1.1-1.8 1.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1.8-1.8-1-1-1.9 1.9c-2.1 2.1-2.1 5.5 0 7.5zM16.1 8.3c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7L20 15.7l1 1 1.9-1.9c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-1.9 2 1.1 1.1 1.8-1.8zM19.435 20.515l1.06-1.06 2.83 2.828-1.062 1.06zM17.6 21.9h1.5v3.2h-1.5zM21.9 17.6h3.2v1.5h-3.2zM6.676 7.717l1.06-1.06 2.83 2.828-1.062 1.06zM4.9 10.9h3.2v1.5H4.9zM10.9 4.9h1.5v3.2h-1.5z";
@@ -43,7 +42,6 @@ namespace MonitorProfiler
         private string svgVolumeMedium = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z M21.2 7.2l-1 1.1C21.9 10 23 12.4 23 15s-1.1 5-2.8 6.7l1 1.1c2-2 3.3-4.8 3.3-7.8s-1.3-5.9-3.3-7.8z";
         private string svgVolumeHigh = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z M21.2 7.2l-1 1.1C21.9 10 23 12.4 23 15s-1.1 5-2.8 6.7l1 1.1c2-2 3.3-4.8 3.3-7.8s-1.3-5.9-3.3-7.8z M23.9 4.2l-1 1.1c2.6 2.5 4.2 6 4.1 9.9-.1 3.7-1.6 7.1-4.1 9.5l1 1.1c2.8-2.7 4.5-6.4 4.6-10.5.1-4.4-1.7-8.3-4.6-11.1z";
 
-        private const int HOTKEY_ID = 9000;
         //Modifiers:
         private const uint MOD_NONE = 0x0000; //(none)
         private const uint MOD_ALT = 0x0001; //ALT
@@ -52,24 +50,36 @@ namespace MonitorProfiler
         private const uint MOD_WIN = 0x0008; //WINDOWS
         private const uint VK_CAPITAL = 0x14; //CAPSLOCK
         private const uint NK_0 = 0x60; // NUM_KEY 0
+        private const int HOTKEY_ID = 9000;
+        private const int WM_HOTKEY = 0x0312;
+        private const int WM_DWMCOMPOSITIONCHANGED = 0x31A;
+        private const int WM_THEMECHANGED = 0x31E;
         private const string profiles_xml = "profiles.xml";
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
 
-        private HwndSource _source;
+        private static DoubleAnimation WindowAnim = new DoubleAnimation();
+        private static DoubleAnimation lblWaitAnim = new DoubleAnimation();
+
+        private IntPtr hwnd;
+        private HwndSource hsource;
+
         protected override void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
 
-            _windowHandle = new WindowInteropHelper(this).Handle;
-            _source = HwndSource.FromHwnd(_windowHandle);
-            _source.AddHook(HwndHook);
+            if ((hwnd = new WindowInteropHelper(this).Handle) == IntPtr.Zero)
+            {
+                throw new InvalidOperationException("Could not get window handle.");
+            }
+
+            hsource = HwndSource.FromHwnd(hwnd);
+            hsource.AddHook(WndProc);
             
-            NativeMethods.RegisterHotKey(_windowHandle, HOTKEY_ID, MOD_WIN, NK_0); //WINDOWS + NUMKEY_0
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_0); //WINDOWS + NUMKEY_0
         }
 
-        private IntPtr HwndHook(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            const int WM_HOTKEY = 0x0312;
             int vkey = (((int)lParam >> 16) & 0xFFFF);
             switch (msg)
             {
@@ -88,6 +98,10 @@ namespace MonitorProfiler
 
         public MainWindow()
         {
+            Resources["GlassBrush"] = WindowGlassBrush;
+            Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
+            Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
+
             InitializeComponent();
             InitialiseProfiles();
             InitialiseTrackBars();
@@ -118,10 +132,8 @@ namespace MonitorProfiler
             _timerResetFactory.Tick += new EventHandler(TimerResetFactory);
             _timerResetLuminance.Interval = new TimeSpan(0, 0, 0, 0, 100);
             _timerResetLuminance.Tick += new EventHandler(TimerResetLuminance);
-            _timerRestart.Interval = new TimeSpan(0, 0, 0, 0, 500);
-            _timerRestart.Tick += new EventHandler(Restart);
-            _timerIdentify.Interval = new TimeSpan(0, 0, 0, 0, 100);
-            _timerIdentify.Tick += new EventHandler(IdentifyEnable);
+
+            SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(SystemEvents_UserPreferenceChanged);
 
             barBrightness.PreviewMouseWheel += (sender, e) => barBrightness.Value += barBrightness.SmallChange * e.Delta / 60;
             barContrast.PreviewMouseWheel += (sender, e) => barContrast.Value += barContrast.SmallChange * e.Delta / 60;
@@ -131,8 +143,26 @@ namespace MonitorProfiler
             barSharpness.PreviewMouseWheel += (sender, e) => barSharpness.Value += barSharpness.SmallChange * e.Delta / 120;
             barVolume.PreviewMouseWheel += (sender, e) => barVolume.Value += barVolume.SmallChange * e.Delta / 60;
 
+            Duration hideDur = new Duration(TimeSpan.FromSeconds(0.2));
+            WindowAnim.From = 0.8;
+            WindowAnim.To = 1;
+            WindowAnim.Duration = hideDur;
+
+            lblWaitAnim.From = 1;
+            lblWaitAnim.To = 0;
+            lblWaitAnim.Duration = hideDur;
+            lblWaitAnim.Completed += new EventHandler(lblWait_End);
+            
             return;
         }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            WindowGlassBrush = GetWindowGlassBrush();
+            Resources["GlassBrush"] = WindowGlassBrush;
+            Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
+            Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
+    }
 
         internal void EnableBlur()
         {
@@ -277,7 +307,7 @@ namespace MonitorProfiler
             // No VCP just force windows monitor sleeping
             if (Convert.ToUInt32(item.Tag) == 61808)
             {
-                NativeMethods.SendMessage(_windowHandle, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
+                NativeMethods.SendMessage(hwnd, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
             }
             else NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
         }
@@ -622,17 +652,7 @@ namespace MonitorProfiler
         private void btnIdentifyMonitor_Click(object sender, RoutedEventArgs e)
         {
             btnIdentifyMonitor.IsEnabled = false;
-            _timerIdentify.IsEnabled = true;
-            _timerIdentify.Start();
-        }
-
-        private void IdentifyEnable(object sender, EventArgs e)
-        {
-
-            _timerIdentify.Stop();
-            _timerIdentify.IsEnabled = false;
-            btnIdentifyMonitor.IsEnabled = true;
-
+            
             // Revert
             uint _currentBrightness = _currentMonitor.Brightness.Current;
             uint _currentContrast = _currentMonitor.Contrast.Current;
@@ -650,10 +670,11 @@ namespace MonitorProfiler
                 NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, minBrightness);
                 NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, minContrast);
             }
-
-
+                    
             NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, _currentBrightness);
             NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, _currentContrast);
+
+            btnIdentifyMonitor.IsEnabled = true;
         }
 
         private void contextMenuProfiles_Click(object sender, RoutedEventArgs e)
@@ -723,55 +744,51 @@ namespace MonitorProfiler
         private void btnRestart_Click(object sender, RoutedEventArgs e)
         {
             lblWait.Visibility = Visibility.Visible;
+            WindowBlur.Radius = 5;
             Debug.WriteLine("show the thing");
-            //_timerRestart.IsEnabled = true;
-            //_timerRestart.Start();
         }
 
-        private void Restart(object sender, EventArgs e)
+        private async void Restart(object sender, EventArgs e)
         {
-            //_timerRestart.Stop();
-            //_timerRestart.IsEnabled = false;
-            _monitorCollection.Clear();
-            cboMonitors.SelectionChanged -= CboMonitors_SelectionChanged;
-            cboMonitors.Items.Clear();
-            cboMonitors.SelectionChanged += CboMonitors_SelectionChanged;
-            InitialiseTrackBars();
-            RefreshFactoryResetMenu();
-            GetMonitors();
+            await Task.Run(() =>
+                this.Dispatcher.Invoke(() =>
+                {
+                    _monitorCollection.Clear();
+                    cboMonitors.SelectionChanged -= CboMonitors_SelectionChanged;
+                    cboMonitors.Items.Clear();
+                    cboMonitors.SelectionChanged += CboMonitors_SelectionChanged;
+                    InitialiseTrackBars();
+                    RefreshFactoryResetMenu();
+                    GetMonitors();
 
-            foreach (Monitor monitor in _monitorCollection)
-            {
-                monitor.CheckCapabilities();
-            };
+                    foreach (Monitor monitor in _monitorCollection)
+                    {
+                        monitor.CheckCapabilities();
+                    };
 
-            int m = 1;
-            foreach (Monitor monitor in _monitorCollection)
-            {
-                cboMonitors.Items.Add(monitor.Name + " #" + m++);
-            }
+                    int m = 1;
+                    foreach (Monitor monitor in _monitorCollection)
+                    {
+                        cboMonitors.Items.Add(monitor.Name + " #" + m++);
+                    }
 
-            if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
+                    if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
 
-            Debug.WriteLine("hide the thing");
+                    Window.BeginAnimation(OpacityProperty, WindowAnim);
+                    lblWait.BeginAnimation(OpacityProperty, lblWaitAnim);
+                }
+            ));
+        }
+
+        private void lblWait_End(object sender, EventArgs e)
+        {
             lblWait.Visibility = Visibility.Hidden;
-            blurEffect.Radius = 0;
+            WindowBlur.Radius = 0;
         }
 
         private void btnDeleteProfile_Click(object sender, RoutedEventArgs e)
         {
 
-        }
-        
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            NativeMethods.UnregisterHotKey(_windowHandle, HOTKEY_ID); //WINDOWS + NUMKEY_0
-            SaveProfiles(sender, null);
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            EnableBlur();
         }
 
         private void MinButton_Click(object sender, RoutedEventArgs e)
@@ -789,13 +806,24 @@ namespace MonitorProfiler
             if (e.ChangedButton == MouseButton.Left) Application.Current.MainWindow.DragMove();
         }
 
-        private static Brush GetWindowGlassBrush()
+        private Brush ConvertOpacity(Color color, int alpha)
+        {
+            return new SolidColorBrush(Color.FromArgb((byte)(alpha * 2.55), color.R, color.G, color.B));
+        }
+
+        private static Color GetWindowGlassColor()
         {
             var colorizationParams = new NativeStructures.DWMCOLORIZATIONPARAMS();
             NativeMethods.DwmGetColorizationParameters(ref colorizationParams);
             var frameColor = ToColor(colorizationParams.ColorizationColor);
 
-            return new SolidColorBrush(frameColor);
+            return frameColor;
+        }
+
+        private static Brush GetWindowGlassBrush()
+        {
+            Color color = GetWindowGlassColor();
+            return new SolidColorBrush(color);
         }
 
         private static Color ToColor(UInt32 value)
@@ -807,14 +835,15 @@ namespace MonitorProfiler
                 );
         }
 
-        private void Window_Activated(object sender, EventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //this.BorderBrush = WindowGlassBrush;
+            EnableBlur();
         }
 
-        private void Window_Deactivated(object sender, EventArgs e)
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            //this.BorderBrush = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FFA5A5A5"));
+            NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID); //WINDOWS + NUMKEY_0
+            SaveProfiles(sender, null);
         }
     }
 }

@@ -28,14 +28,14 @@
             </Style.Triggers>
         </Style>
 
-        
+
         <!-- Wait Message -->
         <Style x:Key="WaitMessage" TargetType="{x:Type Label}">
             <Setter Property="Opacity" Value="0"/>
             <Setter Property="Visibility" Value="Hidden"/>
         </Style>
-        
-        
+
+
         <!-- Focus Styles -->
         <Style x:Key="Focus">
             <Setter Property="Control.Template">
@@ -46,7 +46,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="FocusLarge">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -56,8 +56,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        
+
+
         <!-- Titlebar Buttons -->
         <Style x:Key="ButtonMinimize" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="#00000000"/>
@@ -78,7 +78,6 @@
                 </DataTrigger>
                 <Trigger Property="IsFocused" Value="True">
                     <Setter Property="Background" Value="#20ffffff"/>
-                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#20ffffff"/>
@@ -116,7 +115,6 @@
                 </DataTrigger>
                 <Trigger Property="IsFocused" Value="True">
                     <Setter Property="Background" Value="#e81123"/>
-                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#e81123"/>
@@ -171,7 +169,9 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
-                        <Border Name="sliderleft" SnapsToDevicePixels="True" Background="#429ce3" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                        <Border Name="sliderleft" BorderThickness="0,11,0,11" Background="White" BorderBrush="#00000000" Height="24">
+                            <Grid Background="{DynamicResource GlassBrush}" Opacity="0.7"></Grid>
+                        </Border>
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="False">
                                 <Setter TargetName="sliderleft" Property="Background" Value="#50ffffff"/>
@@ -181,7 +181,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="SliderRepeatRight" TargetType="RepeatButton">
             <Setter Property="Focusable" Value="false" />
             <Setter Property="IsTabStop" Value="false" />
@@ -200,14 +200,14 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="SliderThumb" TargetType="Thumb">
             <Setter Property="OverridesDefaultStyle" Value="true" />
             <Setter Property="SnapsToDevicePixels" Value="true" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Thumb">
-                        <Rectangle Name="thumb" Fill="#0078d7" Width="8" Height="24" RadiusX="4" RadiusY="4" />
+                        <Rectangle Name="thumb" Fill="{DynamicResource GlassBrush}" Width="8" Height="24" RadiusX="4" RadiusY="4" />
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="True">
                                 <Setter TargetName="thumb" Property="Fill" Value="#ffffff"/>
@@ -220,7 +220,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <ControlTemplate x:Key="Slider" TargetType="Slider">
             <Grid>
                 <Grid.RowDefinitions>
@@ -228,7 +228,7 @@
                     <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Track Grid.Row="1" x:Name="PART_Track"   >
+                <Track Grid.Row="1" x:Name="PART_Track">
                     <Track.DecreaseRepeatButton>
                         <RepeatButton Style="{StaticResource SliderRepeatLeft}"  Command="Slider.DecreaseLarge" />
                     </Track.DecreaseRepeatButton>
@@ -241,7 +241,7 @@
                 </Track>
             </Grid>
         </ControlTemplate>
-        
+
         <Style TargetType="{x:Type Slider}">
             <Setter Property="Focusable" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -268,7 +268,7 @@
             <Setter Property="VerticalContentAlignment" Value="Top" />
         </Style>
 
-        
+
         <!-- Combo Box -->
         <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#28ffffff" />
         <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#28ffffff" />

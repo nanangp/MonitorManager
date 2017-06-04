@@ -10,9 +10,9 @@
         <WindowChrome GlassFrameThickness="1" CaptionHeight="31" />
     </WindowChrome.WindowChrome>
     <Grid>
-        <Border BorderBrush="#63282828" BorderThickness="1">
+        <Border x:Name="Window" BorderBrush="#63282828" BorderThickness="1">
             <Border.Effect>
-                <BlurEffect x:Name="blurEffect" Radius="0"/>
+                <BlurEffect x:Name="WindowBlur" Radius="0"/>
             </Border.Effect>
             <Grid Style="{StaticResource rootWindow}">
                 <DockPanel x:Name="TitleBar" Height="31" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
@@ -30,15 +30,6 @@
                 </DockPanel>
                 <Grid Margin="0,31,0,0">
                     <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="205" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="#33FFFFFF" BorderThickness="0" Padding="10,3,5,3" FontSize="15" Background="#33FFFFFF" Foreground="White">
-                        <ComboBox.Resources>
-                            <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Red"/>
-                            <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelected.Background" Color="#3D26A0DA"/>
-                            <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelected.Border" Color="#FF26A0DA"/>
-                            <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedHover.Background" Color="#2E0080FF"/>
-                            <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedHover.Border" Color="#99006CD9"/>
-                            <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedNoFocus.Background" Color="#3DDADADA"/>
-                            <SolidColorBrush x:Key="ComboBoxItem.ItemsviewSelectedNoFocus.Border" Color="#FFDADADA"/>
-                        </ComboBox.Resources>
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ComboBoxItem}">
                                 <Setter Property="BorderThickness" Value="0" />
@@ -56,7 +47,7 @@
                                                     <Setter Property="Background" Value="#404040" />
                                                 </Trigger>
                                                 <Trigger Property="IsSelected" Value="true">
-                                                    <Setter Property="Background" Value="#255991" />
+                                                    <Setter Property="Background" Value="{DynamicResource GlassBrush60}" />
                                                 </Trigger>
                                                 <Trigger Property="IsMouseOver" Value="true">
                                                     <Setter Property="Background" Value="#404040" />
@@ -66,14 +57,14 @@
                                                         <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
                                                         <Condition Binding="{Binding IsFocused, RelativeSource={RelativeSource Self}}" Value="True" />
                                                     </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Background" Value="#0969b5" />
+                                                    <Setter Property="Background" Value="{DynamicResource GlassBrush80}" />
                                                 </MultiDataTrigger>
                                                 <MultiDataTrigger>
                                                     <MultiDataTrigger.Conditions>
                                                         <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
                                                         <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
                                                     </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Background" Value="#0969b5" />
+                                                    <Setter Property="Background" Value="{DynamicResource GlassBrush80}" />
                                                 </MultiDataTrigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -97,7 +88,7 @@
                             <EventTrigger RoutedEvent="Button.Click">
                                 <BeginStoryboard>
                                     <Storyboard Completed="Restart">
-                                        <DoubleAnimation Storyboard.TargetName="blurEffect" Storyboard.TargetProperty="Radius" From="0" To="5" Duration="0:0:0.1"/>
+                                        <DoubleAnimation Storyboard.TargetName="Window" Storyboard.TargetProperty="Opacity" From="1" To="0.8" Duration="0:0:0.2"/>
                                         <DoubleAnimation Storyboard.TargetName="lblWait" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
                                     </Storyboard>
                                 </BeginStoryboard>
@@ -194,7 +185,7 @@
                 </Grid>
             </Grid>
         </Border>
-        <Label x:Name="lblWait" Style="{StaticResource WaitMessage}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#CC000000" FontSize="24" Margin="-1,1,1,1" Foreground="White" Opacity="0" Visibility="Hidden" BorderThickness="20" BorderBrush="#CC000000">
+        <Label x:Name="lblWait" Style="{StaticResource WaitMessage}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#CC323232" FontSize="24" Margin="1" Foreground="White" Opacity="0" Visibility="Hidden" BorderThickness="20" BorderBrush="#CC323232">
             <Label.Content>
                 <AccessText TextWrapping="Wrap" Text="Refreshing monitors informations..." HorizontalAlignment="Center" TextAlignment="Center"/>
             </Label.Content>
