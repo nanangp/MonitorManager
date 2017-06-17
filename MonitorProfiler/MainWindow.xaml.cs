@@ -454,7 +454,7 @@ namespace MonitorProfiler
             lblSharpness.Opacity = pathSharpness.Opacity;
 
             Debug.WriteLine("RefreshSliders - Volume.Max: " + m.Volume.Max);
-            if (m.Volume.Max > 100)
+            if (m.Volume.Max > 0)
             {
                 barVolume.Minimum = 0;
                 barVolume.Maximum = (int)m.Volume.Max;
@@ -469,8 +469,6 @@ namespace MonitorProfiler
             }
             picVolume.IsEnabled = barVolume.IsEnabled;
             lblVolume.Opacity = pathVolume.Opacity;
-
-            barVolume.Value = 2;
 
             RefreshPowerMenu();
             RefreshSourcesMenu();
