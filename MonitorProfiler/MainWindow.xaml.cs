@@ -151,7 +151,7 @@ namespace MonitorProfiler
             lblWaitAnim.From = 1;
             lblWaitAnim.To = 0;
             lblWaitAnim.Duration = hideDur;
-            lblWaitAnim.Completed += new EventHandler(lblWait_End);
+            lblWaitAnim.Completed += new EventHandler(WaitMessage_Hide);
             
             return;
         }
@@ -357,12 +357,12 @@ namespace MonitorProfiler
                 barBrightness.Maximum = (int)m.Brightness.Max;
                 barBrightness.Value = (int)m.Brightness.Current;
                 barBrightness.IsEnabled = true;
-                pathBrightness.Opacity = 0.9;
+                pathBrightness.Opacity = 1;
             }
             else
             {
                 barBrightness.IsEnabled = false;
-                pathBrightness.Opacity = 0.2;
+                pathBrightness.Opacity = 0.15;
             }
             lblBrightness.Opacity = pathBrightness.Opacity;
 
@@ -373,13 +373,13 @@ namespace MonitorProfiler
                 barContrast.Maximum = (int)m.Contrast.Max;
                 barContrast.Value = (int)m.Contrast.Current;
                 barContrast.IsEnabled = true;
-                pathContrast.Opacity = 0.9;
+                pathContrast.Opacity = 1;
                 lblContrast.Opacity = pathContrast.Opacity;
             }
             else
             {
                 barContrast.IsEnabled = false;
-                pathContrast.Opacity = 0.2;
+                pathContrast.Opacity = 0.15;
             }
             lblContrast.Opacity = lblContrast.Opacity;
 
@@ -391,12 +391,12 @@ namespace MonitorProfiler
                 barRedGain.Maximum = (int)m.RedGain.Max;
                 barRedGain.Value = (int)m.RedGain.Current;
                 barRedGain.IsEnabled = true;
-                pathRedGain.Opacity = 0.9;
+                pathRedGain.Opacity = 1;
             }
             else
             {
                 barRedGain.IsEnabled = false;
-                pathRedGain.Opacity = 0.2;
+                pathRedGain.Opacity = 0.15;
             }
             lblRedGain.Opacity = pathRedGain.Opacity;
 
@@ -408,12 +408,12 @@ namespace MonitorProfiler
                 barGreenGain.Maximum = (int)m.GreenGain.Max;
                 barGreenGain.Value = (int)m.GreenGain.Current;
                 barGreenGain.IsEnabled = true;
-                pathGreenGain.Opacity = 0.9;
+                pathGreenGain.Opacity = 1;
             }
             else
             {
                 barGreenGain.IsEnabled = false;
-                pathGreenGain.Opacity = 0.2;
+                pathGreenGain.Opacity = 0.15;
             }
             lblGreenGain.Opacity = pathGreenGain.Opacity;
 
@@ -425,12 +425,12 @@ namespace MonitorProfiler
                 barBlueGain.Maximum = (int)m.BlueGain.Max;
                 barBlueGain.Value = (int)m.BlueGain.Current;
                 barBlueGain.IsEnabled = true;
-                pathBlueGain.Opacity = 0.9;
+                pathBlueGain.Opacity = 1;
             }
             else
             {
                 barBlueGain.IsEnabled = false;
-                pathBlueGain.Opacity = 0.2;
+                pathBlueGain.Opacity = 0.15;
             }
             lblBlueGain.Opacity = pathBlueGain.Opacity;
 
@@ -444,31 +444,33 @@ namespace MonitorProfiler
                 barSharpness.Maximum = (int)m.Sharpness.Max;
                 barSharpness.Value = (int)m.Sharpness.Current;
                 barSharpness.IsEnabled = true;
-                pathSharpness.Opacity = 0.9;
+                pathSharpness.Opacity = 1;
             }
             else
             {
                 barSharpness.IsEnabled = false;
-                pathSharpness.Opacity = 0.2;
+                pathSharpness.Opacity = 0.15;
             }
             lblSharpness.Opacity = pathSharpness.Opacity;
 
             Debug.WriteLine("RefreshSliders - Volume.Max: " + m.Volume.Max);
-            if (m.Volume.Max > 0)
+            if (m.Volume.Max > 100)
             {
                 barVolume.Minimum = 0;
                 barVolume.Maximum = (int)m.Volume.Max;
                 barVolume.Value = (int)m.Volume.Current;
                 barVolume.IsEnabled = true;
-                pathVolume.Opacity = 0.9;
+                pathVolume.Opacity = 1;
             }
             else
             {
                 barVolume.IsEnabled = false;
-                pathVolume.Opacity = 0.2;
+                pathVolume.Opacity = 0.15;
             }
             picVolume.IsEnabled = barVolume.IsEnabled;
             lblVolume.Opacity = pathVolume.Opacity;
+
+            barVolume.Value = 2;
 
             RefreshPowerMenu();
             RefreshSourcesMenu();
@@ -780,7 +782,7 @@ namespace MonitorProfiler
             ));
         }
 
-        private void lblWait_End(object sender, EventArgs e)
+        private void WaitMessage_Hide(object sender, EventArgs e)
         {
             lblWait.Visibility = Visibility.Hidden;
             WindowBlur.Radius = 0;

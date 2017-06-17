@@ -6,25 +6,25 @@
     <Application.Resources>
         <!-- Background -->
         <Style x:Key="rootWindow" TargetType="{x:Type Grid}">
-            <Setter Property="Background" Value="#d8282828" />
+            <Setter Property="Background" Value="#CC1F1F1F" />
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
+                <!--<DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
                     <Setter Property="Background" Value="#ee282828"/>
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#d8282828" To="#ee282828" Duration="0:0:0.1"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#D8282828" To="#EE282828" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#ee282828" To="#d8282828" Duration="0:0:0.1"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#EE282828" To="#D8282828" Duration="0:0:0.1"/>
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.ExitActions>
-                </DataTrigger>
+                </DataTrigger>-->
             </Style.Triggers>
         </Style>
 
@@ -41,7 +41,7 @@
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Rectangle StrokeThickness="2" Stroke="#ffffff" SnapsToDevicePixels="true"/>
+                        <Rectangle StrokeThickness="2" Stroke="#FFFFFF" SnapsToDevicePixels="true"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -51,7 +51,7 @@
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate>
-                        <Rectangle Margin="-8" StrokeThickness="2" Stroke="#ffffff" SnapsToDevicePixels="true"/>
+                        <Rectangle Margin="-8" StrokeThickness="2" Stroke="#FFFFFF" SnapsToDevicePixels="true"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -74,22 +74,22 @@
             </Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
-                    <Setter Property="Foreground" Value="#80ffffff"/>
+                    <Setter Property="Foreground" Value="#80FFFFFF"/>
                 </DataTrigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#20ffffff"/>
+                    <Setter Property="Background" Value="#20FFFFFF"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#20ffffff"/>
+                    <Setter Property="Background" Value="#20FFFFFF"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#30ffffff"/>
+                    <Setter Property="Background" Value="#30FFFFFF"/>
                 </Trigger>
                 <EventTrigger RoutedEvent="MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
-                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#20ffffff" To="#00ffffff" Duration="0:0:0.2"/>
+                            <ColorAnimation Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" From="#20FFFFFF" To="#00FFFFFF" Duration="0:0:0.2"/>
                         </Storyboard>
                     </BeginStoryboard>
                 </EventTrigger>
@@ -111,17 +111,17 @@
             </Setter>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=IsActive, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" Value="False">
-                    <Setter Property="Foreground" Value="#80ffffff"/>
+                    <Setter Property="Foreground" Value="#80FFFFFF"/>
                 </DataTrigger>
                 <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="Background" Value="#e81123"/>
+                    <Setter Property="Background" Value="#E81123"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#e81123"/>
+                    <Setter Property="Background" Value="#E81123"/>
                     <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Background" Value="#f1707a"/>
+                    <Setter Property="Background" Value="#F1707A"/>
                     <!--<Setter Property="Foreground" Value="black"/>-->
                 </Trigger>
                 <EventTrigger RoutedEvent="MouseLeave">
@@ -137,21 +137,21 @@
 
         <!-- Buttons -->
         <Style x:Key="IconButton" TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#28ffffff"/>
+            <Setter Property="Background" Value="#33FFFFFF"/>
             <Setter Property="FocusVisualStyle" Value="{DynamicResource Focus}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="#28ffffff" BorderThickness="2">
+                        <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="#33FFFFFF" BorderThickness="2">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#80ffffff" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#66FFFFFF" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#80ffffff" />
-                                <Setter Property="Background" Value="#80ffffff"/>
+                                <Setter TargetName="border" Property="BorderBrush" Value="#66FFFFFF" />
+                                <Setter Property="Background" Value="#66FFFFFF"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -170,11 +170,13 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
                         <Border Name="sliderleft" BorderThickness="0,11,0,11" Background="White" BorderBrush="#00000000" Height="24">
-                            <Grid Background="{DynamicResource GlassBrush}" Opacity="0.7"></Grid>
+                            <Grid Name="sliderleftgrid" Background="{DynamicResource GlassBrush}" Opacity="0.7"></Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="False">
-                                <Setter TargetName="sliderleft" Property="Background" Value="#50ffffff"/>
+                                <Setter TargetName="sliderleft" Property="Background" Value="#26FFFFFF"/>
+                                <Setter TargetName="sliderleftgrid" Property="Background" Value="#26FFFFFF"/>
+                                <Setter TargetName="sliderleftgrid" Property="Opacity" Value="1"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -190,10 +192,11 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="RepeatButton">
-                        <Border Name="sliderright" Background="#969291" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
+                        <Border Name="sliderright" Background="#66FFFFFF" BorderThickness="0,11,0,11" BorderBrush="#00000000" Height="24"/>
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="False">
-                                <Setter TargetName="sliderright" Property="Background" Value="#30ffffff"/>
+                                <Setter TargetName="sliderright" Property="Background" Value="#26FFFFFF"/>
+                                <Setter TargetName="sliderright" Property="Margin" Value="-8,0,0,0"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -210,10 +213,10 @@
                         <Rectangle Name="thumb" Fill="{DynamicResource GlassBrush}" Width="8" Height="24" RadiusX="4" RadiusY="4" />
                         <ControlTemplate.Triggers>
                             <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="True">
-                                <Setter TargetName="thumb" Property="Fill" Value="#ffffff"/>
+                                <Setter TargetName="thumb" Property="Fill" Value="#FFFFFF"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Path=IsEnabled, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Slider}}}" Value="False">
-                                <Setter TargetName="thumb" Property="Fill" Value="#30ffffff"/>
+                                <Setter TargetName="thumb" Property="Fill" Value="#26FFFFFF"/>
                             </DataTrigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -270,28 +273,28 @@
 
 
         <!-- Combo Box -->
-        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#28ffffff" />
-        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#28ffffff" />
+        <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#66FFFFFF" />
+        <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#66000000" />
         <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
-        <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
+        <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#EEE" />
         <SolidColorBrush x:Key="ComboBoxDisabledBorderBrush" Color="#888" />
         <ControlTemplate TargetType="ToggleButton" x:Key="ComboBoxToggleButtonTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
-                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="32" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.ColumnSpan="2" Name="Border" BorderBrush="{StaticResource ComboBoxNormalBorderBrush}" CornerRadius="0" BorderThickness="2" Background="{StaticResource ComboBoxNormalBackgroundBrush}" />
                 <Border Grid.Column="1" Margin="0, 0, 0, 0" BorderBrush="#444" Name="ButtonBorder" CornerRadius="0" BorderThickness="0" Background="#00000000" />
-                <Path Name="Arrow" Grid.Column="1" Data="M0 0v1l6 6 6-6V0h-1L6 5 1 0H0z" Fill="white" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Path Name="Arrow" Grid.Column="1" Data="M0 0v1l6 6 6-6V0h-1L6 5 1 0H0z" Fill="#A5FFFFFF" HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Grid>
             <ControlTemplate.Triggers>
                 <Trigger Property="UIElement.IsMouseOver" Value="True">
-                    <Setter Property="Border.BorderBrush" TargetName="Border" Value="#80ffffff"/>
+                    <Setter Property="Background" TargetName="Border" Value="#99000000"/>
+                    <Setter Property="Border.BorderBrush" TargetName="Border" Value="#66FFFFFF"/>
                 </Trigger>
                 <Trigger Property="ToggleButton.IsChecked" Value="True">
-                    <Setter Property="Background" TargetName="Border" Value="#80ffffff"/>
-                    <Setter Property="Border.BorderBrush" TargetName="Border" Value="#80ffffff"/>
+                    <Setter Property="Background" TargetName="Border" Value="#3FFFFFFF"/>
                 </Trigger>
                 <Trigger Property="UIElement.IsEnabled" Value="False">
                     <Setter Property="Panel.Background" TargetName="Border" Value="{StaticResource ComboBoxDisabledBackgroundBrush}"/>
@@ -316,7 +319,7 @@
                     <ControlTemplate TargetType="ComboBox">
                         <Grid>
                             <ToggleButton Name="ToggleButton" Grid.Column="2" ClickMode="Press" Focusable="False" IsChecked="{Binding Path=IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" Template="{StaticResource ComboBoxToggleButtonTemplate}"/>
-                            <ContentPresenter Name="ContentSite" Margin="10, 3, 23, 3" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding ComboBox.SelectionBoxItem}" ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
+                            <ContentPresenter Name="ContentSite" Margin="12, 3, 23, 3" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Center" Content="{TemplateBinding ComboBox.SelectionBoxItem}" ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
                             <TextBox Name="PART_EditableTextBox" Margin="3, 3, 23, 3" IsReadOnly="{TemplateBinding IsReadOnly}" Visibility="Hidden" Background="Transparent" HorizontalAlignment="Left" VerticalAlignment="Center" Focusable="True" >
                                 <TextBox.Template>
                                     <ControlTemplate TargetType="TextBox" >

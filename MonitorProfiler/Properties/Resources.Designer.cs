@@ -59,14 +59,5 @@ namespace MonitorProfiler.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to #ff78d6.
-        /// </summary>
-        public static string glassbrush {
-            get {
-                return ResourceManager.GetString("glassbrush", resourceCulture);
-            }
-        }
     }
 }
