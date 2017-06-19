@@ -101,6 +101,7 @@ namespace MonitorProfiler
             Resources["GlassBrush"] = WindowGlassBrush;
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
+            Resources["MinitorComboVertical"] = Convert.ToDouble(-4);
 
             InitializeComponent();
             InitialiseProfiles();
@@ -647,6 +648,9 @@ namespace MonitorProfiler
             Debug.WriteLine("cboMonitors_SelectedIndexChanged: " + cboMonitors.SelectedIndex);
             _currentMonitor = _monitorCollection[cboMonitors.SelectedIndex];
             RefreshSliders(_currentMonitor);
+            cboMonitors.IsDropDownOpen = false;
+            Style style = Application.Current.FindResource("ComboBoxItem") as Style;
+            Resources["MinitorComboVertical"] = Convert.ToDouble(-4 - (cboMonitors.SelectedIndex * 32));
         }
 
         private void btnIdentifyMonitor_Click(object sender, RoutedEventArgs e)
@@ -844,6 +848,12 @@ namespace MonitorProfiler
         {
             NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID); //WINDOWS + NUMKEY_0
             SaveProfiles(sender, null);
+        }
+
+        private void cboMonitors_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter || e.Key == Key.Space)
+                cboMonitors.IsDropDownOpen = true;
         }
     }
 }

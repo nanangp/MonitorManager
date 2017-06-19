@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="446" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitor.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="CanMinimize" Background="Transparent">
     <WindowChrome.WindowChrome>
-        <WindowChrome GlassFrameThickness="1" CaptionHeight="31" />
+        <WindowChrome GlassFrameThickness="1" CaptionHeight="31"/>
     </WindowChrome.WindowChrome>
     <Grid>
         <Border x:Name="Window" BorderBrush="#66282828" BorderThickness="1">
@@ -18,61 +18,18 @@
                 <DockPanel x:Name="TitleBar" Height="31" VerticalAlignment="Top" MouseDown="TitleBar_MouseDown">
                     <Button Name="CloseButton" WindowChrome.IsHitTestVisibleInChrome="True" KeyboardNavigation.TabIndex="1" DockPanel.Dock="Right" Width="46" Click="CloseButton_Click" BorderThickness="0" Style="{StaticResource ButtonClose}">
                         <Grid VerticalAlignment="Top" Margin="0,0,0,1" Height="30" Width="46">
-                            <Path Data="M10 10h-.8L5 5.8.8 10H0v-.8L4.2 5 0 .8V0h.8L5 4.2 9.2 0h.8v.8L5.8 5 10 9.2v.8z" Width="10" Height="10" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" />
+                            <Path Data="M10 10h-.8L5 5.8.8 10H0v-.8L4.2 5 0 .8V0h.8L5 4.2 9.2 0h.8v.8L5.8 5 10 9.2v.8z" Width="10" Height="10" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}"/>
                         </Grid>
                     </Button>
                     <Button Name="MinimizeButton" WindowChrome.IsHitTestVisibleInChrome="True" KeyboardNavigation.TabIndex="0" DockPanel.Dock="Right" Width="46" Click="MinButton_Click" BorderThickness="0" Style="{StaticResource ButtonMinimize}">
                         <Grid Height="30" Width="46" Margin="0,0,0,1">
-                            <Path Data="M0 5h10v1H0z" Width="10" Height="10" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}" />
+                            <Path Data="M0 5h10v1H0z" Width="10" Height="10" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}"/>
                         </Grid>
                     </Button>
-                    <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White" >MonitorProfiler</TextBlock>
+                    <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">MonitorProfiler</TextBlock>
                 </DockPanel>
                 <Grid Margin="0,31,0,0">
-                    <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="12,10,0,0" VerticalAlignment="Top" Width="201" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="#33FFFFFF" BorderThickness="0" Padding="10,3,5,3" FontSize="15" Foreground="White">
-                        <ComboBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ComboBoxItem}">
-                                <Setter Property="BorderThickness" Value="0" />
-                                <Setter Property="FocusVisualStyle" Value="{DynamicResource Focus}"/>
-                                <Setter Property="Height" Value="32" />
-                                <Setter Property="Padding" Value="10,0" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                                            <Border x:Name="Bd" SnapsToDevicePixels="true" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
-                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsFocused" Value="true">
-                                                    <Setter Property="Background" Value="#404040" />
-                                                </Trigger>
-                                                <Trigger Property="IsSelected" Value="true">
-                                                    <Setter Property="Background" Value="{DynamicResource GlassBrush60}" />
-                                                </Trigger>
-                                                <Trigger Property="IsMouseOver" Value="true">
-                                                    <Setter Property="Background" Value="#404040" />
-                                                </Trigger>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
-                                                        <Condition Binding="{Binding IsFocused, RelativeSource={RelativeSource Self}}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Background" Value="{DynamicResource GlassBrush80}" />
-                                                </MultiDataTrigger>
-                                                <MultiDataTrigger>
-                                                    <MultiDataTrigger.Conditions>
-                                                        <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="True" />
-                                                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
-                                                    </MultiDataTrigger.Conditions>
-                                                    <Setter Property="Background" Value="{DynamicResource GlassBrush80}" />
-                                                </MultiDataTrigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ComboBox.ItemContainerStyle>
-                    </ComboBox>
+                    <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="12,10,0,0" VerticalAlignment="Top" Width="201" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="#33FFFFFF" BorderThickness="0" Padding="10,3,5,3" FontSize="15" Foreground="White" KeyDown="cboMonitors_KeyDown"/>
                     <Button x:Name="btnLinkMonitors" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="218,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" ToolTip="Link monitors" BorderThickness="2">
                         <Grid Height="30" Width="30">
                             <Path x:Name="pathlink" Fill="White" Data="M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l1.9-1.9-1.1-1.1-1.8 1.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1.8-1.8-1-1-1.9 1.9c-2.1 2.1-2.1 5.5 0 7.5zM16.1 8.3c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7L20 15.7l1 1 1.9-1.9c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-1.9 2 1.1 1.1 1.8-1.8zM19.435 20.515l1.06-1.06 2.83 2.828-1.062 1.06zM17.6 21.9h1.5v3.2h-1.5zM21.9 17.6h3.2v1.5h-3.2zM6.676 7.717l1.06-1.06 2.83 2.828-1.062 1.06zM4.9 10.9h3.2v1.5H4.9zM10.9 4.9h1.5v3.2h-1.5z"/>
@@ -132,10 +89,10 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="background" Property="Fill" Value="#28ffffff" />
+                                        <Setter TargetName="background" Property="Fill" Value="#28ffffff"/>
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter TargetName="background" Property="Fill" Value="#48ffffff" />
+                                        <Setter TargetName="background" Property="Fill" Value="#48ffffff"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
