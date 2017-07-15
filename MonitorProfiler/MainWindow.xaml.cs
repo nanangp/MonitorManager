@@ -842,6 +842,11 @@ namespace MonitorProfiler
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             EnableBlur();
+            //set position to tray bar
+            int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - (int)this.Width + 1;
+            int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - (int)this.Height + 1;
+            this.Left = screenWidth;
+            this.Top = screenHeight;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
