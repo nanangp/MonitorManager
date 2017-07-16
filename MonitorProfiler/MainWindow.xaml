@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonitorProfiler"
         mc:Ignorable="d"
-        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="446" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitor.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="CanMinimize" Background="Transparent">
+        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="462" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitor.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="CanMinimize" Background="Transparent">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="1" CaptionHeight="31"/>
     </WindowChrome.WindowChrome>
@@ -28,59 +28,49 @@
                     </Button>
                     <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">MonitorProfiler</TextBlock>
                 </DockPanel>
-                <Grid Margin="0,31,0,0">
-                    <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="12,10,0,0" VerticalAlignment="Top" Width="201" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="#33FFFFFF" BorderThickness="0" Padding="10,3,5,3" FontSize="15" Foreground="White" KeyDown="cboMonitors_KeyDown"/>
-                    <Button x:Name="btnLinkMonitors" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="218,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" ToolTip="Link monitors" BorderThickness="2">
+                <Grid x:Name="MainGrid" Margin="0,31,0,0">
+                    <Button x:Name="btnMenu" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2" Click="btnMenu_Click">
+                        <Grid Height="16" Width="16">
+                            <Path Fill="White" Data="M0 3h16v1H0V3zM0 8h16v1H0V8zM0 13h16v1H0v-1z"/>
+                        </Grid>
+                    </Button>
+                    <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="52,4,0,0" VerticalAlignment="Top" Width="208" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="#33FFFFFF" BorderThickness="0" Padding="10,3,5,3" FontSize="15" Foreground="White" KeyDown="cboMonitors_KeyDown"/>
+                    <Button x:Name="btnLinkMonitors" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" Margin="264,4,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" ToolTip="Link monitors" BorderThickness="2">
                         <Grid Height="30" Width="30">
                             <Path x:Name="pathlink" Fill="White" Data="M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l1.9-1.9-1.1-1.1-1.8 1.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1.8-1.8-1-1-1.9 1.9c-2.1 2.1-2.1 5.5 0 7.5zM16.1 8.3c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7L20 15.7l1 1 1.9-1.9c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-1.9 2 1.1 1.1 1.8-1.8zM19.435 20.515l1.06-1.06 2.83 2.828-1.062 1.06zM17.6 21.9h1.5v3.2h-1.5zM21.9 17.6h3.2v1.5h-3.2zM6.676 7.717l1.06-1.06 2.83 2.828-1.062 1.06zM4.9 10.9h3.2v1.5H4.9zM10.9 4.9h1.5v3.2h-1.5z"/>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnIdentifyMonitor" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="263,10,0,0" VerticalAlignment="Top" Width="40" Height="40" ToolTip="Identify" BorderThickness="2" Click="btnIdentifyMonitor_Click">
+                    <Button x:Name="btnIdentifyMonitor" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" Margin="308,4,0,0" VerticalAlignment="Top" Width="40" Height="40" ToolTip="Identify" BorderThickness="2" Click="btnIdentifyMonitor_Click">
                         <Grid Height="30" Width="30">
                             <Path Fill="White" Data="M15 5c-3.9 0-7 3.1-7 7 0 2.1 1 4.1 2.5 5.3.9.8 1.4 2.1 1.4 3.3v4h1.5c.4.6.9 1 1.6 1s1.1-.4 1.6-1h1.5v-4c0-1.3.5-2.5 1.4-3.3C21 16.1 22 14.1 22 12c0-3.9-3.1-7-7-7zm1.6 18.2h-3.2v-1.5h3.2v1.5zm1.9-7c-.9.9-1.7 2.1-1.9 4h-3.3c-.2-1.9-1-3.1-1.9-4-1.2-1-2-2.5-2-4.2 0-3 2.5-5.5 5.5-5.5S20.5 9 20.5 12c0 1.7-.8 3.2-2 4.2zM3.5 11.2h3v1.5h-3zM23.5 11.2h3v1.5h-3zM20.5 5.377l2.12-2.12 1.06 1.06-2.12 2.12zM6.375 4.33l1.06-1.062L9.558 5.39l-1.06 1.06zM20.502 18.586l1.06-1.06 2.122 2.12-1.06 1.06zM6.307 19.588l2.12-2.12 1.062 1.06-2.122 2.12z"/>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnRestart" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="308,10,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnRestart_Click" ToolTip="Refresh list" BorderThickness="2">
-                        <Button.Triggers>
-                            <EventTrigger RoutedEvent="Button.Click">
-                                <BeginStoryboard>
-                                    <Storyboard Completed="Restart">
-                                        <DoubleAnimation Storyboard.TargetName="Window" Storyboard.TargetProperty="Opacity" From="1" To="0.8" Duration="0:0:0.2"/>
-                                        <DoubleAnimation Storyboard.TargetName="lblWait" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </EventTrigger>
-                        </Button.Triggers>
-                        <Grid Height="30" Width="30">
-                            <Path Fill="White" Data="M15 24c4.6 0 8.4-3.4 8.9-7.9h-1.5c-.5 3.6-3.6 6.4-7.4 6.4-4.1 0-7.5-3.4-7.5-7.5s3.4-7.5 7.5-7.5c2.6 0 5 1.3 6.3 3.4h-2.6v1.5h5v-5h-1.5v2.2C20.6 7.4 17.9 6 15 6c-5 0-9 4-9 9s4 9 9 9z"/>
-                        </Grid>
-                    </Button>
-                    <Slider x:Name="barBrightness" HorizontalAlignment="Left" Margin="65,70,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="barContrast" HorizontalAlignment="Left" Margin="65,110,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="barRedGain" HorizontalAlignment="Left" Margin="65,150,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="barGreenGain" HorizontalAlignment="Left" Margin="65,190,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="barBlueGain" HorizontalAlignment="Left" Margin="65,230,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="barSharpness" HorizontalAlignment="Left" Margin="65,270,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" Maximum="5" SmallChange="1" IsSnapToTickEnabled="True"/>
-                    <Slider x:Name="barVolume" HorizontalAlignment="Left" Margin="65,310,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
-                    <Grid Height="30" Width="30" Margin="18,67,0,0" Background="#00000000" ToolTip="Brightness" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Slider x:Name="barBrightness" HorizontalAlignment="Left" Margin="65,72,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barContrast" HorizontalAlignment="Left" Margin="65,112,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barRedGain" HorizontalAlignment="Left" Margin="65,152,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barGreenGain" HorizontalAlignment="Left" Margin="65,192,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barBlueGain" HorizontalAlignment="Left" Margin="65,232,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barSharpness" HorizontalAlignment="Left" Margin="65,272,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" Maximum="5" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Slider x:Name="barVolume" HorizontalAlignment="Left" Margin="65,312,0,0" VerticalAlignment="Top" Width="230" ValueChanged="TrackBar_ValueChanged" LargeChange="5" Maximum="100" SmallChange="1" IsSnapToTickEnabled="True"/>
+                    <Grid Height="30" Width="30" Margin="18,69,0,0" Background="#00000000" ToolTip="Brightness" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Path x:Name="pathBrightness" Fill="White" Data="M15 7.3c-4.3 0-7.8 3.5-7.8 7.8s3.5 7.8 7.8 7.8 7.8-3.5 7.8-7.8-3.5-7.8-7.8-7.8zm0 14c-3.5 0-6.3-2.8-6.3-6.3s2.8-6.3 6.3-6.3 6.3 2.8 6.3 6.3-2.8 6.3-6.3 6.3zM14.3 2.3h1.5v3.5h-1.5zM14.3 24.3h1.5v3.5h-1.5zM2.3 14.3h3.5v1.5H2.3zM24.3 14.3h3.5v1.5h-3.5zM5.494 6.515l1.06-1.06L9.03 7.928 7.97 8.99zM20.97 22.07l1.06-1.06 2.476 2.475-1.06 1.06zM5.454 23.445L7.93 20.97l1.06 1.06-2.476 2.476zM21.01 7.97l2.475-2.476 1.06 1.06-2.474 2.476z"/>
                     </Grid>
-                    <Grid Height="30" Width="30" Margin="18,107,0,0" Background="#00000000" ToolTip="Contrast" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid Height="30" Width="30" Margin="18,109,0,0" Background="#00000000" ToolTip="Contrast" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Path x:Name="pathContrast" Fill="White" Data="M15 5C9.5 5 5 9.5 5 15s4.5 10 10 10 10-4.5 10-10S20.5 5 15 5zM6.5 15c0-4.7 3.8-8.5 8.5-8.5v17c-4.7 0-8.5-3.8-8.5-8.5z"/>
                     </Grid>
-                    <Grid Height="30" Width="30" Margin="18,147,0,0" Background="#00000000" ToolTip="Red gain" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid Height="30" Width="30" Margin="18,149,0,0" Background="#00000000" ToolTip="Red gain" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Path x:Name="pathRedGain" Fill="White" Data="M15.81 14.98c-.13-.06-.29-.1-.49-.13-.21-.03-.48-.04-.8-.04h-.86v2.1h.52c.34 0 .64-.01.87-.04.23-.03.42-.07.57-.13.26-.1.43-.22.52-.38.1-.17.15-.36.15-.58 0-.19-.04-.35-.11-.49-.07-.13-.19-.23-.37-.31z M15 3.77s-7.5 8.31-7.5 14.2c0 4.56 3.36 8.26 7.5 8.26s7.5-3.7 7.5-8.26c0-5.89-7.5-14.2-7.5-14.2zM16.66 22l-2.31-3.29h-.69V22H11.6v-9h2.83c.44 0 .85.03 1.23.08s.72.13 1 .23c.55.21.97.52 1.27.94.3.42.45.94.45 1.56 0 .65-.18 1.21-.55 1.66-.3.38-.75.68-1.33.9L19.15 22h-2.49z"/>
                     </Grid>
-                    <Grid Height="30" Width="30" Margin="18,187,0,0" Background="#00000000" ToolTip="Green gain" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid Height="30" Width="30" Margin="18,189,0,0" Background="#00000000" ToolTip="Green gain" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Path x:Name="pathGreenGain" Fill="White" Data="M15 3.77s-7.5 8.31-7.5 14.2c0 4.56 3.36 8.26 7.5 8.26s7.5-3.7 7.5-8.26c0-5.89-7.5-14.2-7.5-14.2zm3.47 17.89l-.17.06c-.13.05-.3.1-.51.15-.2.05-.43.1-.68.14-.25.04-.5.07-.77.1s-.53.04-.79.04c-.79 0-1.49-.11-2.08-.32-.6-.22-1.11-.53-1.51-.92-.4-.4-.71-.88-.91-1.42-.2-.54-.3-1.14-.3-1.79 0-.46.05-.9.16-1.32.1-.42.26-.81.46-1.17.2-.36.45-.69.74-.98.29-.29.63-.54 1-.75.37-.2.78-.36 1.22-.47.82-.2 1.83-.2 2.67-.07.4.06.73.14.99.24l.17.06v1.84l-.33-.1c-.32-.1-.64-.18-.96-.23-.74-.12-1.53-.11-2.19.11-.37.13-.69.31-.96.56-.27.24-.48.55-.63.91-.15.36-.23.79-.23 1.27 0 .93.24 1.63.71 2.08.56.54 1.45.76 2.57.65l.28-.03v-1.53h-1.9v-1.8h3.96v4.69z"/>
                     </Grid>
-                    <Grid Height="30" Width="30" Margin="18,227,0,0" Background="#00000000" ToolTip="Blue gain" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid Height="30" Width="30" Margin="18,229,0,0" Background="#00000000" ToolTip="Blue gain" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Path x:Name="pathBlueGain" Fill="White" Data="M15.25 20.17c.18-.01.33-.04.46-.07.2-.04.36-.1.48-.16s.21-.14.28-.21c.07-.07.11-.15.14-.24.03-.09.04-.2.04-.31 0-.18-.05-.34-.15-.47-.1-.13-.26-.24-.49-.31-.1-.03-.23-.06-.38-.07-.16-.02-.36-.02-.61-.02H13.8v1.89h.77c.26 0 .49-.01.68-.03zM15.72 14.89c-.1-.03-.22-.05-.35-.06-.15-.01-.33-.02-.54-.02H13.8v1.7h1.15c.48 0 .73-.06.85-.11.18-.07.3-.17.38-.3.08-.13.11-.28.11-.45 0-.18-.04-.33-.13-.46-.07-.14-.22-.23-.44-.3z M15 3.77s-7.5 8.31-7.5 14.2c0 4.56 3.36 8.26 7.5 8.26s7.5-3.7 7.5-8.26c0-5.89-7.5-14.2-7.5-14.2zm3.66 16.13c-.07.27-.2.52-.39.77-.18.24-.42.47-.72.67-.3.2-.67.36-1.12.48-.12.03-.24.05-.37.07-.13.02-.27.04-.43.06-.16.01-.33.03-.52.03-.19.01-.4.01-.64.01h-2.72V13h3.2c.65 0 1.19.07 1.6.2.31.1.58.23.82.4.23.16.43.35.58.56.15.21.27.43.34.66.07.23.11.46.11.7 0 .41-.09.79-.28 1.13-.12.23-.3.44-.53.62l.21.12c.2.13.37.28.51.45.14.18.25.38.33.6.08.22.12.47.12.74 0 .22-.03.46-.1.72z"/>
                     </Grid>
-                    <Grid Height="30" Width="30" Margin="18,267,0,0" Background="#00000000" ToolTip="Sharpness" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Grid Height="30" Width="30" Margin="18,269,0,0" Background="#00000000" ToolTip="Sharpness" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Path x:Name="pathSharpness" Fill="White" Data="M20.3 6.6H9.7L3.2 13 15 25.4l11.8-12.5-6.5-6.3zm4.4 6.4H20l-2.1-4.9h1.8l5 4.9zm-13.1 0l2.1-4.9h2.5l2.1 4.9h-6.7zm6.8 1.5L15 22.4l-3.4-7.9h6.8zm-8.4 0l2.7 6.3-6-6.3H10zm10 0h3.3l-6 6.3 2.7-6.3zm-9.7-6.4h1.8L10 13H5.4l4.9-4.9z"/>
                     </Grid>
-                    <Button x:Name="picVolume" FocusVisualStyle="{DynamicResource Focus}" ToolTip="Mute" Click="picVolume_Click" Margin="15,304,0,0" BorderThickness="0" Width="36" Height="36" Padding="0" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Left">
+                    <Button x:Name="picVolume" FocusVisualStyle="{DynamicResource Focus}" ToolTip="Mute" Click="picVolume_Click" Margin="15,306,0,0" BorderThickness="0" Width="36" Height="36" Padding="0" Cursor="Hand" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Button.Template>
                             <ControlTemplate TargetType="Button">
                                 <Grid>
@@ -99,46 +89,94 @@
                         </Button.Template>
                         <Path x:Name="pathVolume" Height="30" Width="30" Fill="White" Opacity="0.9" Data="M26 11.5l-1-1-3.5 3.4-3.5-3.4-1 1 3.4 3.5-3.4 3.5 1 1 3.5-3.4 3.5 3.4 1-1-3.4-3.5M5.3 10.3v9.5h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.3v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9z" IsHitTestVisible="False"/>
                     </Button>
-                    <Button x:Name="btnProfiles" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="12,359,0,-19" Width="42" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" ToolTip="Profiles" BorderThickness="2">
+                    <Button x:Name="btnProfiles" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="4,361,0,-17" Width="85" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="64" VerticalAlignment="Top" BorderThickness="2">
                         <Button.ContextMenu>
                             <ContextMenu/>
                         </Button.ContextMenu>
-                        <Grid Height="30" Width="30">
-                            <Path Fill="White" Data="M18.4 17.1c2-1.2 3.4-3.3 3.4-5.9 0-3.7-3-6.8-6.8-6.8s-6.8 3-6.8 6.8c0 2.5 1.4 4.7 3.4 5.9-3.7 1.4-6.4 4.9-6.4 9.1h1.5c0-4.6 3.7-8.3 8.3-8.3s8.3 3.7 8.3 8.3h1.5c0-4.2-2.7-7.7-6.4-9.1zm-8.6-5.8C9.8 8.4 12.1 6 15 6s5.3 2.4 5.3 5.3-2.4 5.3-5.3 5.3-5.2-2.5-5.2-5.3z"/>
+                        <Grid Height="54" Width="72">
+                            <Path Fill="White" Data="M18.4 17.1c2-1.2 3.4-3.3 3.4-5.9 0-3.7-3-6.8-6.8-6.8s-6.8 3-6.8 6.8c0 2.5 1.4 4.7 3.4 5.9-3.7 1.4-6.4 4.9-6.4 9.1h1.5c0-4.6 3.7-8.3 8.3-8.3s8.3 3.7 8.3 8.3h1.5c0-4.2-2.7-7.7-6.4-9.1zm-8.6-5.8C9.8 8.4 12.1 6 15 6s5.3 2.4 5.3 5.3-2.4 5.3-5.3 5.3-5.2-2.5-5.2-5.3z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,0,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Margin="0" Padding="0,39,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">Profiles</TextBlock>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnSources" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="59,359,0,-19" Width="42" Click="btnSources_Click" ContextMenuService.IsEnabled="false" Height="42" VerticalAlignment="Top" ToolTip="Sources" BorderThickness="2">
+                    <Button x:Name="btnSources" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="93,361,0,-25" Width="85" Click="btnSources_Click" ContextMenuService.IsEnabled="false" Height="64" VerticalAlignment="Top" BorderThickness="2">
                         <Button.ContextMenu>
                             <ContextMenu/>
                         </Button.ContextMenu>
-                        <Grid Height="30" Width="30">
-                            <Path Fill="White" Data="M18.5 4.5V6h4.4L16 12.9l1.1 1.1L24 7.1v4.4h1.5v-7 M21.8 23.3H8.2c-.8 0-1.4-.6-1.4-1.5V8.2c0-.8.6-1.4 1.4-1.4H13V5.3H8.3c-1.7 0-3 1.3-3 3v13.5c0 1.7 1.3 3 3 3h13.5c1.7 0 3-1.3 3-3V17h-1.5v4.8c0 .8-.7 1.5-1.5 1.5z"/>
+                        <Grid Height="54" Width="72">
+                            <Path Fill="White" Data="M18.5 4.5V6h4.4L16 12.9l1.1 1.1L24 7.1v4.4h1.5v-7 M21.8 23.3H8.2c-.8 0-1.4-.6-1.4-1.5V8.2c0-.8.6-1.4 1.4-1.4H13V5.3H8.3c-1.7 0-3 1.3-3 3v13.5c0 1.7 1.3 3 3 3h13.5c1.7 0 3-1.3 3-3V17h-1.5v4.8c0 .8-.7 1.5-1.5 1.5z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,0,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Margin="0" Padding="0,39,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">Sources</TextBlock>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnPower" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="106,359,0,-19" VerticalAlignment="Top" Width="42" Height="42" Click="btnPower_Click" ContextMenuService.IsEnabled="false" ToolTip="Power modes" BorderThickness="2">
+                    <Button x:Name="btnPower" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="182,361,0,-25" VerticalAlignment="Top" Width="85" Height="64" Click="btnPower_Click" ContextMenuService.IsEnabled="false" BorderThickness="2">
                         <Button.ContextMenu>
                             <ContextMenu/>
                         </Button.ContextMenu>
-                        <Grid Height="30" Width="30">
-                            <Path Fill="White" Data="M18.3 6.6v1.7c2.5 1.2 4.3 3.8 4.3 6.7 0 4.1-3.4 7.5-7.5 7.5S7.5 19.1 7.5 15c0-3 1.7-5.5 4.3-6.7V6.6C8.4 7.9 6 11.2 6 15c0 5 4 9 9 9s9-4 9-9c0-3.8-2.4-7.1-5.7-8.4z M14.3 4.5h1.5v8h-1.5z"/>
+                        <Grid Height="54" Width="72">
+                            <Path Fill="White" Data="M18.3 6.6v1.7c2.5 1.2 4.3 3.8 4.3 6.7 0 4.1-3.4 7.5-7.5 7.5S7.5 19.1 7.5 15c0-3 1.7-5.5 4.3-6.7V6.6C8.4 7.9 6 11.2 6 15c0 5 4 9 9 9s9-4 9-9c0-3.8-2.4-7.1-5.7-8.4z M14.3 4.5h1.5v8h-1.5z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,0,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Margin="0" Padding="0,39,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">Power modes</TextBlock>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnFactoryReset" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="153,359,0,-19" VerticalAlignment="Top" Width="42" Height="42" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" ToolTip="Reset" BorderThickness="2">
+                    <Button x:Name="btnFactoryReset" Style="{StaticResource IconButton}" HorizontalAlignment="Left" Margin="271,361,-2,-25" VerticalAlignment="Top" Width="85" Height="64" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" BorderThickness="2">
                         <Button.ContextMenu>
                             <ContextMenu/>
                         </Button.ContextMenu>
-                        <Grid Height="30" Width="30">
-                            <Path Fill="White" Data="M15 22.5c-2.6 0-4.9-1.4-6.3-3.4h2.6v-1.5h-5v5h1.5v-2.2C9.5 22.6 12.1 24 15 24c4.1 0 7.6-2.8 8.7-6.6l-1.5-.4c-.9 3.2-3.8 5.5-7.2 5.5zM22.2 7.4v2.2C20.5 7.4 17.9 6 15 6c-4.1 0-7.6 2.8-8.7 6.6l1.5.4c.9-3.2 3.8-5.5 7.2-5.5 2.6 0 4.9 1.4 6.3 3.4h-2.6v1.5h5v-5h-1.5z"/>
+                        <Grid Height="54" Width="72">
+                            <Path Fill="White" Data="M15 22.5c-2.6 0-4.9-1.4-6.3-3.4h2.6v-1.5h-5v5h1.5v-2.2C9.5 22.6 12.1 24 15 24c4.1 0 7.6-2.8 8.7-6.6l-1.5-.4c-.9 3.2-3.8 5.5-7.2 5.5zM22.2 7.4v2.2C20.5 7.4 17.9 6 15 6c-4.1 0-7.6 2.8-8.7 6.6l1.5.4c.9-3.2 3.8-5.5 7.2-5.5 2.6 0 4.9 1.4 6.3 3.4h-2.6v1.5h5v-5h-1.5z" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-4,0,0,0">
+                                <Path.RenderTransform>
+                                    <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Margin="0" Padding="0,39,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">Reset</TextBlock>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnRevert" Style="{StaticResource IconButton}" Content="Revert" HorizontalAlignment="Left" Margin="273,359,0,-19" VerticalAlignment="Top" Width="75" Height="42" Click="btnRevert_Click" FontSize="15" BorderThickness="2" Foreground="White"/>
-                    <Label x:Name="lblBrightness" Content="0" HorizontalAlignment="Left" Margin="295,60,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
-                    <Label x:Name="lblContrast" Content="0" HorizontalAlignment="Left" Margin="295,100,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
-                    <Label x:Name="lblRedGain" Content="0" HorizontalAlignment="Left" Margin="295,140,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
-                    <Label x:Name="lblGreenGain" Content="0" HorizontalAlignment="Left" Margin="295,180,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
-                    <Label x:Name="lblBlueGain" Content="0" HorizontalAlignment="Left" Margin="295,220,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
-                    <Label x:Name="lblSharpness" Content="0" HorizontalAlignment="Left" Margin="295,260,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
-                    <Label x:Name="lblVolume" Content="0" HorizontalAlignment="Left" Margin="295,300,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblBrightness" Content="0" HorizontalAlignment="Left" Margin="295,62,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom"/>
+                    <Label x:Name="lblContrast" Content="0" HorizontalAlignment="Left" Margin="295,102,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblRedGain" Content="0" HorizontalAlignment="Left" Margin="295,142,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblGreenGain" Content="0" HorizontalAlignment="Left" Margin="295,182,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblBlueGain" Content="0" HorizontalAlignment="Left" Margin="295,222,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblSharpness" Content="0" HorizontalAlignment="Left" Margin="295,262,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Label x:Name="lblVolume" Content="0" HorizontalAlignment="Left" Margin="295,302,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
+                    <Grid x:Name="Menu" HorizontalAlignment="Left" Margin="0,0,0,0" Width="200" Background="#FFD1D1D1">
+                        <Button x:Name="btnMenuClose" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2" Click="btnMenuClose_Click">
+                            <Grid Height="16" Width="16">
+                                <Path Fill="Black" Data="M0 3h16v1H0V3zM0 8h16v1H0V8zM0 13h16v1H0v-1z"/>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="btnRestart" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="48" BorderThickness="2" Click="btnRestart_Click" Margin="0,48,0,0">
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard Completed="Restart">
+                                            <DoubleAnimation Storyboard.TargetName="Window" Storyboard.TargetProperty="Opacity" From="1" To="0.8" Duration="0:0:0.2"/>
+                                            <DoubleAnimation Storyboard.TargetName="lblWait" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.2"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                            <Grid Height="30" Width="172">
+                                <Path Fill="Black" Data="M15 24c4.6 0 8.4-3.4 8.9-7.9h-1.5c-.5 3.6-3.6 6.4-7.4 6.4-4.1 0-7.5-3.4-7.5-7.5s3.4-7.5 7.5-7.5c2.6 0 5 1.3 6.3 3.4h-2.6v1.5h5v-5h-1.5v2.2C20.6 7.4 17.9 6 15 6c-5 0-9 4-9 9s4 9 9 9z" HorizontalAlignment="Left" VerticalAlignment="Center" Height="16" Width="16" Margin="2,7,0,7"/>
+                                <TextBlock Margin="40,0,0,0" FontSize="16" VerticalAlignment="Center">Rescan</TextBlock>
+                            </Grid>
+                        </Button>
+                        <Button x:Name="btnMenu_Copy1" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="48" BorderThickness="2" Click="btnIdentifyMonitor_Click" Margin="0,96,0,0">
+                            <Grid Height="20" Width="172">
+                                <Path Fill="Black" Data="M0 5h20v1H0V5zM0 10h20v1H0v-1zM0 15h20v1H0v-1z"/>
+                                <TextBlock Margin="40,0,0,0" FontSize="16">About</TextBlock>
+                            </Grid>
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
         </Border>

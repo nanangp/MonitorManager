@@ -160,6 +160,30 @@
         </Style>
 
 
+        <!-- Buttons -->
+        <Style x:Key="IconButtonAlt" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#00FFFFFF"/>
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource Focus}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="border" Background="{TemplateBinding Background}" BorderBrush="#33FFFFFF" BorderThickness="0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#33FFFFFF"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#66FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
         <!-- Sliders -->
         <Style x:Key="SliderRepeatLeft" TargetType="RepeatButton">
             <Setter Property="Focusable" Value="false"/>

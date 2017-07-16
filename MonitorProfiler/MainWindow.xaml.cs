@@ -54,8 +54,10 @@ namespace MonitorProfiler
         private const int WM_HOTKEY = 0x0312;
         private const int WM_DWMCOMPOSITIONCHANGED = 0x31A;
         private const int WM_THEMECHANGED = 0x31E;
+
         private const string profiles_xml = "profiles.xml";
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
+        private string ShowInTray = "";
 
         private static DoubleAnimation WindowAnim = new DoubleAnimation();
         private static DoubleAnimation lblWaitAnim = new DoubleAnimation();
@@ -98,6 +100,7 @@ namespace MonitorProfiler
 
         public MainWindow()
         {
+            ShowInTray = "bottom-";
             Resources["GlassBrush"] = WindowGlassBrush;
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
@@ -212,9 +215,11 @@ namespace MonitorProfiler
 
         private void ShowContextMemu(Button button)
         {
-            button.ContextMenu.Placement = PlacementMode.Bottom;
+            if (ShowInTray == "bottom") button.ContextMenu.Placement = PlacementMode.Top;
+            else button.ContextMenu.Placement = PlacementMode.Bottom;
             button.ContextMenu.PlacementTarget = button;
-            button.ContextMenu.PlacementRectangle = new Rect(0, button.Height, 0, 0);
+            if (ShowInTray == "bottom") button.ContextMenu.PlacementRectangle = new Rect(0, 0, 0, 0);
+            else button.ContextMenu.PlacementRectangle = new Rect(0, button.Height, 0, 0);
             button.ContextMenu.IsOpen = true;
         }
 
@@ -747,6 +752,7 @@ namespace MonitorProfiler
 
         private void btnRestart_Click(object sender, RoutedEventArgs e)
         {
+            Menu.Visibility = Visibility.Collapsed;
             lblWait.Visibility = Visibility.Visible;
             WindowBlur.Radius = 5;
             Debug.WriteLine("show the thing");
@@ -843,10 +849,16 @@ namespace MonitorProfiler
         {
             EnableBlur();
             //set position to tray bar
-            int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - (int)this.Width + 1;
-            int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - (int)this.Height + 1;
-            this.Left = screenWidth;
-            this.Top = screenHeight;
+            if (ShowInTray == "bottom")
+            {
+                TitleBar.Visibility = Visibility.Collapsed;
+                MainGrid.Margin = new Thickness(0, 9, 0, 0);
+                this.Height -= 22;
+                int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - (int)this.Width + 1;
+                int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - (int)this.Height + 1;
+                this.Left = screenWidth;
+                this.Top = screenHeight;
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -859,6 +871,16 @@ namespace MonitorProfiler
         {
             if(e.Key == Key.Enter || e.Key == Key.Space)
                 cboMonitors.IsDropDownOpen = true;
+        }
+
+        private void btnMenu_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.Visibility = Visibility.Visible;
+        }
+
+        private void btnMenuClose_Click(object sender, RoutedEventArgs e)
+        {
+            Menu.Visibility = Visibility.Collapsed;
         }
     }
 }
