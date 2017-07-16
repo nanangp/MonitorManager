@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using Microsoft.Win32;
+using System.Windows.Navigation;
 
 namespace MonitorProfiler
 {
@@ -57,7 +58,7 @@ namespace MonitorProfiler
 
         private const string profiles_xml = "profiles.xml";
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
-        private string ShowInTray = "";
+        private string showintray = "";
 
         private static DoubleAnimation WindowAnim = new DoubleAnimation();
         private static DoubleAnimation lblWaitAnim = new DoubleAnimation();
@@ -100,7 +101,6 @@ namespace MonitorProfiler
 
         public MainWindow()
         {
-            ShowInTray = "bottom-";
             Resources["GlassBrush"] = WindowGlassBrush;
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
@@ -166,7 +166,7 @@ namespace MonitorProfiler
             Resources["GlassBrush"] = WindowGlassBrush;
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
-    }
+        }
 
         internal void EnableBlur()
         {
@@ -215,11 +215,13 @@ namespace MonitorProfiler
 
         private void ShowContextMemu(Button button)
         {
-            if (ShowInTray == "bottom") button.ContextMenu.Placement = PlacementMode.Top;
-            else button.ContextMenu.Placement = PlacementMode.Bottom;
+            //if (ShowInTray == "bottom") button.ContextMenu.Placement = PlacementMode.Top;
+            //else button.ContextMenu.Placement = PlacementMode.Bottom;
+            button.ContextMenu.Placement = PlacementMode.Top;
             button.ContextMenu.PlacementTarget = button;
-            if (ShowInTray == "bottom") button.ContextMenu.PlacementRectangle = new Rect(0, 0, 0, 0);
-            else button.ContextMenu.PlacementRectangle = new Rect(0, button.Height, 0, 0);
+            //if (ShowInTray == "bottom") button.ContextMenu.PlacementRectangle = new Rect(0, 0, 0, 0);
+            //else button.ContextMenu.PlacementRectangle = new Rect(0, button.Height, 0, 0);
+            button.ContextMenu.PlacementRectangle = new Rect(0, 0, 0, 0);
             button.ContextMenu.IsOpen = true;
         }
 
@@ -552,12 +554,17 @@ namespace MonitorProfiler
                     _config = (Config)deserializer.Deserialize(reader);
                 }
 
-                string link = _config.Settings[0].Link;
-                if (link.ToLower() == "true")
+                string link = _config.Settings[0].Link.ToLower();
+                if (link == "true")
                 {
                     pathlink.Data = Geometry.Parse(svgLink);
                     btnLinkMonitors.Tag = "link";
                 }
+
+                showintray = _config.Settings[0].Tray.ToLower();
+                checkTray.Checked -= checkTray_Checked;
+                if (showintray == "true") checkTray.IsChecked = true;
+                checkTray.Checked += checkTray_Checked;
 
                 foreach (var cfg in _config.Profiles)
                 {
@@ -750,7 +757,7 @@ namespace MonitorProfiler
             if (barVolume.Value > 0) barVolume.Value = 0;
         }
 
-        private void btnRestart_Click(object sender, RoutedEventArgs e)
+        private void btnMenuRestart_Click(object sender, RoutedEventArgs e)
         {
             Menu.Visibility = Visibility.Collapsed;
             lblWait.Visibility = Visibility.Visible;
@@ -813,6 +820,7 @@ namespace MonitorProfiler
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            CloseMenus(sender, e);
             if (e.ChangedButton == MouseButton.Left) Application.Current.MainWindow.DragMove();
         }
 
@@ -845,32 +853,15 @@ namespace MonitorProfiler
                 );
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        private void Hyperlink_RequestNavigate(object sender, RequestNavigateEventArgs e)
         {
-            EnableBlur();
-            //set position to tray bar
-            if (ShowInTray == "bottom")
-            {
-                TitleBar.Visibility = Visibility.Collapsed;
-                MainGrid.Margin = new Thickness(0, 9, 0, 0);
-                this.Height -= 22;
-                int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - (int)this.Width + 1;
-                int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - (int)this.Height + 1;
-                this.Left = screenWidth;
-                this.Top = screenHeight;
-            }
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID); //WINDOWS + NUMKEY_0
-            SaveProfiles(sender, null);
+            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
+            e.Handled = true;
         }
 
         private void cboMonitors_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter || e.Key == Key.Space)
-                cboMonitors.IsDropDownOpen = true;
+            if(e.Key == Key.Enter || e.Key == Key.Space) cboMonitors.IsDropDownOpen = true;
         }
 
         private void btnMenu_Click(object sender, RoutedEventArgs e)
@@ -881,6 +872,94 @@ namespace MonitorProfiler
         private void btnMenuClose_Click(object sender, RoutedEventArgs e)
         {
             Menu.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnMenuSettings_Click(object sender, RoutedEventArgs e)
+        {
+            MenuSettings.Visibility = Visibility.Visible;
+        }
+
+        private void btnMenuSettingsClose_Click(object sender, RoutedEventArgs e)
+        {
+            MenuSettings.Visibility = Visibility.Collapsed;
+        }
+
+        private void btnMenuAbout_Click(object sender, RoutedEventArgs e)
+        {
+            MenuAbout.Visibility = Visibility.Visible;
+        }
+
+        private void btnMenuAboutClose_Click(object sender, RoutedEventArgs e)
+        {
+            MenuAbout.Visibility = Visibility.Collapsed;
+        }
+
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Menu.Visibility = Visibility.Collapsed;
+        }
+
+        private void CloseMenus(object sender, MouseButtonEventArgs e)
+        {
+            Menu.Visibility = Visibility.Collapsed;
+            MenuSettings.Visibility = Visibility.Collapsed;
+            MenuAbout.Visibility = Visibility.Collapsed;
+        }
+
+        private void checkTray_Checked(object sender, RoutedEventArgs e)
+        {
+            _config.Settings[0].Tray = "True";
+            MoveToTray();
+        }
+
+        private void checkTray_Unchecked(object sender, RoutedEventArgs e)
+        {
+            _config.Settings[0].Tray = "False";
+            RemoveFromTray();
+        }
+
+        private void MoveToTray()
+        {
+            TitleBar.Visibility = Visibility.Collapsed;
+            MainGrid.Margin = new Thickness(0, 9, 0, 0);
+            this.Height -= 22;
+            int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width - (int)this.Width + 1;
+            int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height - (int)this.Height + 1;
+            this.Left = screenWidth;
+            this.Top = screenHeight;
+        }
+
+        private void RemoveFromTray()
+        {
+            TitleBar.Visibility = Visibility.Visible;
+            MainGrid.Margin = new Thickness(0, 31, 0, 0);
+            this.Height += 22;
+            int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / 2 - (int)this.Width / 2;
+            int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2 - (int)this.Height / 2;
+            this.Left = screenWidth;
+            this.Top = screenHeight;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            EnableBlur();
+            //set position to tray bar
+            if (showintray == "true")
+            {
+                MoveToTray();
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID); //WINDOWS + NUMKEY_0
+            SaveProfiles(sender, null);
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            if (showintray == "true") this.WindowState = WindowState.Minimized;
+            //if (showintray == "true") this.Hide();
         }
     }
 }

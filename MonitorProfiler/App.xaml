@@ -56,6 +56,64 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style x:Key="FocusCheckBox">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="-7" StrokeThickness="2" Stroke="#FFFFFF" SnapsToDevicePixels="true"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!-- Checkbox Styles -->
+        <Style x:Key="{x:Type CheckBox}" TargetType="CheckBox">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusCheckBox}"/>
+            <Setter Property="Foreground" Value="#000"/>
+            <Setter Property="Background" Value="#fff"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <BulletDecorator Background="Transparent">
+                            <BulletDecorator.Bullet>
+                                <Border x:Name="Border" Width="20" Height="20" CornerRadius="0" Background="#FFFFFF" BorderBrush="#CC000000" BorderThickness="2">
+                                    <Path x:Name="CheckMark" Fill="White" Data="M0 7.6L5.5 13M16 2.8L5.5 13 M15 2.5L5.5 12 0 6.5v2L5.5 14 16 3.6z"/>
+                                </Border>
+                            </BulletDecorator.Bullet>
+                            <ContentPresenter Margin="8,-3,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" RecognizesAccessKey="True"/>
+                        </BulletDecorator>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="CheckMark" Property="Visibility" Value="Collapsed"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource GlassBrush}"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource GlassBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="{x:Null}">
+                                <Setter TargetName="Border" Property="Background" Value="{DynamicResource GlassBrush}"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource GlassBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#000"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#99000000"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="#99000000"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#CCC"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
 
         <!-- Titlebar Buttons -->
