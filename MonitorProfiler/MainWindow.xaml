@@ -29,10 +29,23 @@
                     <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White"><Run Text="MonitorProfiler"/></TextBlock>
                 </DockPanel>
                 <Grid x:Name="MainGrid" Margin="0,31,0,0">
-                    <Button x:Name="btnMenu" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2" Click="btnMenu_Click">
+                    <Button x:Name="btnMenu" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2">
                         <Grid Height="16" Width="16">
                             <Path Fill="White" Data="M0 3h16v1H0V3zM0 8h16v1H0V8zM0 13h16v1H0v-1z"/>
                         </Grid>
+                        <Button.Triggers>
+                            <EventTrigger RoutedEvent="Button.Click">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Menu" Storyboard.TargetProperty="Width" From="0" To="360" Duration="0:0:0.15">
+                                            <DoubleAnimation.EasingFunction>
+                                                <CubicEase EasingMode="EaseInOut"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Button.Triggers>
                     </Button>
                     <ComboBox x:Name="cboMonitors" Style="{StaticResource ComboBoxFlatStyle}" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="52,4,0,0" VerticalAlignment="Top" Width="208" Height="40" SelectionChanged="CboMonitors_SelectionChanged" BorderBrush="#33FFFFFF" BorderThickness="0" Padding="10,3,5,3" FontSize="15" Foreground="White" KeyDown="cboMonitors_KeyDown"/>
                     <Button x:Name="btnLinkMonitors" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" Margin="264,4,0,0" VerticalAlignment="Top" Width="40" Height="40" Click="btnLinkMonitors_Click" Tag="unlink" ToolTip="Link monitors" BorderThickness="2">
@@ -148,16 +161,29 @@
                     <Label x:Name="lblBlueGain" Content="0" HorizontalAlignment="Left" Margin="295,222,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
                     <Label x:Name="lblSharpness" Content="0" HorizontalAlignment="Left" Margin="295,262,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
                     <Label x:Name="lblVolume" Content="0" HorizontalAlignment="Left" Margin="295,302,-6,0" VerticalAlignment="Top" Foreground="White" FontSize="24" Width="65" HorizontalContentAlignment="Center"/>
-                    <Grid x:Name="Menu" Margin="0,0,0,0" Visibility="Collapsed">
+                    <Grid x:Name="Menu" Margin="0" Width="0" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="256" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0" Margin="0,0,0,0" Background="#FFD1D1D1">
-                            <Button x:Name="btnMenuClose" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2" Click="btnMenuClose_Click">
+                            <Button x:Name="btnMenuClose" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2">
                                 <Grid Height="16" Width="16">
                                     <Path Fill="Black" Data="M0 3h16v1H0V3zM0 8h16v1H0V8zM0 13h16v1H0v-1z"/>
                                 </Grid>
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="Menu" Storyboard.TargetProperty="Width" From="360" To="0" Duration="0:0:0.1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <CubicEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
                             </Button>
                             <Button x:Name="btnMenuRestart" Style="{StaticResource IconButtonAlt}" VerticalAlignment="Top" Height="48" Click="btnMenuRestart_Click" Margin="0,48,0,0">
                                 <Button.Triggers>
@@ -179,7 +205,7 @@
                                     <TextBlock Grid.Column="1" Margin="0,4,0,5" FontSize="16" VerticalAlignment="Center">Rescan</TextBlock>
                                 </Grid>
                             </Button>
-                            <Button x:Name="btnMenuSettings" Style="{StaticResource IconButtonAlt}" VerticalAlignment="Top" Height="48" Margin="0,96,0,0" HorizontalAlignment="Left" Width="256" Click="btnMenuSettings_Click">
+                            <Button x:Name="btnMenuSettings" Style="{StaticResource IconButtonAlt}" VerticalAlignment="Top" Height="48" Margin="0,96,0,0" HorizontalAlignment="Left" Width="256">
                                 <Grid HorizontalAlignment="Left" Width="229">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -188,8 +214,17 @@
                                     <Path Grid.Column="0" Fill="Black" Data="M14.1 8.8c.1-.5.1-1 0-1.5l1.9-1-1-2.5-2.1.5c-.3-.4-.6-.7-1-1.1l.6-2L10 0 8.8 1.9c-.5-.1-1-.1-1.5 0L6.3 0 3.7 1l.5 2.2c-.4.3-.7.7-1.1 1l-2-.6L0 6l1.9 1.2c-.1.5-.1 1 0 1.5L0 9.7l1 2.5 2.1-.5c.3.4.7.8 1 1l-.6 2L6 16l1.2-1.9c.5.1 1 .1 1.5 0l1 1.9 2.5-1-.5-2.1c.4-.3.7-.6 1.1-1l2 .6L16 9.9l-1.9-1.1zm-3.2 3.5l-.3.2.5 2-.9.4-1-1.9-.4.1c-.6.1-1.2.1-1.8 0l-.3-.1-1.1 1.7-.9-.4.5-1.9-.2-.2c-.5-.3-.9-.8-1.3-1.3l-.2-.3-2 .5-.4-.9 1.9-1-.1-.3c-.1-.6-.1-1.2 0-1.8l.1-.4-1.7-1 .4-.9 1.9.5.2-.3c.3-.5.8-.9 1.3-1.3l.3-.2-.5-2 .9-.4 1 1.9.4-.1c.6-.1 1.2-.1 1.8 0l.3.1 1.1-1.7.9.4-.5 1.9.2.2c.5.3.9.8 1.3 1.3l.2.3 2-.5.4.9-1.9 1 .1.4c.1.6.1 1.2 0 1.8l-.1.3 1.7 1.1-.4.9-1.9-.5-.2.2c-.4.5-.8.9-1.3 1.3z M8 5C6.3 5 5 6.3 5 8s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm0 5c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" Margin="2,7,0,7"/>
                                     <TextBlock Grid.Column="1" Margin="0,4,0,5" FontSize="16" VerticalAlignment="Center">Settings</TextBlock>
                                 </Grid>
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="MenuSettings" Storyboard.TargetProperty="Width" From="0" To="360" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
                             </Button>
-                            <Button x:Name="btnMenuAbout" Style="{StaticResource IconButtonAlt}" VerticalAlignment="Top" Height="48" Margin="0,144,0,0" Click="btnMenuAbout_Click" HorizontalAlignment="Left" Width="256">
+                            <Button x:Name="btnMenuAbout" Style="{StaticResource IconButtonAlt}" VerticalAlignment="Top" Height="48" Margin="0,144,0,0" HorizontalAlignment="Left" Width="256">
                                 <Grid HorizontalAlignment="Left" Width="229">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="35" />
@@ -198,22 +233,44 @@
                                     <Path Grid.Column="0" Fill="Black" Data="M8 0C3.6 0 0 3.6 0 8s3.6 8 8 8 8-3.6 8-8-3.6-8-8-8zm0 15c-3.9 0-7-3.1-7-7s3.1-7 7-7 7 3.1 7 7-3.1 7-7 7z M7.5 6h1v6h-1zM7.5 4h1v1h-1z" Margin="2,7,0,7"/>
                                     <TextBlock Grid.Column="1" Margin="0,4,0,5" FontSize="16" VerticalAlignment="Center">About</TextBlock>
                                 </Grid>
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="MenuAbout" Storyboard.TargetProperty="Width" From="0" To="360" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
                             </Button>
                         </Grid>
                         <Grid Grid.ColumnSpan="2" Margin="256,0,0,0">
                             <Rectangle Fill="#00000000" Margin="0" MouseDown="CloseMenus"/>
                         </Grid>
                     </Grid>
-                    <Grid x:Name="MenuSettings" Margin="0,0,0,0" Visibility="Collapsed">
+                    <Grid x:Name="MenuSettings" Margin="0" Width="0" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="256" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0" Margin="0,0,0,0" Background="#FFD1D1D1">
-                            <Button x:Name="btnMenuSettingsClose" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2" Click="btnMenuSettingsClose_Click">
+                            <Button x:Name="btnMenuSettingsClose" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2">
                                 <Grid Height="16" Width="16">
                                     <Path Fill="Black" Data="M0 3h16v1H0V3zM0 8h16v1H0V8zM0 13h16v1H0v-1z"/>
                                 </Grid>
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="MenuSettings" Storyboard.TargetProperty="Width" From="360" To="0" Duration="0:0:0.1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <CubicEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
                             </Button>
                             <Label Content="Settings" HorizontalAlignment="Left" Margin="50,8,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
                             <CheckBox x:Name="checkTray" Margin="14,55,125,0" Padding="0" FontSize="16" VerticalAlignment="Top" Content="Show in tray" Height="22" Unchecked="checkTray_Unchecked"/>
@@ -222,16 +279,29 @@
                             <Rectangle Fill="#00000000" Margin="0" MouseDown="CloseMenus"/>
                         </Grid>
                     </Grid>
-                    <Grid x:Name="MenuAbout" Margin="0,0,0,0" Visibility="Collapsed">
+                    <Grid x:Name="MenuAbout" Margin="0" Width="0" HorizontalAlignment="Left">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="256" />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
                         <Grid Grid.Column="0" Margin="0,0,0,0" Background="#FFD1D1D1">
-                            <Button x:Name="btnMenuAboutClose" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2" Click="btnMenuAboutClose_Click">
+                            <Button x:Name="btnMenuAboutClose" Style="{StaticResource IconButtonAlt}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="48" Height="48" BorderThickness="2">
                                 <Grid Height="16" Width="16">
                                     <Path Fill="Black" Data="M0 3h16v1H0V3zM0 8h16v1H0V8zM0 13h16v1H0v-1z"/>
                                 </Grid>
+                                <Button.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetName="MenuAbout" Storyboard.TargetProperty="Width" From="360" To="0" Duration="0:0:0.1">
+                                                    <DoubleAnimation.EasingFunction>
+                                                        <CubicEase EasingMode="EaseIn"/>
+                                                    </DoubleAnimation.EasingFunction>
+                                                </DoubleAnimation>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </Button.Triggers>
                             </Button>
                             <Label Content="About" HorizontalAlignment="Left" Margin="50,8,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
                             <TextBlock HorizontalAlignment="Left" Margin="16,54,0,0" VerticalAlignment="Top" FontSize="16" Width="230" TextWrapping="Wrap">Version 0.1<LineBreak/>© 2017 r4dius<LineBreak/><Hyperlink NavigateUri="https://r4di.us/monitor" RequestNavigate="Hyperlink_RequestNavigate" Foreground="Black">https://r4di.us/monitor</Hyperlink><LineBreak/><LineBreak/>Contains code from all around the world :), based on <Hyperlink NavigateUri="https://github.com/rivy/monitorprofiler" RequestNavigate="Hyperlink_RequestNavigate" Foreground="Black">https://github.com/rivy/monitorprofiler</Hyperlink></TextBlock>

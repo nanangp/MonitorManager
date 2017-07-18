@@ -59,5 +59,15 @@ namespace MonitorProfiler.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon tray {
+            get {
+                object obj = ResourceManager.GetObject("tray", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
     }
 }

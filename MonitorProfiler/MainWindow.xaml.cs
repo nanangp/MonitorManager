@@ -65,6 +65,7 @@ namespace MonitorProfiler
 
         private IntPtr hwnd;
         private HwndSource hsource;
+        private System.Windows.Forms.NotifyIcon trayicon = new System.Windows.Forms.NotifyIcon();
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -122,6 +123,10 @@ namespace MonitorProfiler
             Debug.Write("Checking duration: " + ts.ToString() + "\n");
             */
             
+            trayicon.Icon = Properties.Resources.tray;
+            trayicon.Visible = true;
+            trayicon.Click += Trayicon_Click;
+
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
             {
@@ -901,9 +906,9 @@ namespace MonitorProfiler
 
         private void CloseMenus(object sender, MouseButtonEventArgs e)
         {
-            Menu.Visibility = Visibility.Collapsed;
-            MenuSettings.Visibility = Visibility.Collapsed;
-            MenuAbout.Visibility = Visibility.Collapsed;
+            if (Menu.Width == 360) btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            if (MenuSettings.Width == 360) btnMenuSettingsClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            if (MenuAbout.Width == 360) btnMenuAboutClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         private void checkTray_Checked(object sender, RoutedEventArgs e)
@@ -920,6 +925,8 @@ namespace MonitorProfiler
 
         private void MoveToTray()
         {
+            showintray = "true";
+            ShowInTaskbar = false;
             TitleBar.Visibility = Visibility.Collapsed;
             MainGrid.Margin = new Thickness(0, 9, 0, 0);
             this.Height -= 22;
@@ -931,13 +938,15 @@ namespace MonitorProfiler
 
         private void RemoveFromTray()
         {
+            showintray = "false";
+            ShowInTaskbar = true;
             TitleBar.Visibility = Visibility.Visible;
             MainGrid.Margin = new Thickness(0, 31, 0, 0);
-            this.Height += 22;
+            Height += 22;
             int screenWidth = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Width / 2 - (int)this.Width / 2;
             int screenHeight = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea.Height / 2 - (int)this.Height / 2;
-            this.Left = screenWidth;
-            this.Top = screenHeight;
+            Left = screenWidth;
+            Top = screenHeight;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -950,16 +959,23 @@ namespace MonitorProfiler
             }
         }
 
+        private void Trayicon_Click(object sender, EventArgs e)
+        {
+            //this.WindowState = WindowState.Normal;
+            Show();
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID); //WINDOWS + NUMKEY_0
+            trayicon.Visible = false;
             SaveProfiles(sender, null);
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
         {
-            if (showintray == "true") this.WindowState = WindowState.Minimized;
-            //if (showintray == "true") this.Hide();
+            //if (showintray == "true") this.WindowState = WindowState.Minimized;
+            if (showintray == "true") Hide();
         }
     }
 }
