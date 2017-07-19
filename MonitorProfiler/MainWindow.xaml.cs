@@ -126,6 +126,7 @@ namespace MonitorProfiler
             trayicon.Icon = Properties.Resources.tray;
             trayicon.Visible = true;
             trayicon.Click += Trayicon_Click;
+            //trayicon. += Trayicon_MouseDown;
 
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
@@ -161,7 +162,7 @@ namespace MonitorProfiler
             lblWaitAnim.To = 0;
             lblWaitAnim.Duration = hideDur;
             lblWaitAnim.Completed += new EventHandler(WaitMessage_Hide);
-            
+                        
             return;
         }
 
@@ -962,8 +963,16 @@ namespace MonitorProfiler
         private void Trayicon_Click(object sender, EventArgs e)
         {
             //this.WindowState = WindowState.Normal;
+            Debug.WriteLine("showing");
             Show();
+            Debug.WriteLine("shown");
             Activate();
+            Debug.WriteLine("activated");
+        }
+
+        private void Trayicon_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            Debug.WriteLine("mouse down");
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -976,7 +985,9 @@ namespace MonitorProfiler
         private void Window_Deactivated(object sender, EventArgs e)
         {
             //if (showintray == "true") this.WindowState = WindowState.Minimized;
+            Debug.WriteLine("deactivating");
             if (showintray == "true") Hide();
+            Debug.WriteLine("deactivated");
         }
     }
 }

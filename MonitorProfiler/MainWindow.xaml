@@ -175,7 +175,7 @@
                                     <EventTrigger RoutedEvent="Button.Click">
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="Menu" Storyboard.TargetProperty="Width" From="360" To="0" Duration="0:0:0.1">
+                                                <DoubleAnimation Storyboard.TargetName="Menu" Storyboard.TargetProperty="Width" From="350" To="0" Duration="0:0:0.1">
                                                     <DoubleAnimation.EasingFunction>
                                                         <CubicEase EasingMode="EaseIn"/>
                                                     </DoubleAnimation.EasingFunction>
@@ -262,7 +262,7 @@
                                     <EventTrigger RoutedEvent="Button.Click">
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="MenuSettings" Storyboard.TargetProperty="Width" From="360" To="0" Duration="0:0:0.1">
+                                                <DoubleAnimation Storyboard.TargetName="MenuSettings" Storyboard.TargetProperty="Width" From="350" To="0" Duration="0:0:0.1">
                                                     <DoubleAnimation.EasingFunction>
                                                         <CubicEase EasingMode="EaseIn"/>
                                                     </DoubleAnimation.EasingFunction>
@@ -293,7 +293,7 @@
                                     <EventTrigger RoutedEvent="Button.Click">
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="MenuAbout" Storyboard.TargetProperty="Width" From="360" To="0" Duration="0:0:0.1">
+                                                <DoubleAnimation Storyboard.TargetName="MenuAbout" Storyboard.TargetProperty="Width" From="350" To="0" Duration="0:0:0.1">
                                                     <DoubleAnimation.EasingFunction>
                                                         <CubicEase EasingMode="EaseIn"/>
                                                     </DoubleAnimation.EasingFunction>

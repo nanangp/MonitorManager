@@ -60,5 +60,6 @@
   </Profile>
   <Settings>
     <Link>True</Link>
+    <Tray>True</Tray>
   </Settings>
 </Config>
