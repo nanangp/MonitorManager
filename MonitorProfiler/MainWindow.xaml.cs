@@ -42,6 +42,7 @@ namespace MonitorProfiler
         private string svgVolumeLow = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z";
         private string svgVolumeMedium = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z M21.2 7.2l-1 1.1C21.9 10 23 12.4 23 15s-1.1 5-2.8 6.7l1 1.1c2-2 3.3-4.8 3.3-7.8s-1.3-5.9-3.3-7.8z";
         private string svgVolumeHigh = "M5.3 10.2v9.6h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.2v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9zM18.5 10.1l-1 1.1c.9 1 1.5 2.3 1.5 3.8s-.6 2.8-1.5 3.8l1 1.1c1.2-1.3 2-3 2-4.9s-.8-3.6-2-4.9z M21.2 7.2l-1 1.1C21.9 10 23 12.4 23 15s-1.1 5-2.8 6.7l1 1.1c2-2 3.3-4.8 3.3-7.8s-1.3-5.9-3.3-7.8z M23.9 4.2l-1 1.1c2.6 2.5 4.2 6 4.1 9.9-.1 3.7-1.6 7.1-4.1 9.5l1 1.1c2.8-2.7 4.5-6.4 4.6-10.5.1-4.4-1.7-8.3-4.6-11.1z";
+        private bool active;
 
         //Modifiers:
         private const uint MOD_NONE = 0x0000; //(none)
@@ -126,7 +127,7 @@ namespace MonitorProfiler
             trayicon.Icon = Properties.Resources.tray;
             trayicon.Visible = true;
             trayicon.Click += Trayicon_Click;
-            //trayicon. += Trayicon_MouseDown;
+            trayicon.MouseMove += Trayicon_MouseMove;
 
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
@@ -531,6 +532,7 @@ namespace MonitorProfiler
 
         private void RefreshFactoryResetMenu()
         {
+            bool resetall = false;
             btnFactoryReset.ContextMenu.Items.Clear();
 
             for (int i = 0; i < NativeConstants.factoryResets.Length; ++i)
@@ -538,12 +540,28 @@ namespace MonitorProfiler
                 string _reset = NativeConstants.factoryResets[i];
                 if (_reset != "**undefined**" && _reset != "**Unrecognized**")
                 {
+                    if (i == 4) {
+                        resetall = true;
+                        continue;
+                    }
+                   
                     MenuItem item = new MenuItem();
                     item.Header = _reset;
                     item.Tag = i;
                     item.Click += new RoutedEventHandler(contextMenuFactory_Click);
                     btnFactoryReset.ContextMenu.Items.Add(item);
                 }
+            }
+
+            if (resetall)
+            {
+                btnFactoryReset.ContextMenu.Items.Add(new Separator());
+                string _reset = NativeConstants.factoryResets[4];
+                MenuItem item = new MenuItem();
+                item.Header = _reset;
+                item.Tag = 4;
+                item.Click += new RoutedEventHandler(contextMenuFactory_Click);
+                btnFactoryReset.ContextMenu.Items.Add(item);
             }
         }
 
@@ -585,16 +603,15 @@ namespace MonitorProfiler
             if (btnProfiles.ContextMenu.Items.Count > 0) btnProfiles.ContextMenu.Items.Add(new Separator());
 
             item = new MenuItem();
-            item.Header = "Delete profile";
+            item.Header = "Manage profile";
             item.Tag = "delete";
-            item.Click += new RoutedEventHandler(contextMenuProfiles_Click);
+            item.Click += new RoutedEventHandler(ManageProfiles);
             btnProfiles.ContextMenu.Items.Add(item);
+        }
 
-            item = new MenuItem();
-            item.Header = "Save profile";
-            item.Tag = "save";
-            item.Click += new RoutedEventHandler(SaveProfiles);
-            btnProfiles.ContextMenu.Items.Add(item);
+        private void ManageProfiles(object sender, RoutedEventArgs e)
+        {
+            btnMenuProfiles.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         private void SaveProfiles(object sender, RoutedEventArgs e)
@@ -908,6 +925,7 @@ namespace MonitorProfiler
         private void CloseMenus(object sender, MouseButtonEventArgs e)
         {
             if (Menu.Width == 360) btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            if (MenuProfiles.Width == 360) btnMenuProfilesClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuSettings.Width == 360) btnMenuSettingsClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuAbout.Width == 360) btnMenuAboutClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
@@ -962,17 +980,30 @@ namespace MonitorProfiler
 
         private void Trayicon_Click(object sender, EventArgs e)
         {
-            //this.WindowState = WindowState.Normal;
-            Debug.WriteLine("showing");
-            Show();
-            Debug.WriteLine("shown");
-            Activate();
-            Debug.WriteLine("activated");
+            if (!active)
+            {
+                //this.WindowState = WindowState.Normal;
+                Debug.WriteLine("showing");
+                Show();
+                Debug.WriteLine("shown");
+                Activate();
+                Debug.WriteLine("activated");
+            }
         }
 
-        private void Trayicon_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void Trayicon_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            Debug.WriteLine("mouse down");
+            if (IsActive)
+            {
+                Debug.WriteLine("mouse move active");
+                active = true;
+            }
+            else
+            {
+                active = false;
+                Debug.WriteLine("mouse move not active");
+            }
+            Debug.WriteLine("mouse move");
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
