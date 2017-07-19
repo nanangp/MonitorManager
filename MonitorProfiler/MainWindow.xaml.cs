@@ -963,6 +963,7 @@ namespace MonitorProfiler
         {
             //this.WindowState = WindowState.Normal;
             Show();
+            Activate();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
