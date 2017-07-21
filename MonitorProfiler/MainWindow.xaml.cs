@@ -782,7 +782,7 @@ namespace MonitorProfiler
 
         private void btnMenuRestart_Click(object sender, RoutedEventArgs e)
         {
-            Menu.Visibility = Visibility.Collapsed;
+            btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             lblWait.Visibility = Visibility.Visible;
             WindowBlur.Radius = 5;
             Debug.WriteLine("show the thing");
