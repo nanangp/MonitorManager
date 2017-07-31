@@ -603,7 +603,7 @@ namespace MonitorProfiler
             if (btnProfiles.ContextMenu.Items.Count > 0) btnProfiles.ContextMenu.Items.Add(new Separator());
 
             item = new MenuItem();
-            item.Header = "Manage profile";
+            item.Header = "Manage profiles";
             item.Tag = "delete";
             item.Click += new RoutedEventHandler(ManageProfiles);
             btnProfiles.ContextMenu.Items.Add(item);
@@ -843,7 +843,7 @@ namespace MonitorProfiler
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            CloseMenus(sender, e);
+            CloseMenus();
             if (e.ChangedButton == MouseButton.Left) Application.Current.MainWindow.DragMove();
         }
 
@@ -922,12 +922,17 @@ namespace MonitorProfiler
             Menu.Visibility = Visibility.Collapsed;
         }
 
-        private void CloseMenus(object sender, MouseButtonEventArgs e)
+        private void CloseMenus()
         {
             if (Menu.Width == 360) btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuProfiles.Width == 360) btnMenuProfilesClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuSettings.Width == 360) btnMenuSettingsClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuAbout.Width == 360) btnMenuAboutClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+        }
+
+        private void CloseMenus(object sender, MouseButtonEventArgs e)
+        {
+            CloseMenus();
         }
 
         private void checkTray_Checked(object sender, RoutedEventArgs e)
@@ -1016,6 +1021,7 @@ namespace MonitorProfiler
         private void Window_Deactivated(object sender, EventArgs e)
         {
             //if (showintray == "true") this.WindowState = WindowState.Minimized;
+            CloseMenus();
             Debug.WriteLine("deactivating");
             if (showintray == "true") Hide();
             Debug.WriteLine("deactivated");
