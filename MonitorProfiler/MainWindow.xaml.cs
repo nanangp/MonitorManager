@@ -220,6 +220,26 @@ namespace MonitorProfiler
             }
         }
 
+        private bool ThisScreenSelected()
+        {
+            var thisScreen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
+            string thisDeviceName = thisScreen.DeviceName;
+            int thisScreenId = 0, i = 0;
+            var allScreens = System.Windows.Forms.Screen.AllScreens;//.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
+            foreach (System.Windows.Forms.Screen _screen in allScreens)
+            {
+                if (_screen.DeviceName == thisDeviceName)
+                {
+                    thisScreenId = i;
+                    break;
+                }
+                i++;
+            }
+
+            if (cboMonitors.SelectedIndex == thisScreenId) return true;
+            return false;
+        }
+
         private void ShowContextMemu(Button button)
         {
             //if (ShowInTray == "bottom") button.ContextMenu.Placement = PlacementMode.Top;
@@ -305,6 +325,15 @@ namespace MonitorProfiler
         private void contextMenuSources_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = (MenuItem)sender;
+            // Confirm power action to app screen
+            if (ThisScreenSelected())
+            {
+                MessageBoxResult result = MessageBox.Show("This will apply to this monitor, are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                if (result != MessageBoxResult.OK)
+                {
+                    return;
+                }
+            }
             NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORSOURCES, Convert.ToUInt32(item.Tag));
             _currentMonitor.Source.Current = Convert.ToUInt32(item.Tag);
         }
@@ -318,30 +347,7 @@ namespace MonitorProfiler
         private void contextMenuPower_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = (MenuItem)sender;
-            var thisScreen = System.Windows.Forms.Screen.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
-            string thisDeviceName = thisScreen.DeviceName;
-            int thisScreenId = 0, i = 0;
-            var allScreens = System.Windows.Forms.Screen.AllScreens;//.FromHandle(new System.Windows.Interop.WindowInteropHelper(this).Handle);
-            foreach (System.Windows.Forms.Screen _screen in allScreens)
-            {
-                if (_screen.DeviceName == thisDeviceName)
-                {
-                    thisScreenId = i;
-                    break;
-                }
-                i++;
-            }
-
             Debug.WriteLine("Power : " + item.Tag);
-            // Confirm power action to app screen
-            if (cboMonitors.SelectedIndex == thisScreenId && Convert.ToUInt32(item.Tag) != 61808)
-            {
-                MessageBoxResult result = MessageBox.Show("This will apply to this monitor, are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
-                {
-                    NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
-                }
-            }
             // No VCP just force windows monitor sleeping
             if (Convert.ToUInt32(item.Tag) == 61808)
             {
@@ -350,6 +356,18 @@ namespace MonitorProfiler
                 {
                     NativeMethods.SendMessage(hwnd, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
                 }
+            } else
+            {
+                // Confirm power action to app screen
+                if (ThisScreenSelected() && Convert.ToString(item.Header) != "Power on")
+                {
+                    MessageBoxResult result = MessageBox.Show("This will apply to this monitor, are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+                    if (result != MessageBoxResult.OK)
+                    {
+                        return;
+                    }
+                }
+                NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
             }
         }
 
