@@ -937,7 +937,7 @@ namespace MonitorProfiler
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (Menu.Width == 360) CloseMenus();
+            if (Menu.Width >= 350) CloseMenus();
             if (e.ChangedButton == MouseButton.Left) Application.Current.MainWindow.DragMove();
         }
 
@@ -990,42 +990,60 @@ namespace MonitorProfiler
         private void btnMenuClose_Click(object sender, RoutedEventArgs e)
         {
             btnMenuClose.Focusable = false;
+            btnMenuProfilesClose.Focusable = false;
+            btnMenuSettingsClose.Focusable = false;
+            btnMenuAboutClose.Focusable = false;
             btnMenu.Focusable = true;
+        }
+
+        private void btnMenuProfiles_Click(object sender, RoutedEventArgs e)
+        {
+            btnMenuProfilesClose.Focusable = true;
+            btnMenuClose.Focusable = false;
+        }
+
+        private void btnMenuProfilesClose_Click(object sender, RoutedEventArgs e)
+        {
+            btnMenuClose.Focusable = true;
+            btnMenuProfilesClose.Focusable = false;
         }
 
         private void btnMenuSettings_Click(object sender, RoutedEventArgs e)
         {
-            MenuSettings.Visibility = Visibility.Visible;
+            btnMenuSettingsClose.Focusable = true;
+            btnMenuClose.Focusable = false;
         }
 
         private void btnMenuSettingsClose_Click(object sender, RoutedEventArgs e)
         {
-            MenuSettings.Visibility = Visibility.Collapsed;
+            btnMenuClose.Focusable = true;
+            btnMenuSettingsClose.Focusable = false;
         }
 
         private void btnMenuAbout_Click(object sender, RoutedEventArgs e)
         {
-            MenuAbout.Visibility = Visibility.Visible;
+            btnMenuAboutClose.Focusable = true;
+            btnMenuClose.Focusable = false;
         }
 
         private void btnMenuAboutClose_Click(object sender, RoutedEventArgs e)
         {
-            MenuAbout.Visibility = Visibility.Collapsed;
-        }
-
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Menu.Visibility = Visibility.Collapsed;
+            btnMenuClose.Focusable = true;
+            btnMenuAboutClose.Focusable = false;
         }
 
         private void CloseMenus()
         {
-            btnMenuClose.Focusable = false;
-            btnMenu.Focusable = true;
+            Debug.WriteLine("close menu");
             if (Menu.Width == 360) btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuProfiles.Width == 360) btnMenuProfilesClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuSettings.Width == 360) btnMenuSettingsClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuAbout.Width == 360) btnMenuAboutClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+            btnMenu.Focusable = true;
+            btnMenuClose.Focusable = false;
+            btnMenuProfilesClose.Focusable = false;
+            btnMenuSettingsClose.Focusable = false;
+            btnMenuAboutClose.Focusable = false;
         }
 
         private void CloseMenus(object sender, MouseButtonEventArgs e)
