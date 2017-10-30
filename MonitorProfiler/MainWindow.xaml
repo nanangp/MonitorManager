@@ -115,7 +115,7 @@
                             <TextBlock Margin="0" Padding="0,39,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">Sources</TextBlock>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnPower" Style="{StaticResource MainIconButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="182,361,0,-25" Width="85" Height="64" Click="btnPower_Click" ContextMenuService.IsEnabled="false" BorderThickness="2">
+                    <Button Name="btnPower" Style="{StaticResource MainIconButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="182,361,0,-25" Width="85" Height="64" Click="btnPower_Click" ContextMenuService.IsEnabled="false" BorderThickness="2">
                         <Button.ContextMenu>
                             <ContextMenu/>
                         </Button.ContextMenu>
@@ -128,7 +128,7 @@
                             <TextBlock Margin="0" Padding="0,39,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White">Power modes</TextBlock>
                         </Grid>
                     </Button>
-                    <Button x:Name="btnFactoryReset" Style="{StaticResource MainIconButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="271,361,-2,-25" Width="85" Height="64" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" BorderThickness="2">
+                    <Button Name="btnFactoryReset" Style="{StaticResource MainIconButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="271,361,-2,-25" Width="85" Height="64" Click="btnFactoryReset_Click" ContextMenuService.IsEnabled="false" BorderThickness="2">
                         <Button.ContextMenu>
                             <ContextMenu/>
                         </Button.ContextMenu>

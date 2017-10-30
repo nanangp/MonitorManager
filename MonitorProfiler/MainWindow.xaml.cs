@@ -60,6 +60,7 @@ namespace MonitorProfiler
         private const string profiles_xml = "profiles.xml";
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
         private string showintray = "";
+        private string lastFocus = "";
 
         private static DoubleAnimation WindowAnimShow = new DoubleAnimation();
         private static DoubleAnimation WindowAnimHide = new DoubleAnimation();
@@ -270,6 +271,7 @@ namespace MonitorProfiler
         private void btnFactoryReset_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
+            lastFocus = button.Name;
             ShowContextMemu(button);
         }
 
@@ -332,6 +334,7 @@ namespace MonitorProfiler
         private void btnSources_Click(object sender, RoutedEventArgs e)
         {
             Button button = ((Button)sender);
+            lastFocus = button.Name;
             _currentMonitor.GetSources();
             RefreshSourcesMenu();
             ShowContextMemu(button);
@@ -360,14 +363,15 @@ namespace MonitorProfiler
         
         private void btnScreenSource_Click(object sender, RoutedEventArgs e)
         {
-            HideMessage();
             setScreenSource(Convert.ToUInt32(((Button)sender).Tag));
             btnThisSceenConfirmationOk.Click -= btnScreenSource_Click;
+            HideMessage();
         }
 
         private void btnPower_Click(object sender, RoutedEventArgs e)
         {
             Button button = ((Button)sender);
+            lastFocus = button.Name;
             ShowContextMemu(button);
         }
 
@@ -402,9 +406,9 @@ namespace MonitorProfiler
 
         private void btnScreenPower_Click(object sender, RoutedEventArgs e)
         {
+            setScreenPower(Convert.ToUInt32(((Button)sender).Tag));
             btnThisSceenConfirmationOk.Click -= btnScreenPower_Click;
             HideMessage();
-            setScreenPower(Convert.ToUInt32(((Button)sender).Tag));
         }
 
         private void setScreenSleep()
@@ -415,13 +419,14 @@ namespace MonitorProfiler
         private void btnScreenSleep_Click(object sender, RoutedEventArgs e)
         {
             btnThisSceenConfirmationOk.Click -= btnScreenSleep_Click;
-            HideMessage();
             setScreenSleep();
+            HideMessage();
         }
 
         private void btnProfiles_Click(object sender, RoutedEventArgs e)
         {
             Button button = ((Button)sender);
+            lastFocus = button.Name;
             ShowContextMemu(button);
         }
 
@@ -908,8 +913,8 @@ namespace MonitorProfiler
 
                     if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
 
-                    HideMessage();
                     gridBlurAnimShow.Completed -= Restart;
+                    HideMessage();
                 }
             ));
         }
@@ -984,6 +989,7 @@ namespace MonitorProfiler
         private void btnMenu_Click(object sender, RoutedEventArgs e)
         {
             btnMenuClose.Focusable = true;
+            btnMenuClose.Focus();
             btnMenu.Focusable = false;
         }
 
@@ -994,41 +1000,48 @@ namespace MonitorProfiler
             btnMenuSettingsClose.Focusable = false;
             btnMenuAboutClose.Focusable = false;
             btnMenu.Focusable = true;
+            btnMenu.Focus();
         }
 
         private void btnMenuProfiles_Click(object sender, RoutedEventArgs e)
         {
             btnMenuProfilesClose.Focusable = true;
+            btnMenuProfilesClose.Focus();
             btnMenuClose.Focusable = false;
         }
 
         private void btnMenuProfilesClose_Click(object sender, RoutedEventArgs e)
         {
             btnMenuClose.Focusable = true;
+            btnMenuClose.Focus();
             btnMenuProfilesClose.Focusable = false;
         }
 
         private void btnMenuSettings_Click(object sender, RoutedEventArgs e)
         {
             btnMenuSettingsClose.Focusable = true;
+            btnMenuSettingsClose.Focus();
             btnMenuClose.Focusable = false;
         }
 
         private void btnMenuSettingsClose_Click(object sender, RoutedEventArgs e)
         {
             btnMenuClose.Focusable = true;
+            btnMenuClose.Focus();
             btnMenuSettingsClose.Focusable = false;
         }
 
         private void btnMenuAbout_Click(object sender, RoutedEventArgs e)
         {
             btnMenuAboutClose.Focusable = true;
+            btnMenuAboutClose.Focus();
             btnMenuClose.Focusable = false;
         }
 
         private void btnMenuAboutClose_Click(object sender, RoutedEventArgs e)
         {
             btnMenuClose.Focusable = true;
+            btnMenuClose.Focus();
             btnMenuAboutClose.Focusable = false;
         }
 
@@ -1040,6 +1053,7 @@ namespace MonitorProfiler
             if (MenuSettings.Width == 360) btnMenuSettingsClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuAbout.Width == 360) btnMenuAboutClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             btnMenu.Focusable = true;
+            btnMenu.Focus();
             btnMenuClose.Focusable = false;
             btnMenuProfilesClose.Focusable = false;
             btnMenuSettingsClose.Focusable = false;
@@ -1145,8 +1159,6 @@ namespace MonitorProfiler
 
         private void ShowMessage(String text, Boolean buttons)
         {
-            btnThisSceenConfirmationCancel.Focusable = true;
-            btnMenu.Focusable = false;
             lblBlurText.Text = text;
             if(buttons) MessageButtons.Visibility = Visibility.Visible;
             else MessageButtons.Visibility = Visibility.Hidden;
@@ -1154,12 +1166,17 @@ namespace MonitorProfiler
             Window.BeginAnimation(OpacityProperty, WindowAnimShow);
             Message.BeginAnimation(OpacityProperty, gridBlurAnimShow);
             WindowBlur.Radius = 5;
+            btnThisSceenConfirmationCancel.Focusable = true;
+            btnThisSceenConfirmationCancel.Focus();
+            btnMenu.Focusable = false;
         }
 
         private void HideMessage()
         {
             btnThisSceenConfirmationCancel.Focusable = false;
             btnMenu.Focusable = true;
+            Button _lastFocus = FindName(lastFocus) as Button;
+            _lastFocus.Focus();
             Debug.WriteLine("esc");
             Window.BeginAnimation(OpacityProperty, WindowAnimHide);
             Message.BeginAnimation(OpacityProperty, gridBlurAnimHide);
