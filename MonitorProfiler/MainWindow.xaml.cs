@@ -61,8 +61,10 @@ namespace MonitorProfiler
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
         private string showintray = "";
 
-        private static DoubleAnimation WindowAnim = new DoubleAnimation();
-        private static DoubleAnimation lblWaitAnim = new DoubleAnimation();
+        private static DoubleAnimation WindowAnimShow = new DoubleAnimation();
+        private static DoubleAnimation WindowAnimHide = new DoubleAnimation();
+        private static DoubleAnimation gridBlurAnimShow = new DoubleAnimation();
+        private static DoubleAnimation gridBlurAnimHide = new DoubleAnimation();
 
         private IntPtr hwnd;
         private HwndSource hsource;
@@ -103,6 +105,10 @@ namespace MonitorProfiler
 
         public MainWindow()
         {
+            RoutedCommand keyCommand = new RoutedCommand();
+            keyCommand.InputGestures.Add(new KeyGesture(Key.Escape));
+            CommandBindings.Add(new CommandBinding(keyCommand, btnBlurCancel_Click));
+
             Resources["GlassBrush"] = WindowGlassBrush;
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
@@ -155,15 +161,24 @@ namespace MonitorProfiler
             barVolume.PreviewMouseWheel += (sender, e) => barVolume.Value += barVolume.SmallChange * e.Delta / 60;
 
             Duration hideDur = new Duration(TimeSpan.FromSeconds(0.2));
-            WindowAnim.From = 0.8;
-            WindowAnim.To = 1;
-            WindowAnim.Duration = hideDur;
 
-            lblWaitAnim.From = 1;
-            lblWaitAnim.To = 0;
-            lblWaitAnim.Duration = hideDur;
-            lblWaitAnim.Completed += new EventHandler(WaitMessage_Hide);
-                        
+            WindowAnimShow.From = 1;
+            WindowAnimShow.To = 0.8;
+            WindowAnimShow.Duration = hideDur;
+       
+            WindowAnimHide.From = 0.8;
+            WindowAnimHide.To = 1;
+            WindowAnimHide.Duration = hideDur;
+            
+            gridBlurAnimShow.From = 0;
+            gridBlurAnimShow.To = 1;
+            gridBlurAnimShow.Duration = hideDur;
+
+            gridBlurAnimHide.From = 1;
+            gridBlurAnimHide.To = 0;
+            gridBlurAnimHide.Duration = hideDur;
+            gridBlurAnimHide.Completed += new EventHandler(WaitMessage_Hide);
+
             return;
         }
 
@@ -328,14 +343,26 @@ namespace MonitorProfiler
             // Confirm power action to app screen
             if (ThisScreenSelected())
             {
-                MessageBoxResult result = MessageBox.Show("This will apply to this monitor, are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                if (result != MessageBoxResult.OK)
-                {
-                    return;
-                }
+                btnThisSceenConfirmationOk.Tag = item.Tag;
+                btnThisSceenConfirmationOk.Click += btnScreenSource_Click;
+                ShowMessage("This will apply to this monitor, are you sure?", true);
+            } else
+            {
+                setScreenSource(Convert.ToUInt32(item.Tag));
             }
-            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORSOURCES, Convert.ToUInt32(item.Tag));
-            _currentMonitor.Source.Current = Convert.ToUInt32(item.Tag);
+        }
+
+        private void setScreenSource(UInt32 source)
+        {
+            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORSOURCES, source);
+           _currentMonitor.Source.Current = source;
+        }
+        
+        private void btnScreenSource_Click(object sender, RoutedEventArgs e)
+        {
+            HideMessage();
+            setScreenSource(Convert.ToUInt32(((Button)sender).Tag));
+            btnThisSceenConfirmationOk.Click -= btnScreenSource_Click;
         }
 
         private void btnPower_Click(object sender, RoutedEventArgs e)
@@ -351,24 +378,45 @@ namespace MonitorProfiler
             // No VCP just force windows monitor sleeping
             if (Convert.ToUInt32(item.Tag) == 61808)
             {
-                MessageBoxResult result = MessageBox.Show("This will apply to all monitors, are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                if (result == MessageBoxResult.OK)
-                {
-                    NativeMethods.SendMessage(hwnd, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
-                }
+                btnThisSceenConfirmationOk.Click += btnScreenSleep_Click;
+                ShowMessage("This will apply to all monitors, are you sure?", true);
             } else
             {
                 // Confirm power action to app screen
                 if (ThisScreenSelected() && Convert.ToString(item.Header) != "Power on")
                 {
-                    MessageBoxResult result = MessageBox.Show("This will apply to this monitor, are you sure?", "Confirmation", MessageBoxButton.OKCancel, MessageBoxImage.Question);
-                    if (result != MessageBoxResult.OK)
-                    {
-                        return;
-                    }
+                    btnThisSceenConfirmationOk.Tag = item.Tag;
+                    btnThisSceenConfirmationOk.Click += btnScreenPower_Click;
+                    ShowMessage("This will apply to this monitor, are you sure?", true);
+                } else
+                {
+                    setScreenPower(Convert.ToUInt32(item.Tag));
                 }
-                NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, Convert.ToUInt32(item.Tag));
             }
+        }
+
+        private void setScreenPower(UInt32 power)
+        {
+            NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, power);
+        }
+
+        private void btnScreenPower_Click(object sender, RoutedEventArgs e)
+        {
+            btnThisSceenConfirmationOk.Click -= btnScreenPower_Click;
+            HideMessage();
+            setScreenPower(Convert.ToUInt32(((Button)sender).Tag));
+        }
+
+        private void setScreenSleep()
+        {
+            NativeMethods.SendMessage(hwnd, NativeConstants.WM_SYSCOMMAND, (IntPtr)NativeConstants.SC_MONITORSLEEP, (IntPtr)2);
+        }
+
+        private void btnScreenSleep_Click(object sender, RoutedEventArgs e)
+        {
+            btnThisSceenConfirmationOk.Click -= btnScreenSleep_Click;
+            HideMessage();
+            setScreenSleep();
         }
 
         private void btnProfiles_Click(object sender, RoutedEventArgs e)
@@ -829,8 +877,8 @@ namespace MonitorProfiler
         private void btnMenuRestart_Click(object sender, RoutedEventArgs e)
         {
             btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
-            lblWait.Visibility = Visibility.Visible;
-            WindowBlur.Radius = 5;
+            gridBlurAnimShow.Completed += Restart;
+            ShowMessage("Refreshing monitors informations...", false);
             Debug.WriteLine("show the thing");
         }
 
@@ -860,15 +908,15 @@ namespace MonitorProfiler
 
                     if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
 
-                    Window.BeginAnimation(OpacityProperty, WindowAnim);
-                    lblWait.BeginAnimation(OpacityProperty, lblWaitAnim);
+                    HideMessage();
+                    gridBlurAnimShow.Completed -= Restart;
                 }
             ));
         }
 
         private void WaitMessage_Hide(object sender, EventArgs e)
         {
-            lblWait.Visibility = Visibility.Hidden;
+            Message.Visibility = Visibility.Hidden;
             WindowBlur.Radius = 0;
         }
 
@@ -889,7 +937,7 @@ namespace MonitorProfiler
 
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            CloseMenus();
+            if (Menu.Width == 360) CloseMenus();
             if (e.ChangedButton == MouseButton.Left) Application.Current.MainWindow.DragMove();
         }
 
@@ -935,12 +983,14 @@ namespace MonitorProfiler
 
         private void btnMenu_Click(object sender, RoutedEventArgs e)
         {
-            Menu.Visibility = Visibility.Visible;
+            btnMenuClose.Focusable = true;
+            btnMenu.Focusable = false;
         }
 
         private void btnMenuClose_Click(object sender, RoutedEventArgs e)
         {
-            Menu.Visibility = Visibility.Collapsed;
+            btnMenuClose.Focusable = false;
+            btnMenu.Focusable = true;
         }
 
         private void btnMenuSettings_Click(object sender, RoutedEventArgs e)
@@ -970,6 +1020,8 @@ namespace MonitorProfiler
 
         private void CloseMenus()
         {
+            btnMenuClose.Focusable = false;
+            btnMenu.Focusable = true;
             if (Menu.Width == 360) btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuProfiles.Width == 360) btnMenuProfilesClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             if (MenuSettings.Width == 360) btnMenuSettingsClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
@@ -1071,6 +1123,33 @@ namespace MonitorProfiler
             Debug.WriteLine("deactivating");
             if (showintray == "true") Hide();
             Debug.WriteLine("deactivated");
+        }
+
+        private void ShowMessage(String text, Boolean buttons)
+        {
+            btnThisSceenConfirmationCancel.Focusable = true;
+            btnMenu.Focusable = false;
+            lblBlurText.Text = text;
+            if(buttons) MessageButtons.Visibility = Visibility.Visible;
+            else MessageButtons.Visibility = Visibility.Hidden;
+            Message.Visibility = Visibility.Visible;
+            Window.BeginAnimation(OpacityProperty, WindowAnimShow);
+            Message.BeginAnimation(OpacityProperty, gridBlurAnimShow);
+            WindowBlur.Radius = 5;
+        }
+
+        private void HideMessage()
+        {
+            btnThisSceenConfirmationCancel.Focusable = false;
+            btnMenu.Focusable = true;
+            Debug.WriteLine("esc");
+            Window.BeginAnimation(OpacityProperty, WindowAnimHide);
+            Message.BeginAnimation(OpacityProperty, gridBlurAnimHide);
+        }
+
+        private void btnBlurCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if(Message.Opacity == 1) HideMessage();
         }
     }
 }

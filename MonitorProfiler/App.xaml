@@ -69,7 +69,7 @@
 
 
         <!-- Checkbox Styles -->
-        <Style x:Key="{x:Type CheckBox}" TargetType="CheckBox">
+        <Style x:Key="CheckBox" TargetType="{x:Type CheckBox}">
             <Setter Property="SnapsToDevicePixels" Value="true"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusCheckBox}"/>
@@ -113,6 +113,10 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <Style x:Key="MenuCheckBox" TargetType="{x:Type CheckBox}" BasedOn="{StaticResource CheckBox}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnMenuClose, Path=Focusable}"/>
         </Style>
 
 
@@ -217,6 +221,13 @@
             </Setter>
         </Style>
 
+        <Style x:Key="MainIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource IconButton}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnMenu, Path=Focusable}"/>
+        </Style>
+
+        <Style x:Key="MessageIconButton" TargetType="{x:Type Button}" BasedOn="{StaticResource IconButton}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnThisSceenConfirmationCancel, Path=Focusable}"/>
+        </Style>
 
         <!-- Buttons -->
         <Style x:Key="IconButtonAlt" TargetType="{x:Type Button}">
@@ -239,6 +250,14 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <Style x:Key="MainIconButtonAlt" TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonAlt}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnMenu, Path=Focusable}"/>
+        </Style>
+        
+        <Style x:Key="MenuIconButtonAlt" TargetType="{x:Type Button}" BasedOn="{StaticResource IconButtonAlt}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnMenuClose, Path=Focusable}"/>
         </Style>
 
 
@@ -306,7 +325,7 @@
             </Setter>
         </Style>
 
-        <ControlTemplate x:Key="Slider" TargetType="Slider">
+        <ControlTemplate x:Key="SliderTrack" TargetType="Slider">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -327,7 +346,7 @@
             </Grid>
         </ControlTemplate>
 
-        <Style TargetType="{x:Type Slider}">
+        <Style x:Key="Slider" TargetType="{x:Type Slider}">
             <Setter Property="Focusable" Value="True"/>
             <Setter Property="OverridesDefaultStyle" Value="true"/>
             <Setter Property="SnapsToDevicePixels" Value="true"/>
@@ -336,12 +355,12 @@
                 <Trigger Property="Orientation" Value="Horizontal">
                     <Setter Property="MinHeight" Value="20"/>
                     <Setter Property="MinWidth" Value="104"/>
-                    <Setter Property="Template" Value="{StaticResource Slider}"/>
+                    <Setter Property="Template" Value="{StaticResource SliderTrack}"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="MinHeight" Value="20"/>
                     <Setter Property="MinWidth" Value="104"/>
-                    <Setter Property="Template" Value="{StaticResource Slider}"/>
+                    <Setter Property="Template" Value="{StaticResource SliderTrack}"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -492,6 +511,18 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <Style x:Key="MainComboBoxFlatStyle" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxFlatStyle}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnMenu, Path=Focusable}"/>
+        </Style>
+
+        <Style x:Key="MainSlider" TargetType="{x:Type Slider}" BasedOn="{StaticResource Slider}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnMenu, Path=Focusable}"/>
+        </Style>
+        
+        <Style x:Key="MenuHyperlink" TargetType="{x:Type Hyperlink}">
+            <Setter Property="Focusable" Value="{Binding ElementName=btnMenuClose, Path=Focusable}"/>
         </Style>
     </Application.Resources>
 </Application>
