@@ -1068,12 +1068,14 @@ namespace MonitorProfiler
         private void checkTray_Checked(object sender, RoutedEventArgs e)
         {
             _config.Settings[0].Tray = "True";
+            CloseMenus();
             MoveToTray();
         }
 
         private void checkTray_Unchecked(object sender, RoutedEventArgs e)
         {
             _config.Settings[0].Tray = "False";
+            CloseMenus();
             RemoveFromTray();
         }
 
@@ -1176,7 +1178,7 @@ namespace MonitorProfiler
             btnThisSceenConfirmationCancel.Focusable = false;
             btnMenu.Focusable = true;
             Button _lastFocus = FindName(lastFocus) as Button;
-            _lastFocus.Focus();
+            if(_lastFocus != null) _lastFocus.Focus();
             Debug.WriteLine("esc");
             Window.BeginAnimation(OpacityProperty, WindowAnimHide);
             Message.BeginAnimation(OpacityProperty, gridBlurAnimHide);

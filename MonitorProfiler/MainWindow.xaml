@@ -87,7 +87,7 @@
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Button.Template>
-                        <Path x:Name="pathVolume" Height="30" Width="30" Fill="White" Opacity="0.9" Data="M26 11.5l-1-1-3.5 3.4-3.5-3.4-1 1 3.4 3.5-3.4 3.5 1 1 3.5-3.4 3.5 3.4 1-1-3.4-3.5M5.3 10.3v9.5h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.3v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9z" IsHitTestVisible="False"/>
+                        <Path x:Name="pathVolume" Height="30" Width="30" Fill="White" Data="M26 11.5l-1-1-3.5 3.4-3.5-3.4-1 1 3.4 3.5-3.4 3.5 1 1 3.5-3.4 3.5 3.4 1-1-3.4-3.5M5.3 10.3v9.5h3.9l4.6 5.2V5l-4.6 5.2H5.3zm7-1.3v12l-2.4-2.8H6.8v-6.5h3.1L12.3 9z" IsHitTestVisible="False"/>
                     </Button>
                     <Button x:Name="btnProfiles" Style="{StaticResource MainIconButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,361,0,-17" Width="85" Click="btnProfiles_Click" ContextMenuService.IsEnabled="false" Height="64" BorderThickness="2">
                         <Button.ContextMenu>
@@ -172,6 +172,7 @@
                                     </EventTrigger>
                                 </Button.Triggers>
                             </Button>
+                            <Label Content="Monitor Manager" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,8,0,0" FontSize="16" FontWeight="Bold"/>
                             <Button x:Name="btnMenuRestart" Style="{StaticResource IconButtonAlt}" Focusable="{Binding ElementName=btnMenuClose, Path=Focusable}" VerticalAlignment="Top" Height="48" Click="btnMenuRestart_Click" Margin="0,48,0,0">
                                 <Grid HorizontalAlignment="Left" Width="229">
                                     <Grid.ColumnDefinitions>
@@ -331,7 +332,7 @@
                                 </Button.Triggers>
                             </Button>
                             <Label Content="About" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="50,8,0,0" FontSize="16" FontWeight="Bold"/>
-                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,54,0,0" FontSize="16" Width="230" TextWrapping="Wrap">Version 0.1<LineBreak/>© 2017 r4dius<LineBreak/><Hyperlink Focusable="{Binding ElementName=btnMenuAboutClose, Path=Focusable}" NavigateUri="https://r4di.us/monitor" RequestNavigate="Hyperlink_RequestNavigate" Foreground="Black">https://r4di.us/monitor</Hyperlink><LineBreak/><LineBreak/>Contains code from all around the world :), based on <Hyperlink Focusable="{Binding ElementName=btnMenuAboutClose, Path=Focusable}" NavigateUri="https://github.com/rivy/monitorprofiler" RequestNavigate="Hyperlink_RequestNavigate" Foreground="Black">https://github.com/rivy/monitorprofiler</Hyperlink></TextBlock>
+                            <TextBlock HorizontalAlignment="Left" VerticalAlignment="Top" Margin="16,54,0,0" FontSize="16" Width="230" TextWrapping="Wrap">Version 0.1<LineBreak/>© 2017 r4dius<LineBreak/><Hyperlink Focusable="{Binding ElementName=btnMenuAboutClose, Path=Focusable}" NavigateUri="https://github.com/r4dius/MonitorManager" RequestNavigate="Hyperlink_RequestNavigate" Foreground="Black">https://r4di.us/monitor</Hyperlink><LineBreak/><LineBreak/>Contains code from all around the world :), based on <Hyperlink Focusable="{Binding ElementName=btnMenuAboutClose, Path=Focusable}" NavigateUri="https://github.com/rivy/monitorprofiler" RequestNavigate="Hyperlink_RequestNavigate" Foreground="Black">https://github.com/rivy/monitorprofiler</Hyperlink></TextBlock>
                         </Grid>
                         <Grid Grid.ColumnSpan="2" Margin="256,0,0,0">
                             <Rectangle Fill="#00000000" Margin="0" MouseDown="CloseMenus"/>
@@ -341,16 +342,16 @@
             </Grid>
         </Border>
         <Grid x:Name="Message" Opacity="0" Visibility="Hidden">
-            <Label x:Name="lblBlur" Style="{StaticResource WaitMessage}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#CC323232" FontSize="24" Margin="1" Foreground="White" Opacity="1" Visibility="Visible" BorderThickness="0" BorderBrush="#CC323232">
+            <Label x:Name="lblBlur" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="#CC323232" FontSize="24" Margin="1" Foreground="White" BorderThickness="0" BorderBrush="#CC323232">
                 <TextBlock x:Name="lblBlurText" TextWrapping="Wrap" TextAlignment="Center">Some message</TextBlock>
             </Label>
             <Grid x:Name="MessageButtons">
-                <Button x:Name="btnThisSceenConfirmationCancel" Style="{StaticResource IconButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="183,425,0,-24" Width="85" Height="32" Click="btnBlurCancel_Click" ContextMenuService.IsEnabled="false" BorderThickness="2" Focusable="False">
+                <Button x:Name="btnThisSceenConfirmationCancel" Style="{StaticResource IconButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,94,5" Width="85" Height="32" Click="btnBlurCancel_Click" ContextMenuService.IsEnabled="false" BorderThickness="2" Focusable="False">
                     <Grid>
                         <TextBlock Margin="0" Padding="0,0,0,2" Background="#00000000" DockPanel.Dock="Right" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="16">Cancel</TextBlock>
                     </Grid>
                 </Button>
-                <Button x:Name="btnThisSceenConfirmationOk" Style="{StaticResource MessageIconButton}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="272,425,-1,-24" Width="85" Height="32" ContextMenuService.IsEnabled="false" BorderThickness="2">
+                <Button x:Name="btnThisSceenConfirmationOk" Style="{StaticResource MessageIconButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,5,5" Width="85" Height="32" ContextMenuService.IsEnabled="false" BorderThickness="2">
                     <Grid>
                         <TextBlock Margin="0" Padding="0,0,0,2" Background="#00000000" DockPanel.Dock="Right" Foreground="White" TextAlignment="Center" VerticalAlignment="Top" FontSize="16">OK</TextBlock>
                     </Grid>
@@ -369,7 +370,7 @@
                         <Path Data="M0 5h10v1H0z" Width="10" Height="10" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}, Mode=FindAncestor}}"/>
                     </Grid>
                 </Button>
-                <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White"><Run Text="MonitorProfiler"/></TextBlock>
+                <TextBlock Margin="0" Padding="11,7,0,0" Background="#00000000" DockPanel.Dock="Right" Foreground="White"><Run Text="Monitor Manager"/></TextBlock>
             </DockPanel>
         </Border>
     </Grid>
