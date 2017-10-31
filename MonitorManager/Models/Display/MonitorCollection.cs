@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using MonitorProfiler.Win32;
+using MonitorManager.Win32;
 
-namespace MonitorProfiler.Models.Display
+namespace MonitorManager.Models.Display
 {
     public class MonitorCollection : List<Monitor>
     {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using MonitorProfiler.GUI;
-using MonitorProfiler.Win32;
-using MonitorProfiler.Models.Display;
-using MonitorProfiler.Models.Configuration;
+using MonitorManager.GUI;
+using MonitorManager.Win32;
+using MonitorManager.Models.Display;
+using MonitorManager.Models.Configuration;
 using System.Windows.Interop;
 using System.Diagnostics;
 using System.Xml.Serialization;
@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.Windows.Navigation;
 
-namespace MonitorProfiler
+namespace MonitorManager
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

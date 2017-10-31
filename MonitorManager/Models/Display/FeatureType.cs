@@ -1,4 +1,4 @@
-﻿namespace MonitorProfiler.Models.Display
+﻿namespace MonitorManager.Models.Display
 {
     public enum FeatureType
     {

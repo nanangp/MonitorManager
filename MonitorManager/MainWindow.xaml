@@ -1,9 +1,9 @@
-﻿<Window x:Class="MonitorProfiler.MainWindow"
+﻿<Window x:Class="MonitorManager.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MonitorProfiler"
+        xmlns:local="clr-namespace:MonitorManager"
         mc:Ignorable="d"
         Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="462" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitor.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="CanMinimize" Background="Transparent" Deactivated="Window_Deactivated">
     <WindowChrome.WindowChrome>

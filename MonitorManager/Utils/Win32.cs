@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace MonitorProfiler.Win32
+namespace MonitorManager.Win32
 {
     public class NativeMethods
     {

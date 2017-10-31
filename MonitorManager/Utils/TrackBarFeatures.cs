@@ -1,7 +1,7 @@
-﻿using MonitorProfiler.Models.Display;
+﻿using MonitorManager.Models.Display;
 using System.Windows.Controls;
 
-namespace MonitorProfiler.GUI
+namespace MonitorManager.GUI
 {
     public class TrackBarFeatures
     {

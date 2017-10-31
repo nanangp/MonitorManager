@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text;
-using MonitorProfiler.Win32;
+using MonitorManager.Win32;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace MonitorProfiler.Models.Display
+namespace MonitorManager.Models.Display
 {
     public class Monitor
     {

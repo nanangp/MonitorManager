@@ -1,4 +1,4 @@
-﻿namespace MonitorProfiler.Models.Configuration
+﻿namespace MonitorManager.Models.Configuration
 {
     public class MonitorConfig
     {

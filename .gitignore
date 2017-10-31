@@ -1,5 +1,7 @@
-MonitorProfiler/bin/*
-MonitorProfiler/obj/*
+MonitorManager/bin/*
+MonitorManager/obj/*
 *.exe
 *.pdb
 *.suo
+/MonitorManager/obj
+/MonitorManager/bin

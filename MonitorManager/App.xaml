@@ -1,7 +1,7 @@
-﻿<Application x:Class="MonitorProfiler.App"
+﻿<Application x:Class="MonitorManager.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MonitorProfiler"
+             xmlns:local="clr-namespace:MonitorManager"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <!-- Background -->
