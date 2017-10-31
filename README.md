@@ -20,4 +20,4 @@ TODO :
 - add hotkeys to change brightness / contrast, + / - maybe some menu for this
 - finish profiles save / load etc ..
 - handle when profiles (settings) file doesn't exist
-- add a white (windows 10) theme, maybe
+- add a white (windows 10) theme, maybe (surelly not)
