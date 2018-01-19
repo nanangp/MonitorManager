@@ -874,6 +874,36 @@ namespace MonitorManager
             }
         }
 
+        private void picBrightness_Click(object sender, RoutedEventArgs e)
+        {
+            if (barBrightness.Value > 0) barBrightness.Value = 0;
+        }
+
+        private void picContrast_Click(object sender, RoutedEventArgs e)
+        {
+            if (barContrast.Value > 0) barContrast.Value = 0;
+        }
+
+        private void picRedGain_Click(object sender, RoutedEventArgs e)
+        {
+            if (barRedGain.Value > 0) barRedGain.Value = 0;
+        }
+
+        private void picGreenGain_Click(object sender, RoutedEventArgs e)
+        {
+            if (barGreenGain.Value > 0) barGreenGain.Value = 0;
+        }
+
+        private void picBlueGain_Click(object sender, RoutedEventArgs e)
+        {
+            if (barBlueGain.Value > 0) barBlueGain.Value = 0;
+        }
+
+        private void picSharpness_Click(object sender, RoutedEventArgs e)
+        {
+            if (barSharpness.Value > 0) barSharpness.Value = 0;
+        }
+
         private void picVolume_Click(object sender, RoutedEventArgs e)
         {
             if (barVolume.Value > 0) barVolume.Value = 0;
