@@ -913,7 +913,7 @@ namespace MonitorManager
         {
             btnMenuClose.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
             gridBlurAnimShow.Completed += Restart;
-            ShowMessage("Refreshing monitors informations...", false);
+            ShowMessage("Refreshing informations...", false);
             Debug.WriteLine("show the thing");
         }
 
