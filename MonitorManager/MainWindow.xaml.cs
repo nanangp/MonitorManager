@@ -749,18 +749,24 @@ namespace MonitorManager
                     picVolume.ToolTip = "Mute";
                 }
 
-                if ((string)btnLinkMonitors.Tag == "link")
+                switch ((string)btnLinkMonitors.Tag)
                 {
-                    for (int i = 0; i < cboMonitors.Items.Count; i++)
-                    {
-                        _bars[sender as Slider].UpdateScreenWithBarValue(sender as Slider, _monitorCollection[i]);
-                        Debug.WriteLine("TrackBar_ValueChanged monitor: " + i);
-                    }
-                }
-                else
-                {
-                    _bars[sender as Slider].UpdateScreenWithBarValue(sender as Slider, _currentMonitor);
-                    Debug.WriteLine("TrackBar_ValueChanged (no link)");
+                    case "link":
+                        for (int i = 0; i < cboMonitors.Items.Count; i++)
+                        {
+                            _bars[sender as Slider].UpdateScreenWithBarValue(sender as Slider, _monitorCollection[i]);
+                            Debug.WriteLine("TrackBar_ValueChanged (link) monitor: " + i);
+                        }
+                        break;
+                    case "unlink":
+                        _bars[sender as Slider].UpdateScreenWithBarValue(sender as Slider, _currentMonitor);
+                        Debug.WriteLine("TrackBar_ValueChanged (no link)");
+                        break;
+                    default:
+                        // hack, no value means we just switched the monitor combo, no need to re-set values
+                        _bars[sender as Slider].UpdateScreenWithBarValue(sender as Slider, _currentMonitor, false);
+                        Debug.WriteLine("TrackBar_ValueChanged (false)");
+                        break;
                 }
             }
             catch { }
@@ -779,9 +785,16 @@ namespace MonitorManager
 
         private void CboMonitors_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            bool link = false;
+            if ((string)btnLinkMonitors.Tag == "link") link = true;
+            // hack, set value to false will prevent changeing values when combo selection changes
+            btnLinkMonitors.Tag = "false";
             Debug.WriteLine("cboMonitors_SelectedIndexChanged: " + cboMonitors.SelectedIndex);
             _currentMonitor = _monitorCollection[cboMonitors.SelectedIndex];
             RefreshSliders(_currentMonitor);
+            // re set link value
+            if (link) btnLinkMonitors.Tag = "link";
+            else btnLinkMonitors.Tag = "unlink";
             cboMonitors.IsDropDownOpen = false;
             Style style = Application.Current.FindResource("ComboBoxItem") as Style;
             Resources["MinitorComboVertical"] = Convert.ToDouble(-4 - (cboMonitors.SelectedIndex * 32));
