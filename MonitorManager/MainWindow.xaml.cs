@@ -476,6 +476,7 @@ namespace MonitorManager
                 barBrightness.IsEnabled = false;
                 pathBrightness.Opacity = 0.15;
             }
+            picBrightness.IsEnabled = barBrightness.IsEnabled;
             lblBrightness.Opacity = pathBrightness.Opacity;
 
             Debug.WriteLine("RefreshSliders - Contrast.Max: " + m.Contrast.Max);
@@ -493,6 +494,7 @@ namespace MonitorManager
                 barContrast.IsEnabled = false;
                 pathContrast.Opacity = 0.15;
             }
+            picContrast.IsEnabled = barContrast.IsEnabled;
             lblContrast.Opacity = lblContrast.Opacity;
 
             Debug.WriteLine("RefreshSliders - RedGain.Max: " + m.RedGain.Max);
@@ -510,6 +512,7 @@ namespace MonitorManager
                 barRedGain.IsEnabled = false;
                 pathRedGain.Opacity = 0.15;
             }
+            picRedGain.IsEnabled = barRedGain.IsEnabled;
             lblRedGain.Opacity = pathRedGain.Opacity;
 
             Debug.WriteLine("RefreshSliders - GreenGain.Max: " + m.GreenGain.Max);
@@ -527,6 +530,7 @@ namespace MonitorManager
                 barGreenGain.IsEnabled = false;
                 pathGreenGain.Opacity = 0.15;
             }
+            picGreenGain.IsEnabled = barGreenGain.IsEnabled;
             lblGreenGain.Opacity = pathGreenGain.Opacity;
 
             Debug.WriteLine("RefreshSliders - BlueGain.Max: " + m.BlueGain.Max);
@@ -544,6 +548,7 @@ namespace MonitorManager
                 barBlueGain.IsEnabled = false;
                 pathBlueGain.Opacity = 0.15;
             }
+            picBlueGain.IsEnabled = barBlueGain.IsEnabled;
             lblBlueGain.Opacity = pathBlueGain.Opacity;
 
             Debug.WriteLine("RefreshSliders - Sharpness.Max: " + m.Sharpness.Max);
@@ -563,6 +568,7 @@ namespace MonitorManager
                 barSharpness.IsEnabled = false;
                 pathSharpness.Opacity = 0.15;
             }
+            picSharpness.IsEnabled = barSharpness.IsEnabled;
             lblSharpness.Opacity = pathSharpness.Opacity;
 
             Debug.WriteLine("RefreshSliders - Volume.Max: " + m.Volume.Max);
