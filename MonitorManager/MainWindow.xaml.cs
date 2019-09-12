@@ -59,7 +59,7 @@ namespace MonitorManager
 
         private const string profiles_xml = "profiles.xml";
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
-        private string showintray = "";
+        private bool showintray;
         private string lastFocus = "";
 
         private static DoubleAnimation WindowAnimShow = new DoubleAnimation();
@@ -69,8 +69,8 @@ namespace MonitorManager
 
         private IntPtr hwnd;
         private HwndSource hsource;
-        private System.Windows.Forms.NotifyIcon trayicon = new System.Windows.Forms.NotifyIcon();
-        private System.Windows.Forms.ContextMenu traycontextmenu = new System.Windows.Forms.ContextMenu();
+        private System.Windows.Forms.NotifyIcon trayIcon = new System.Windows.Forms.NotifyIcon();
+        private System.Windows.Forms.ContextMenu trayContextMenu = new System.Windows.Forms.ContextMenu();
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -132,26 +132,26 @@ namespace MonitorManager
             Debug.Write("Checking duration: " + ts.ToString() + "\n");
             */
 
-            System.Windows.Forms.MenuItem trayitem = new System.Windows.Forms.MenuItem();
-            trayitem.Click += TraySettings;
-            trayitem.Text = "Settings";
-            traycontextmenu.MenuItems.Add(trayitem);
+            System.Windows.Forms.MenuItem trayItem = new System.Windows.Forms.MenuItem();
+            trayItem.Click += traySettings_Click;
+            trayItem.Text = "Settings";
+            trayContextMenu.MenuItems.Add(trayItem);
 
-            trayitem = new System.Windows.Forms.MenuItem();
-            trayitem.Click += CloseButton_Click;
-            trayitem.Text = "About";
-            traycontextmenu.MenuItems.Add(trayitem);
+            trayItem = new System.Windows.Forms.MenuItem();
+            trayItem.Click += trayAbout_Click;
+            trayItem.Text = "About";
+            trayContextMenu.MenuItems.Add(trayItem);
 
-            trayitem = new System.Windows.Forms.MenuItem();
-            trayitem.Click += CloseButton_Click;
-            trayitem.Text = "Exit";
-            traycontextmenu.MenuItems.Add(trayitem);
+            trayItem = new System.Windows.Forms.MenuItem();
+            trayItem.Click += CloseButton_Click;
+            trayItem.Text = "Exit";
+            trayContextMenu.MenuItems.Add(trayItem);
 
-            trayicon.Icon = Properties.Resources.tray;
-            trayicon.Visible = true;
-            trayicon.Click += Trayicon_Click;
-            trayicon.MouseMove += Trayicon_MouseMove;
-            trayicon.ContextMenu = traycontextmenu;
+            trayIcon.Icon = Properties.Resources.tray;
+            trayIcon.Visible = true;
+            trayIcon.Click += Trayicon_Click;
+            trayIcon.MouseMove += Trayicon_MouseMove;
+            trayIcon.ContextMenu = trayContextMenu;
 
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
@@ -200,12 +200,16 @@ namespace MonitorManager
             return;
         }
 
-        private void TraySettings(object sender, EventArgs e)
+        private void traySettings_Click(object sender, EventArgs e)
         {
-            Show();
-            Activate();
-            Topmost = true;
+            ShowWindow();
             btnMenuSettings.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
+        }
+
+        private void trayAbout_Click(object sender, EventArgs e)
+        {
+            ShowWindow();
+            btnMenuAbout.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -715,9 +719,9 @@ namespace MonitorManager
                     btnLinkMonitors.Tag = "link";
                 }
 
-                showintray = _config.Settings[0].Tray.ToLower();
+                showintray = Convert.ToBoolean(_config.Settings[0].Tray);
                 checkTray.Checked -= checkTray_Checked;
-                if (showintray == "true") checkTray.IsChecked = true;
+                if (showintray) checkTray.IsChecked = true;
                 checkTray.Checked += checkTray_Checked;
 
                 foreach (var cfg in _config.Profiles)
@@ -1011,7 +1015,7 @@ namespace MonitorManager
 
         private void CloseButton_Click(object sender, EventArgs e)
         {
-            Application.Current.Shutdown();
+            CloseButton_Click(sender, new RoutedEventArgs());
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -1160,7 +1164,8 @@ namespace MonitorManager
 
         private void MoveToTray()
         {
-            showintray = "true";
+            Topmost = true;
+            showintray = true;
             ShowInTaskbar = false;
             TitleBar.Visibility = Visibility.Collapsed;
             MainGrid.Margin = new Thickness(0, 9, 0, 0);
@@ -1173,7 +1178,8 @@ namespace MonitorManager
 
         private void RemoveFromTray()
         {
-            showintray = "false";
+            Topmost = false;
+            showintray = false;
             ShowInTaskbar = true;
             TitleBar.Visibility = Visibility.Visible;
             MainGrid.Margin = new Thickness(0, 31, 0, 0);
@@ -1188,41 +1194,35 @@ namespace MonitorManager
         {
             EnableBlur();
             //set position to tray bar
-            if (showintray == "true")
+            if (showintray)
             {
                 MoveToTray();
             }
+        }
+
+        private void ShowWindow()
+        {
+            Show();
+            Activate();
         }
 
         private void Trayicon_Click(object sender, EventArgs e)
         {
             if (!active)
             {
-                Show();
-                Activate();
-                Topmost = true;
+                ShowWindow();
             }
         }
 
         private void Trayicon_MouseMove(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if (IsActive)
-            {
-                Debug.WriteLine("mouse move active");
-                active = true;
-            }
-            else
-            {
-                active = false;
-                Debug.WriteLine("mouse move not active");
-            }
-            Debug.WriteLine("mouse move");
+            active = IsActive;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID); //WINDOWS + NUMKEY_0
-            trayicon.Visible = false;
+            trayIcon.Visible = false;
             SaveProfiles(sender, null);
         }
 
@@ -1231,7 +1231,7 @@ namespace MonitorManager
             //if (showintray == "true") this.WindowState = WindowState.Minimized;
             CloseMenus();
             Debug.WriteLine("deactivating");
-            if (showintray == "true") Hide();
+            if (showintray) Hide();
             Debug.WriteLine("deactivated");
         }
 
