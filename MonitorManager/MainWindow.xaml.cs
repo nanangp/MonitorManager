@@ -70,6 +70,7 @@ namespace MonitorManager
         private IntPtr hwnd;
         private HwndSource hsource;
         private System.Windows.Forms.NotifyIcon trayicon = new System.Windows.Forms.NotifyIcon();
+        private System.Windows.Forms.ContextMenu traycontextmenu = new System.Windows.Forms.ContextMenu();
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -130,11 +131,27 @@ namespace MonitorManager
             TimeSpan ts = stopWatch.Elapsed;
             Debug.Write("Checking duration: " + ts.ToString() + "\n");
             */
-            
+
+            System.Windows.Forms.MenuItem trayitem = new System.Windows.Forms.MenuItem();
+            trayitem.Click += TraySettings;
+            trayitem.Text = "Settings";
+            traycontextmenu.MenuItems.Add(trayitem);
+
+            trayitem = new System.Windows.Forms.MenuItem();
+            trayitem.Click += CloseButton_Click;
+            trayitem.Text = "About";
+            traycontextmenu.MenuItems.Add(trayitem);
+
+            trayitem = new System.Windows.Forms.MenuItem();
+            trayitem.Click += CloseButton_Click;
+            trayitem.Text = "Exit";
+            traycontextmenu.MenuItems.Add(trayitem);
+
             trayicon.Icon = Properties.Resources.tray;
             trayicon.Visible = true;
             trayicon.Click += Trayicon_Click;
             trayicon.MouseMove += Trayicon_MouseMove;
+            trayicon.ContextMenu = traycontextmenu;
 
             int m = 1;
             foreach (Monitor monitor in _monitorCollection)
@@ -181,6 +198,14 @@ namespace MonitorManager
             gridBlurAnimHide.Completed += new EventHandler(WaitMessage_Hide);
 
             return;
+        }
+
+        private void TraySettings(object sender, EventArgs e)
+        {
+            Show();
+            Activate();
+            Topmost = true;
+            btnMenuSettings.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
         private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -984,6 +1009,11 @@ namespace MonitorManager
             this.WindowState = WindowState.Minimized;
         }
 
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -1168,12 +1198,9 @@ namespace MonitorManager
         {
             if (!active)
             {
-                //this.WindowState = WindowState.Normal;
-                Debug.WriteLine("showing");
                 Show();
-                Debug.WriteLine("shown");
                 Activate();
-                Debug.WriteLine("activated");
+                Topmost = true;
             }
         }
 

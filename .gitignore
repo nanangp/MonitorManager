@@ -5,3 +5,4 @@ MonitorManager/obj/*
 *.suo
 /MonitorManager/obj
 /MonitorManager/bin
+.vs/*
