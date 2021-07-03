@@ -73,6 +73,7 @@ namespace MonitorManager
         private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
         private const string RegistrySystemLight = "SystemUsesLightTheme";
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
+        private static WindowsTheme SysTheme = GetWindowsTheme();
         private bool showintray;
         private string lastFocus = "";
 
@@ -153,7 +154,6 @@ namespace MonitorManager
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
             Resources["MinitorComboVertical"] = Convert.ToDouble(-4);
-            WindowsTheme SysTheme = GetWindowsTheme();
 
             InitializeComponent();
             InitialiseProfiles();
@@ -212,7 +212,7 @@ namespace MonitorManager
             _timerResetLuminance.Interval = new TimeSpan(0, 0, 0, 0, 100);
             _timerResetLuminance.Tick += new EventHandler(TimerResetLuminance);
 
-            SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(SystemEvents_UserPreferenceChanged);
+            SystemEvents.UserPreferenceChanged += new UserPreferenceChangedEventHandler(ThemeChanged);
 
             barBrightness.PreviewMouseWheel += (sender, e) => barBrightness.Value += barBrightness.SmallChange * e.Delta / 60;
             barContrast.PreviewMouseWheel += (sender, e) => barContrast.Value += barContrast.SmallChange * e.Delta / 60;
@@ -271,12 +271,15 @@ namespace MonitorManager
             btnMenuAbout.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
-        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        private void ThemeChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             WindowGlassBrush = GetWindowGlassBrush();
             Resources["GlassBrush"] = WindowGlassBrush;
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
+            SysTheme = GetWindowsTheme();
+            if (SysTheme == WindowsTheme.Light) trayIcon.Icon = Properties.Resources.tray;
+            else trayIcon.Icon = Properties.Resources.trayDark;
         }
 
         internal void EnableBlur()
