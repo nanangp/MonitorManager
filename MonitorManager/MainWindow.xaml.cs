@@ -20,6 +20,8 @@ using System.Windows.Media.Animation;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using System.Windows.Navigation;
+using System.Security.Principal;
+using System.Globalization;
 
 namespace MonitorManager
 {
@@ -32,9 +34,10 @@ namespace MonitorManager
         private readonly MonitorCollection _monitorCollection = new MonitorCollection();
         private Dictionary<Slider, TrackBarFeatures> _bars;
         private Config _config;
-        DispatcherTimer _timerResetColors = new DispatcherTimer(); 
+        DispatcherTimer _timerResetColors = new DispatcherTimer();
         DispatcherTimer _timerResetFactory = new DispatcherTimer();
         DispatcherTimer _timerResetLuminance = new DispatcherTimer();
+        DispatcherTimer _timerStart = new DispatcherTimer();
 
         private string svgLink = "M12.7 17l.3.3c.5.5 1 .8 1.5 1 .3-.5.4-1 .5-1.5-.4-.2-.8-.4-1.1-.8-1.6-1.6-1.6-4.1 0-5.7L16 8.2c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7l-1 1c.2.6.2 1.3.2 2l2.1-2.1c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-2.4 2.4c-2.1 2.1-2.1 5.5-.1 7.6z M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l2.4-2.4c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-.5-.5-1-.8-1.5-1-.3.5-.4 1-.5 1.5.4.2.8.4 1.1.8 1.6 1.6 1.6 4.1 0 5.7L14 21.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1-1c-.2-.6-.2-1.3-.2-2L7 15.2c-2 2-2 5.4.1 7.4z";
         private string svgUnlink = "M7.1 22.6l.3.3c2.1 2.1 5.4 2.1 7.5 0l1.9-1.9-1.1-1.1-1.8 1.8c-1.6 1.6-4.1 1.6-5.7 0s-1.6-4.1 0-5.7l1.8-1.8-1-1-1.9 1.9c-2.1 2.1-2.1 5.5 0 7.5zM16.1 8.3c1.6-1.6 4.1-1.6 5.7 0s1.6 4.1 0 5.7L20 15.7l1 1 1.9-1.9c2.1-2.1 2.1-5.4 0-7.5l-.3-.3c-2.1-2.1-5.4-2.1-7.5 0l-1.9 2 1.1 1.1 1.8-1.8zM19.435 20.515l1.06-1.06 2.83 2.828-1.062 1.06zM17.6 21.9h1.5v3.2h-1.5zM21.9 17.6h3.2v1.5h-3.2zM6.676 7.717l1.06-1.06 2.83 2.828-1.062 1.06zM4.9 10.9h3.2v1.5H4.9zM10.9 4.9h1.5v3.2h-1.5z";
@@ -52,15 +55,32 @@ namespace MonitorManager
         private const uint MOD_WIN = 0x0008; //WINDOWS
         private const uint VK_CAPITAL = 0x14; //CAPSLOCK
         private const uint NK_0 = 0x60; // NUM_KEY 0
+        private const uint NK_1 = 0x61; // NUM_KEY 1
+        private const uint NK_2 = 0x62; // NUM_KEY 2
+        private const uint NK_3 = 0x63; // NUM_KEY 3
+        private const uint NK_4 = 0x64; // NUM_KEY 4
+        private const uint NK_5 = 0x65; // NUM_KEY 5
+        private const uint NK_6 = 0x66; // NUM_KEY 6
+        private const uint NK_7 = 0x67; // NUM_KEY 7
+        private const uint NK_8 = 0x68; // NUM_KEY 8
+        private const uint NK_9 = 0x69; // NUM_KEY 9
         private const int HOTKEY_ID = 9000;
         private const int WM_HOTKEY = 0x0312;
         private const int WM_DWMCOMPOSITIONCHANGED = 0x31A;
         private const int WM_THEMECHANGED = 0x31E;
 
         private const string profiles_xml = "profiles.xml";
+        private const string RegistryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+        private const string RegistrySystemLight = "SystemUsesLightTheme";
         private static Brush WindowGlassBrush = GetWindowGlassBrush();
         private bool showintray;
         private string lastFocus = "";
+
+        private enum WindowsTheme
+        {
+            Light,
+            Dark
+        }
 
         private static DoubleAnimation WindowAnimShow = new DoubleAnimation();
         private static DoubleAnimation WindowAnimHide = new DoubleAnimation();
@@ -85,11 +105,20 @@ namespace MonitorManager
             hsource.AddHook(WndProc);
             
             NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_0); //WINDOWS + NUMKEY_0
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_1); //WINDOWS + NUMKEY_1
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_2); //WINDOWS + NUMKEY_2
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_3); //WINDOWS + NUMKEY_3
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_4); //WINDOWS + NUMKEY_4
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_5); //WINDOWS + NUMKEY_5
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_6); //WINDOWS + NUMKEY_6
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_7); //WINDOWS + NUMKEY_7
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_8); //WINDOWS + NUMKEY_8
+            NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_9); //WINDOWS + NUMKEY_9
         }
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            int vkey = (((int)lParam >> 16) & 0xFFFF);
+            int vkey = (int)(((long)lParam >> 16) & 0xFFFF);
             switch (msg)
             {
                 case WM_HOTKEY:
@@ -97,6 +126,15 @@ namespace MonitorManager
                     {
                         case HOTKEY_ID:
                             if (vkey == NK_0) WakeHotKey();
+                            if (vkey == NK_1) { barContrast.Value -= 5; barBrightness.Value -= 5; }
+                            if (vkey == NK_2) { barContrast.Value = 50; barBrightness.Value = 50; }
+                            if (vkey == NK_3) { barContrast.Value += 5; barBrightness.Value += 5; }
+                            if (vkey == NK_4) barContrast.Value -= 5;
+                            if (vkey == NK_5) barContrast.Value = 50;
+                            if (vkey == NK_6) barContrast.Value += 5;
+                            if (vkey == NK_7) barBrightness.Value -= 5;
+                            if (vkey == NK_8) barBrightness.Value = 50;
+                            if (vkey == NK_9) barBrightness.Value += 5;
                             handled = true;
                             break;
                     }
@@ -115,9 +153,11 @@ namespace MonitorManager
             Resources["GlassBrush60"] = ConvertOpacity(GetWindowGlassColor(), 60);
             Resources["GlassBrush80"] = ConvertOpacity(GetWindowGlassColor(), 80);
             Resources["MinitorComboVertical"] = Convert.ToDouble(-4);
+            WindowsTheme SysTheme = GetWindowsTheme();
 
             InitializeComponent();
             InitialiseProfiles();
+            /*
             InitialiseTrackBars();
             GetMonitors();
 
@@ -125,6 +165,7 @@ namespace MonitorManager
             {
                 monitor.CheckCapabilities();
             };
+            */
 
             /*
             stopWatch.Stop();
@@ -147,19 +188,22 @@ namespace MonitorManager
             trayItem.Text = "Exit";
             trayContextMenu.MenuItems.Add(trayItem);
 
-            trayIcon.Icon = Properties.Resources.tray;
+            if (SysTheme == WindowsTheme.Light) trayIcon.Icon = Properties.Resources.tray;
+            else trayIcon.Icon = Properties.Resources.trayDark;
             trayIcon.Visible = true;
             trayIcon.Click += Trayicon_Click;
             trayIcon.MouseMove += Trayicon_MouseMove;
             trayIcon.ContextMenu = trayContextMenu;
 
-            int m = 1;
+            /*
+             * int m = 1;
             foreach (Monitor monitor in _monitorCollection)
             {
                 cboMonitors.Items.Add(monitor.Name + " #" + m++);
             }
 
             if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
+            */
 
             _timerResetColors.Interval = new TimeSpan(0, 0, 0, 0, 100);
             _timerResetColors.Tick += new EventHandler(TimerResetColors);
@@ -196,6 +240,21 @@ namespace MonitorManager
             gridBlurAnimHide.To = 0;
             gridBlurAnimHide.Duration = hideDur;
             gridBlurAnimHide.Completed += new EventHandler(WaitMessage_Hide);
+
+            int m = 1;
+            foreach (Monitor monitor in _monitorCollection)
+            {
+                cboMonitors.Items.Add(monitor.Name + " #" + m++);
+            }
+
+            if (cboMonitors.Items.Count > 0) cboMonitors.SelectedIndex = 0;
+
+            ShowMessage("Loading, please wait...", false);
+            // window won't show before return so we delay the monitor scanning cause it's slow
+            _timerStart.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timerStart.Tick += new EventHandler(StartUp);
+            _timerStart.IsEnabled = true;
+            _timerStart.Start();
 
             return;
         }
@@ -263,6 +322,13 @@ namespace MonitorManager
                 Debug.WriteLine("Waking monitor: " + i);
                 bool teest = NativeMethods.SetVCPFeature(_monitorCollection[i].HPhysicalMonitor, NativeConstants.SC_MONITORPOWER, 1);
             }
+        }
+
+        private void StartUp(object sender, EventArgs e)
+        {
+            _timerStart.Stop();
+            _timerStart.IsEnabled = false;
+            Restart(new object(), new EventArgs());
         }
 
         private bool ThisScreenSelected()
@@ -625,6 +691,7 @@ namespace MonitorManager
         private void RefreshPowerMenu()
         {
             btnPower.ContextMenu.Items.Clear();
+            if (_currentMonitor.PowerModes == null) return;
             if (_currentMonitor.PowerModes.Length > 0)
             {
                 for (int i = 0; i < _currentMonitor.PowerModes.Length; i++)
@@ -650,6 +717,7 @@ namespace MonitorManager
         private void RefreshSourcesMenu()
         {
             btnSources.ContextMenu.Items.Clear();
+            if (_currentMonitor.Sources == null) return;
             if (_currentMonitor.Sources.Length > 0)
             {
                 for (int i = 0; i < _currentMonitor.Sources.Length; i++)
@@ -862,6 +930,23 @@ namespace MonitorManager
 
             btnIdentifyMonitor.IsEnabled = true;
         }
+
+        private static WindowsTheme GetWindowsTheme()
+        {
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegistryKeyPath))
+            {
+                object registryValueObject = key?.GetValue(RegistrySystemLight);
+                if (registryValueObject == null)
+                {
+                    return WindowsTheme.Light;
+                }
+
+                int registryValue = (int)registryValueObject;
+
+                return registryValue > 0 ? WindowsTheme.Light : WindowsTheme.Dark;
+            }
+        }
+
 
         private void contextMenuProfiles_Click(object sender, RoutedEventArgs e)
         {
@@ -1202,6 +1287,7 @@ namespace MonitorManager
 
         private void ShowWindow()
         {
+            WindowState = WindowState.Normal;
             Show();
             Activate();
         }
