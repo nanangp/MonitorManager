@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using MonitorManager.Win32;
 
 namespace MonitorManager.Models.Display
@@ -15,7 +16,7 @@ namespace MonitorManager.Models.Display
 
             var monitorArray = new NativeStructures.PHYSICAL_MONITOR[monitorCount];
             NativeMethods.GetPhysicalMonitorsFromHMONITOR(hMonitor, monitorCount, monitorArray);
-            
+
             /*
             Parallel.ForEach(monitorArray, (physicalMonitor) =>
             {
@@ -24,8 +25,8 @@ namespace MonitorManager.Models.Display
                this.Add(newMonitor);
             });
             */
-            
-            foreach(var physicalMonitor in monitorArray)
+
+            foreach (var physicalMonitor in monitorArray)
             {
                 Monitor newMonitor = new Monitor(physicalMonitor);
                 this.Add(newMonitor);

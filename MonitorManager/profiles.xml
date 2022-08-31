@@ -59,7 +59,7 @@
     </MonitorConfig>
   </Profile>
   <Settings>
-    <Link>True</Link>
-    <Tray>True</Tray>
+    <Link>false</Link>
+    <Tray>false</Tray>
   </Settings>
 </Config>

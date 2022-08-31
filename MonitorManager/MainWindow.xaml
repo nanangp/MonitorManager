@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonitorManager"
         mc:Ignorable="d"
-        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="462" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" Icon="monitor.ico" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="CanMinimize" Background="Transparent" Deactivated="Window_Deactivated">
+        Title="MonitorConfig" WindowChrome.IsHitTestVisibleInChrome="True" Height="462" Width="362" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0" Loaded="Window_Loaded" Closing="Window_Closing" ResizeMode="CanMinimize" Background="Transparent" Deactivated="Window_Deactivated">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="1" CaptionHeight="31"/>
     </WindowChrome.WindowChrome>

@@ -4,6 +4,6 @@
     {
         public bool Supported;
         public uint Min, Max, Current, Original;
-        public string Capabilities; 
+        public string Capabilities;
     }
 }

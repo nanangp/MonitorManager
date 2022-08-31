@@ -1,27 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using MonitorManager.GUI;
-using MonitorManager.Win32;
-using MonitorManager.Models.Display;
-using MonitorManager.Models.Configuration;
-using System.Windows.Interop;
-using System.Diagnostics;
-using System.Xml.Serialization;
-using System.IO;
 using System.Windows.Controls.Primitives;
-using System.Windows.Threading;
-using System.Runtime.InteropServices;
+using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Threading.Tasks;
-using Microsoft.Win32;
 using System.Windows.Navigation;
-using System.Security.Principal;
-using System.Globalization;
+using System.Windows.Threading;
+using System.Xml.Serialization;
+
+using Microsoft.Win32;
+
+using MonitorManager.GUI;
+using MonitorManager.Models.Configuration;
+using MonitorManager.Models.Display;
+using MonitorManager.Win32;
 
 namespace MonitorManager
 {
@@ -91,7 +92,7 @@ namespace MonitorManager
         private IntPtr hwnd;
         private HwndSource hsource;
         private System.Windows.Forms.NotifyIcon trayIcon = new System.Windows.Forms.NotifyIcon();
-        private System.Windows.Forms.ContextMenu trayContextMenu = new System.Windows.Forms.ContextMenu();
+        private System.Windows.Forms.ContextMenuStrip trayContextMenu = new System.Windows.Forms.ContextMenuStrip();
 
         protected override void OnSourceInitialized(EventArgs e)
         {
@@ -104,7 +105,7 @@ namespace MonitorManager
 
             hsource = HwndSource.FromHwnd(hwnd);
             hsource.AddHook(WndProc);
-            
+
             NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_0); //WINDOWS + NUMKEY_0
             NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_1); //WINDOWS + NUMKEY_1
             NativeMethods.RegisterHotKey(hwnd, HOTKEY_ID, MOD_WIN, NK_2); //WINDOWS + NUMKEY_2
@@ -173,27 +174,27 @@ namespace MonitorManager
             Debug.Write("Checking duration: " + ts.ToString() + "\n");
             */
 
-            System.Windows.Forms.MenuItem trayItem = new System.Windows.Forms.MenuItem();
+            var trayItem = new System.Windows.Forms.ToolStripMenuItem();
             trayItem.Click += traySettings_Click;
             trayItem.Text = "Settings";
-            trayContextMenu.MenuItems.Add(trayItem);
+            trayContextMenu.Items.Add(trayItem);
 
-            trayItem = new System.Windows.Forms.MenuItem();
+            trayItem = new();
             trayItem.Click += trayAbout_Click;
             trayItem.Text = "About";
-            trayContextMenu.MenuItems.Add(trayItem);
+            trayContextMenu.Items.Add(trayItem);
 
-            trayItem = new System.Windows.Forms.MenuItem();
+            trayItem = new();
             trayItem.Click += CloseButton_Click;
             trayItem.Text = "Exit";
-            trayContextMenu.MenuItems.Add(trayItem);
+            trayContextMenu.Items.Add(trayItem);
 
             if (SysTheme == WindowsTheme.Light) trayIcon.Icon = Properties.Resources.tray;
             else trayIcon.Icon = Properties.Resources.trayDark;
             trayIcon.Visible = true;
             trayIcon.Click += Trayicon_Click;
             trayIcon.MouseMove += Trayicon_MouseMove;
-            trayIcon.ContextMenu = trayContextMenu;
+            trayIcon.ContextMenuStrip = trayContextMenu;
 
             /*
              * int m = 1;
@@ -227,11 +228,11 @@ namespace MonitorManager
             WindowAnimShow.From = 1;
             WindowAnimShow.To = 0.8;
             WindowAnimShow.Duration = hideDur;
-       
+
             WindowAnimHide.From = 0.8;
             WindowAnimHide.To = 1;
             WindowAnimHide.Duration = hideDur;
-            
+
             gridBlurAnimShow.From = 0;
             gridBlurAnimShow.To = 1;
             gridBlurAnimShow.Duration = hideDur;
@@ -447,7 +448,8 @@ namespace MonitorManager
                 btnThisSceenConfirmationOk.Tag = item.Tag;
                 btnThisSceenConfirmationOk.Click += btnScreenSource_Click;
                 ShowMessage("This will apply to this monitor, are you sure?", true);
-            } else
+            }
+            else
             {
                 setScreenSource(Convert.ToUInt32(item.Tag));
             }
@@ -456,9 +458,9 @@ namespace MonitorManager
         private void setScreenSource(UInt32 source)
         {
             NativeMethods.SetVCPFeature(_currentMonitor.HPhysicalMonitor, NativeConstants.SC_MONITORSOURCES, source);
-           _currentMonitor.Source.Current = source;
+            _currentMonitor.Source.Current = source;
         }
-        
+
         private void btnScreenSource_Click(object sender, RoutedEventArgs e)
         {
             setScreenSource(Convert.ToUInt32(((Button)sender).Tag));
@@ -482,7 +484,8 @@ namespace MonitorManager
             {
                 btnThisSceenConfirmationOk.Click += btnScreenSleep_Click;
                 ShowMessage("This will apply to all monitors, are you sure?", true);
-            } else
+            }
+            else
             {
                 // Confirm power action to app screen
                 if (ThisScreenSelected() && Convert.ToString(item.Header) != "Power on")
@@ -490,7 +493,8 @@ namespace MonitorManager
                     btnThisSceenConfirmationOk.Tag = item.Tag;
                     btnThisSceenConfirmationOk.Click += btnScreenPower_Click;
                     ShowMessage("This will apply to this monitor, are you sure?", true);
-                } else
+                }
+                else
                 {
                     setScreenPower(Convert.ToUInt32(item.Tag));
                 }
@@ -745,11 +749,12 @@ namespace MonitorManager
                 string _reset = NativeConstants.factoryResets[i];
                 if (_reset != "**undefined**" && _reset != "**Unrecognized**")
                 {
-                    if (i == 4) {
+                    if (i == 4)
+                    {
                         resetall = true;
                         continue;
                     }
-                   
+
                     MenuItem item = new MenuItem();
                     item.Header = _reset;
                     item.Tag = i;
@@ -783,14 +788,13 @@ namespace MonitorManager
                     _config = (Config)deserializer.Deserialize(reader);
                 }
 
-                string link = _config.Settings[0].Link.ToLower();
-                if (link == "true")
+                if (_config.Settings.Link)
                 {
                     pathlink.Data = Geometry.Parse(svgLink);
                     btnLinkMonitors.Tag = "link";
                 }
 
-                showintray = Convert.ToBoolean(_config.Settings[0].Tray);
+                showintray = Convert.ToBoolean(_config.Settings.Tray);
                 checkTray.Checked -= checkTray_Checked;
                 if (showintray) checkTray.IsChecked = true;
                 checkTray.Checked += checkTray_Checked;
@@ -804,6 +808,10 @@ namespace MonitorManager
                     btnProfiles.ContextMenu.Items.Add(item);
                 }
             }
+            else // No profiles file
+            {
+                _config = new();
+            }
 
             if (btnProfiles.ContextMenu.Items.Count > 0) btnProfiles.ContextMenu.Items.Add(new Separator());
 
@@ -813,13 +821,13 @@ namespace MonitorManager
             item.Click += new RoutedEventHandler(ManageProfiles);
             btnProfiles.ContextMenu.Items.Add(item);
         }
-
+        
         private void ManageProfiles(object sender, RoutedEventArgs e)
         {
             btnMenuProfiles.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
         }
 
-        private void SaveProfiles(object sender, RoutedEventArgs e)
+        private void SaveProfiles()
         {
             for (int i = _config.Profiles.Count - 1; i >= 0; i--)
             {
@@ -909,25 +917,17 @@ namespace MonitorManager
         private void btnIdentifyMonitor_Click(object sender, RoutedEventArgs e)
         {
             btnIdentifyMonitor.IsEnabled = false;
-            
+
             // Revert
             uint _currentBrightness = _currentMonitor.Brightness.Current;
             uint _currentContrast = _currentMonitor.Contrast.Current;
 
             // Dim the monitor
-            if (_currentBrightness < 30 && _currentContrast < 30)
-            {
-                NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, _currentBrightness + 30);
-                NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, _currentContrast + 30);
-            }
-            else
-            {
-                uint minBrightness = (uint)((int)_currentBrightness - 30 >= 0 ? (int)_currentBrightness - 30 : 0);
-                uint minContrast = (uint)((int)_currentContrast - 30 >= 0 ? (int)_currentContrast - 30 : 0);
-                NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, minBrightness);
-                NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, minContrast);
-            }
-                    
+            uint minBrightness = (uint)Math.Max(_currentMonitor.Brightness.Min, (int)_currentBrightness - 30);
+            uint minContrast = (uint)Math.Max(_currentMonitor.Contrast.Min, (int)_currentContrast - 30);
+            NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, minBrightness);
+            NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, minContrast);
+
             NativeMethods.SetMonitorBrightness(_currentMonitor.HPhysicalMonitor, _currentBrightness);
             NativeMethods.SetMonitorContrast(_currentMonitor.HPhysicalMonitor, _currentContrast);
 
@@ -962,7 +962,7 @@ namespace MonitorManager
             {
                 if (monitorCfg.Index >= cboMonitors.Items.Count)
                     continue;
-                
+
                 if (monitorCfg.Index == cboMonitors.SelectedIndex)
                 {
                     //update bars on current selected monitor
@@ -1000,13 +1000,13 @@ namespace MonitorManager
             {
                 pathlink.Data = Geometry.Parse(svgLink);
                 btnLinkMonitors.Tag = "link";
-                _config.Settings[0].Link = "True";
+                _config.Settings.Link = true;
             }
             else
             {
                 pathlink.Data = Geometry.Parse(svgUnlink);
                 btnLinkMonitors.Tag = "unlink";
-                _config.Settings[0].Link = "False";
+                _config.Settings.Link = false;
             }
         }
 
@@ -1154,7 +1154,7 @@ namespace MonitorManager
 
         private void cboMonitors_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter || e.Key == Key.Space) cboMonitors.IsDropDownOpen = true;
+            if (e.Key == Key.Enter || e.Key == Key.Space) cboMonitors.IsDropDownOpen = true;
         }
 
         private void btnMenu_Click(object sender, RoutedEventArgs e)
@@ -1238,14 +1238,14 @@ namespace MonitorManager
 
         private void checkTray_Checked(object sender, RoutedEventArgs e)
         {
-            _config.Settings[0].Tray = "True";
+            _config.Settings.Tray = true;
             CloseMenus();
             MoveToTray();
         }
 
         private void checkTray_Unchecked(object sender, RoutedEventArgs e)
         {
-            _config.Settings[0].Tray = "False";
+            _config.Settings.Tray = false;
             CloseMenus();
             RemoveFromTray();
         }
@@ -1312,7 +1312,7 @@ namespace MonitorManager
         {
             NativeMethods.UnregisterHotKey(hwnd, HOTKEY_ID); //WINDOWS + NUMKEY_0
             trayIcon.Visible = false;
-            SaveProfiles(sender, null);
+            SaveProfiles();
         }
 
         private void Window_Deactivated(object sender, EventArgs e)
@@ -1327,7 +1327,7 @@ namespace MonitorManager
         private void ShowMessage(String text, Boolean buttons)
         {
             lblBlurText.Text = text;
-            if(buttons) MessageButtons.Visibility = Visibility.Visible;
+            if (buttons) MessageButtons.Visibility = Visibility.Visible;
             else MessageButtons.Visibility = Visibility.Hidden;
             Message.Visibility = Visibility.Visible;
             Window.BeginAnimation(OpacityProperty, WindowAnimShow);
@@ -1343,7 +1343,7 @@ namespace MonitorManager
             btnThisSceenConfirmationCancel.Focusable = false;
             btnMenu.Focusable = true;
             Button _lastFocus = FindName(lastFocus) as Button;
-            if(_lastFocus != null) _lastFocus.Focus();
+            if (_lastFocus != null) _lastFocus.Focus();
             Debug.WriteLine("esc");
             Window.BeginAnimation(OpacityProperty, WindowAnimHide);
             Message.BeginAnimation(OpacityProperty, gridBlurAnimHide);
@@ -1351,7 +1351,7 @@ namespace MonitorManager
 
         private void btnBlurCancel_Click(object sender, RoutedEventArgs e)
         {
-            if(Message.Opacity == 1) HideMessage();
+            if (Message.Opacity == 1) HideMessage();
         }
     }
 }

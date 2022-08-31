@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Text;
-using MonitorManager.Win32;
 using System.Diagnostics;
+using System.Text;
 using System.Text.RegularExpressions;
+
+using MonitorManager.Win32;
 
 namespace MonitorManager.Models.Display
 {

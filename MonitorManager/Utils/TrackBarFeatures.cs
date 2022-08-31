@@ -1,5 +1,6 @@
-﻿using MonitorManager.Models.Display;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
+
+using MonitorManager.Models.Display;
 
 namespace MonitorManager.GUI
 {
@@ -26,7 +27,7 @@ namespace MonitorManager.GUI
         {
             System.Diagnostics.Debug.WriteLine("UpdateScreenWithBarValue setMonitor: " + setMonitor);
             uint newValue = (uint)bar.Value;
-            if(bar.Maximum < 100) _label.Content = string.Format("{0}", newValue);
+            if (bar.Maximum < 100) _label.Content = string.Format("{0}", newValue);
             else _label.Content = string.Format("{0}", newValue);
 
             switch (_type)

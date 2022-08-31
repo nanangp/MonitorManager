@@ -64,11 +64,11 @@ namespace MonitorManager.Win32
 
         [DllImport("dxva2.dll", EntryPoint = "SetMonitorBrightness", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetMonitorBrightness([In]IntPtr hMonitor, [In]uint pdwNewBrightness);
+        public static extern bool SetMonitorBrightness([In] IntPtr hMonitor, [In] uint pdwNewBrightness);
 
         [DllImport("dxva2.dll", EntryPoint = "GetMonitorBrightness", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetMonitorBrightness([In]IntPtr hMonitor, ref uint pdwMinimumBrightness, ref uint pdwCurrentBrightness, ref uint pdwMaximumBrightness);
+        public static extern bool GetMonitorBrightness([In] IntPtr hMonitor, ref uint pdwMinimumBrightness, ref uint pdwCurrentBrightness, ref uint pdwMaximumBrightness);
 
         [DllImport("dxva2.dll", EntryPoint = "GetMonitorBrightness", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -76,27 +76,27 @@ namespace MonitorManager.Win32
 
         [DllImport("dxva2.dll", EntryPoint = "SetMonitorContrast", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetMonitorContrast([In]IntPtr hMonitor, [In]uint pdwNewContrast);
-        
+        public static extern bool SetMonitorContrast([In] IntPtr hMonitor, [In] uint pdwNewContrast);
+
         [DllImport("dxva2.dll", EntryPoint = "GetMonitorContrast", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetMonitorContrast([In]IntPtr hMonitor, ref uint pdwMinimumContrast, ref uint pdwCurrentContrast, ref uint pdwMaximumContrast);
+        public static extern bool GetMonitorContrast([In] IntPtr hMonitor, ref uint pdwMinimumContrast, ref uint pdwCurrentContrast, ref uint pdwMaximumContrast);
 
         [DllImport("dxva2.dll", EntryPoint = "SetMonitorRedGreenOrBlueDrive", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetMonitorRedGreenOrBlueDrive([In]IntPtr hMonitor, [In]NativeStructures.MC_DRIVE_TYPE dtDriveType, [In]uint pdwNewDrive);
+        public static extern bool SetMonitorRedGreenOrBlueDrive([In] IntPtr hMonitor, [In] NativeStructures.MC_DRIVE_TYPE dtDriveType, [In] uint pdwNewDrive);
 
         [DllImport("dxva2.dll", EntryPoint = "GetMonitorRedGreenOrBlueDrive", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetMonitorRedGreenOrBlueDrive([In]IntPtr hMonitor, [In]NativeStructures.MC_DRIVE_TYPE dtDriveType, ref uint pdwMinimumDrive, ref uint pdwCurrentDrive, ref uint pdwMaximumDrive);
+        public static extern bool GetMonitorRedGreenOrBlueDrive([In] IntPtr hMonitor, [In] NativeStructures.MC_DRIVE_TYPE dtDriveType, ref uint pdwMinimumDrive, ref uint pdwCurrentDrive, ref uint pdwMaximumDrive);
 
         [DllImport("dxva2.dll", EntryPoint = "SetMonitorRedGreenOrBlueGain", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetMonitorRedGreenOrBlueGain([In]IntPtr hMonitor, [In]NativeStructures.MC_GAIN_TYPE dtDriveType, [In]uint pdwNewGain);
+        public static extern bool SetMonitorRedGreenOrBlueGain([In] IntPtr hMonitor, [In] NativeStructures.MC_GAIN_TYPE dtDriveType, [In] uint pdwNewGain);
 
         [DllImport("dxva2.dll", EntryPoint = "GetMonitorRedGreenOrBlueGain", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetMonitorRedGreenOrBlueGain([In]IntPtr hMonitor, [In]NativeStructures.MC_GAIN_TYPE dtDriveType, ref uint pdwMinimumGain, ref uint pdwCurrentGain, ref uint pdwMaximumGain);
+        public static extern bool GetMonitorRedGreenOrBlueGain([In] IntPtr hMonitor, [In] NativeStructures.MC_GAIN_TYPE dtDriveType, ref uint pdwMinimumGain, ref uint pdwCurrentGain, ref uint pdwMaximumGain);
 
         [DllImport("Dxva2.dll", EntryPoint = "GetCapabilitiesStringLength", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -108,11 +108,11 @@ namespace MonitorManager.Win32
 
         [DllImport("dxva2.dll", EntryPoint = "SetVCPFeature", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool SetVCPFeature([In]IntPtr hMonitor, byte bVCPCode, uint dwNewValue);
+        public static extern bool SetVCPFeature([In] IntPtr hMonitor, byte bVCPCode, uint dwNewValue);
 
         [DllImport("dxva2.dll", EntryPoint = "GetVCPFeatureAndVCPFeatureReply", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GetVCPFeatureAndVCPFeatureReply([In]IntPtr hMonitor, byte bVCPCode, [Out]IntPtr pvct, ref uint pdwCurrentValue, ref uint pdwMaximumValue);
+        public static extern bool GetVCPFeatureAndVCPFeatureReply([In] IntPtr hMonitor, byte bVCPCode, [Out] IntPtr pvct, ref uint pdwCurrentValue, ref uint pdwMaximumValue);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern int SendMessage(IntPtr hWnd, int wMsg, IntPtr wParam, IntPtr lParam);
@@ -248,7 +248,7 @@ namespace MonitorManager.Win32
             public RECT rcWork; // Working area  
             public int dwFlags;
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
-            public string szDeviceName; 
+            public string szDeviceName;
         }
 
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
